@@ -1,0 +1,9 @@
+body { solid; padding: 0px 150px; }
+h1 { margin: 40px 0px; color: #aaa; }
+p { margin: 20px 0px; }
+h1 img { vertical-align: middle; }
+h2 { font-family: sans; color: #888; }
+a { color: #444; }
+a:hover { color: #888; }
+a:visited { color: #666; }
+li { margin: 10px 0px };
