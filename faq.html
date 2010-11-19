@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html> 
+
+<head> 
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+<link href="wayland.css" rel="stylesheet" type="text/css">
+<title>Wayland</title> 
+</head>
+
+<body>
+<h1><img src="wayland.png"></h1>
+
+<h2>Wayland FAQ</h2>
+
+<h3>Why fork the X server?</h3>
+
+<p>
+  It's not an X server and not a fork.  It's a protocol between a
+  compositor and its clients.  The compositor sends input events to
+  the clients.  The clients renders locally and then communicate video
+  memory buffers and information about updates to those buffers back
+  to the compositor.
+</p>
+
+<h3>What is the license?</h3>
+
+<p>
+  Wayland is licensed under the MIT license with some example code
+  under the GPL.
+</p>
+
+<h3>Why duplicate all this work?</h3>
+
+<p>
+  Wayland is not really duplicating much work.  Where possible,
+  Wayland reuses existing drivers and infrastructure.  One of the
+  reasons this project is feasible at all, is that Wayland reuses the
+  DRI drivers, the kernel side GEM scheduler and kernel mode setting.
+  Wayland doesn't have to compete with other projects for drivers and
+  driver developers, it lives within the X.org, mesa and drm community
+  and benefits from all the hardware enablement and driver development
+  happening there.
+</p>
+
+<h3>What is the drawing API?</h3>
+
+<p>
+  "Whatever you want it to be, honey".  Wayland doesn't render on
+  behalf of the clients, it expects the clients to use whatever means
+  they prefer to render into a shareable buffer.  When the client is,
+  it informs the Wayland server of the new contents.  The current test
+  clients use either cairo software rendering, cairo on OpenGL or
+  hardware accelerated OpenGL directly.  As long as you have a
+  userspace driver library that will let you render into a sharable
+  buffer, you're good to go.
+</p>
+
+<h3>Is wayland replacing the X server?</h3>
+
+<p>
+  It could replace X as the native Linux graphics server, but I'm sure
+  X will always be there on the side.  I imagine that Wayland and X
+  will coexist in two ways on a Linux desktop: Wayland is a graphics
+  multiplexer for a number of X servers.  Linux today typically only
+  uses one X server for GDM and the user session, but we'll probably
+  see that move to a dedicated GDM X server, an X server for user
+  sessions (spawning more on the fly as more users log in) and maybe a
+  dedicated screensaver/unlock X server.  Right now we rely on VT
+  switching to move between X servers, and it's horrible.  We have no
+  control over what the transitions look like and the VT ioctls are
+  pretty bad.  Wayland provides a solution here, in that it can host
+  several X servers as they push their root window to Wayland as
+  surfaces.  The compositor in this case will be a dedicated session
+  switcher that will cross-fade between X servers or spin them on a
+  cube.
+</p>
+
+<p>
+  Further down the road we run a user session natively under
+  Wayland with clients written for Wayland.  There will still (always)
+  be X applications to run, but we now run these under a root-less X
+  server that is itself a client of the Wayland server.  This will
+  inject the X windows into the Wayland session as native looking
+  clients.  The session Wayland server can run as a nested Wayland
+  server under the system Wayland server described above, maybe even
+  side by side with X sessions.  There's a number of intermediate
+  steps, suchs as running the GNOME screen saver as a native wayland
+  client, for example, or running a composited X desktop, where the
+  compositor is a Wayland client, pushing the composited desktop to
+  Wayland.
+</p>
+
+<h3>Why not extend the X server?</h3>
+
+<p>
+  Because we for the first time we have a realistic chance of not
+  having to do that.  It's entirely possible to incorporate the buffer
+  exchange and update models that Wayland is built on into X.
+  However, we have an option here of pushing X out of the hotpath
+  between clients and the hardware and making it a compatibility
+  option.  I'm not deluding myself that any general purpose desktop
+  Linux distribution will stop shipping X as we know it or as a
+  Wayland client anytime soon.  Nor should they, there will still be X
+  applications to run and people expect that from a Linux desktop.
+  What's different now is that a lot of infrastructure has moved from
+  the X server into the kernel (memory management, command scheduling,
+  mode setting) or libraries (cairo, pixman, freetype, fontconfig,
+  pango etc) and there is very little left that has to happen in a
+  central server process.
+</p>
+
+<h3>What is wrong with X?</h3>
+
+<p>
+  The problem with X is that... it's X.  When you're an X server
+  there's a tremendous amount of functionality that you must support
+  to claim to speak the X protocol, yet nobody will ever use this.
+  For example core fonts; this is the original font model that was how
+  your got text on the screen for the many first years of X11.  This
+  includes code tables, glyph rasterization and caching, XLFDs
+  (seriously, XLFDs!) Also, the entire core rendering API that lets
+  you draw stippled lines, polygons, wide arcs and many more
+  state-of-the-1980s style graphics primitives.  For many things we've
+  been able to keep the X.org server modern by adding extension such
+  as XRandR, XRender and COMPOSITE and to some extent phase out less
+  useful extension.  But we can't ever get rid of the core rendering
+  API and much other complexity that is rarely used in a modern
+  desktop.  With Wayland we can move the X server and all it's legacy
+  technology to a optional code path.  Getting to a point where the X
+  server is a compatibility option instead of the core rendering
+  system will take a while, but we'll never get there if don't plan
+  for it.
+</p>
+
+<h3>What about the overhead of running X on wayland?</h3>
+
+<p>
+  If you're running a fullscreen X server, which pushes it's root
+  window buffer to Wayland there is little overhead.  If the X server
+  root window is transformed (ie scaled down or spinning on the side
+  of a cube) the Wayland compositor will have to do an extra copy to
+  get the pixels on screen.  But once the animation finishes and the X
+  server buffer fills the entire screen, the Wayland compositor can
+  change the video scanout to source from the X server buffer and
+  retreat into the background.  The X server uses the standard X.org
+  DDX drivers, renders to directly to its pixmaps and its root window,
+  and the path from X to hardware is exactly as a native X.org server.
+</p>
+
+<h3>Is Wayland network transparent / does it support remote rendering?</h3>
+
+<p>
+  No, that is outside the scope of Wayland.  To support remote
+  rendering you need to define a rendering API, which is something
+  I've been very careful to avoid doing.  The reason Wayland is so
+  simple and feasible at all is that I'm sidestepping this big task
+  and pushing it to the clients.  It's an interesting challenge, a
+  very big task and it's hard to get right, but essentially orthogonal
+  to what Wayland tries to acheive.
+</p>
+
+<p>
+  This doesn't mean that remote rendering won't be possible with
+  Wayland, it just means that you will have to put a remote rendering
+  server on top of Wayland. One such server could be the X.org server,
+  but other options include an RDP server, a VNC server or somebody
+  could even invent their own new remote rendering model.  Which is a
+  feature when you think about it; layering X.org on top of Wayland
+  has very little overhead, but the other types of remote rendering
+  servers no longer requires X.org, and experimenting with new
+  protocols is easier.
+</p>
+
+<h3>How to download and build Wayland?</h3>
+
+<p>
+  See the <a href="building.html">build instructions</a>.
+</p>
+
+<h3>Why wasn't DBus used instead of the Wayland IPC mechanism?</h3>
+
+<p>
+  I wanted to preserve some important properties from the X protocol:
+  the ability to queue up an event or request by just memcpy'ing into
+  the protocol out-buffer.  That's what wl_connection_write does.
+  Further more, it lets us memcpy several message into the buffer and
+  only write it all before we go back to blocking in the main loop.
+  Second, everything is explicitly asynchronous, which is a really
+  powerful feature in a protocol.
+</p>
+
+</body>
+</html> 
