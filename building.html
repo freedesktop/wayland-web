@@ -41,14 +41,15 @@ master:</p>
 <pre>
     $ git clone git://anongit.freedesktop.org/mesa/mesa
     $ cd mesa
-    $ ./configure --prefix=$HOME/install  --enable-egl --enable-gles2
+    $ ./configure --prefix=$HOME/install  --enable-egl --enable-gles2 --disable-gallium-egl
     $ make && make install
 </pre>
 
-<p>If you're using an intel chipset, it's best to also pass
-<code>--disable-gallium</code> to ./configure, since otherwise libEGL
-will try to load the gallium sw rasterizer before loading the Intel
-DRI driver.</p>
+<p>
+  We disable Gallium EGL, which just means that libEGL won't try to
+  load the Gallium drivers directly.  The Gallium drivers will be
+  built as DRI drivers, which the EGL loader will load just fine.
+</p>
 
 
 <h2>libxkbcommon</h2>
