@@ -189,5 +189,29 @@
   powerful feature in a protocol.
 </p>
 
+<h3>How can I replace Wayland's Window Manager?</h3>
+
+<p>
+  The Wayland architecture integrates the display server, window
+  manager and compositor into one process.  You can think of Wayland
+  as a toolkit for creating clients and compositors. It is not a
+  specific single compositor or window manager.  If you want a
+  different window manager, you can write a new one.
+</p>
+
+<p>
+  This may sound like a lot of work, but one of the key points about
+  Wayland is that the boilerplate code to a Wayland compositor is
+  comparable or less than the X boilerplate involved in becoming an X
+  window manager and compositor.  Bringing up EGL and GLES2 on the
+  Linux KMS framebuffer and reading input from evdev can be done in
+  less that a thousand lines of code.  The Wayland server side library
+  provides the protocol implementation and makes it easy to put the
+  pieces together.
+</p>
+
+<p>
+</p>
+
 </body>
-</html> 
+</html>
