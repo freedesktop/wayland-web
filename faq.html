@@ -224,7 +224,22 @@
   pieces together.
 </p>
 
+<h3>Why does Wayland use EGL and GLES2?</h3>
+
 <p>
+  EGL is the only GL binding API that lets us avoid dependencies on
+  existing window systems, in particular X.  GLX obviously pulls in X
+  dependencies and only lets us set up GL on X drawables.  The
+  alternative is to write a Wayland specific GL binding API, say,
+  WaylandGL.
+</p>
+
+<p>
+  A more subtle point is that libGL.so includes the GLX symbols, so
+  linking to that library will pull in all the X dependencies.  This
+  means that we can't link to full GL without pulling in the client
+  side of X, so we're using GLES2 for now.  Longer term, we'll need a
+  way to use full GL under Wayland.
 </p>
 
 </body>
