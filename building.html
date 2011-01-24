@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<h1><img src="wayland.png"></h1>
+<h1><img src="wayland.png" alt="wayland logo"></h1>
 
 <p>The instructions below assume some familiarity with git and
 building and running experimental software.  And be prepared that this
@@ -36,33 +36,58 @@ the intel driver does at this point.</p>
 EGL on KMS are now upstream on the master branch.  The 7.9 release of
 mesa has all these extensions, but for the shm buffer feature you'll
 need the GL_EXT_texture_format_BGRA8888 extension from mesa
-master:</p>
+master.  With nouveau, you'll need a development package for libdrm.</p>
 
-<pre>
+<pre>    $ git clone git://anongit.freedesktop.org/git/mesa/drm
+    $ cd drm
+    $ ./autogen.sh --prefix=$HOME/install --enable-nouveau-experimental-api
+    $ make &amp;&amp; make install
+
     $ git clone git://anongit.freedesktop.org/mesa/mesa
     $ cd mesa
-    $ ./configure --prefix=$HOME/install  --enable-egl --enable-gles2 --disable-gallium-egl
-    $ make && make install
+    $ ./autogen.sh --prefix=$HOME/install --enable-egl --enable-gles2    \
+      --enable-gallium-nouveau --with-state-trackers=glx,dri,egl         \
+      --with-egl-platforms=drm --enable-gles-overlay                     \
+      --enable-gallium-r600 --with-dri-drivers=i915,i965                 \
+      --disable-gallium-{i915,i965}
+    $ make &amp;&amp; make install
 </pre>
 
-<p>
-  We disable Gallium EGL, which just means that libEGL won't try to
-  load the Gallium drivers directly.  The Gallium drivers will be
-  built as DRI drivers, which the EGL loader will load just fine.
-</p>
+<p>We disable Gallium for Intel 915 and 965, which just means that libEGL
+won't try to load the Gallium drivers directly.  The Gallium drivers will
+be built as DRI drivers, which the EGL loader will load just fine.</p>
 
 
 <h2>libxkbcommon</h2>
 
 <p>Wayland needs libxkbcommon for translating evdev keycodes to
 keysyms.  For this you'll need development packages for xproto,
-kbproto and libX11.</p>
+kbproto, macros and libX11.</p>
 
-<pre>
+<pre>    $ git clone git://anongit.freedesktop.org/xorg/proto/xproto
+    $ cd xproto
+    $ ./autogen.sh --prefix=$HOME/install
+    $ make &amp;&amp; make install
+
+    $ git clone git://anongit.freedesktop.org/xorg/proto/kbproto
+    $ cd kbproto
+    $ ./autogen.sh --prefix=$HOME/install
+    $ make &amp;&amp; make install
+
+    $ git clone git://anongit.freedesktop.org/xorg/util/macros
+    $ cd macros
+    $ ./autogen.sh --prefix=$HOME/install
+    $ make &amp;&amp; make install
+
+    $ git clone git://anongit.freedesktop.org/xorg/lib/libX11
+    $ cd libX11
+    $ ./autogen.sh --prefix=$HOME/install
+    $ make &amp;&amp; make install
+
     $ git clone git://people.freedesktop.org/xorg/lib/libxkbcommon.git
     $ cd libxkbcommon/
     $ ./autogen.sh --prefix=$HOME/install --with-xkb-config-root=/usr/share/X11/xkb
-    $ make && make install
+    $ make &amp;&amp; make install
 </pre>
 
 <h2>cairo-gl</h2>
@@ -71,38 +96,44 @@ kbproto and libX11.</p>
 software when cairo-gl is not available.  cairo-gl is an experimental
 cairo backend and has been available since cairo 1.10.  Unless your
 distribution ships cairo with the gl backend enabled, you'll need to
-compile your own version of cairo:</p>
+compile your own version of cairo.  For this you'll need a development
+package for pixman.</p>
 
-<pre>
+<pre>    $ git clone git://anongit.freedesktop.org/pixman
+    $ cd pixman
+    $ ./autogen.sh --prefix=$HOME/install
+    $ make &amp;&amp; make install
+
     $ git clone git://anongit.freedesktop.org/cairo
     $ cd cairo
-    $ ./autogen.sh --prefix=$HOME/install --enable-gl
-    $ make && make install
+    $ ./autogen.sh --prefix=$HOME/install --enable-gl --enable-xcb
+    $ make &amp;&amp; make install
 </pre>
 
 <h2>Wayland</h2>
 
-<p>With mesa and libxkbcommon in place, we can checkout and build
-Wayland.  Aside from mesa, Wayland needs development packages for
-gdk-pixbuf-2.0, libudev, libdrm, xcb-dri2, xcb-fixes (for X
-compositor) cairo-gl, glib-2.0, gdk-2.0 (for poppler) and
-poppler-glib:</p>
+<p>With mesa and libxkbcommon in place, we can checkout and build Wayland.
+Aside from mesa, Wayland may need development packages for gdk-pixbuf-2.0,
+libudev, libdrm, xcb-dri2, xcb-fixes (for X compositor) cairo-gl,
+glib-2.0, gdk-2.0 (for poppler) and poppler-glib:</p>
 
-<pre>
-    $ git clone git://anongit.freedesktop.org/wayland
-    $ ./autogen.sh --prefix=$HOME/install --sysconfdir=/etc
-    $ make && make install
+<pre>    $ git clone git://anongit.freedesktop.org/wayland
+    $ cd wayland
+    $ ./autogen.sh --prefix=$HOME/install
+    $ make &amp;&amp; make install
 </pre>
 
 <p>Installing into a non-/usr prefix is fine, but the 70-wayland.rules
-udev rule file has to be installed in /etc/udev/rules.d.  Once
-installed, either reboot or run</p>
+udev rule file has to be copied to /etc/udev/rules.d.</p>
 
-<pre>
-    $ sudo udevadm trigger --subsystem-match=drm --subsystem-match=input
+<pre>    $ sudo cp compositor/70-wayland.rules /etc/udev/rules.d/
 </pre>
 
-<p>to make udev label the devices wayland will use.</p>
+<p>Once installed, either reboot or run the following to make udev label
+the devices wayland will use.</p>
+
+<pre>    $ sudo udevadm trigger --subsystem-match=drm --subsystem-match=input
+</pre>
 
 <p>If DISPLAY is set, the wayland compositor will run under X in a
 window and take input from X.  Otherwise it will run on the KMS
@@ -110,26 +141,46 @@ framebuffer and take input from evdev devices.  Pick a background
 image that you like and copy it to the Wayland source directory as
 background.jpg or use the -b command line option:</p>
 
-<pre>
-    $ ./compositor -b my-image.jpg
+<pre>    $ ./compositor -b my-image.jpg
 </pre>
 
 <p>To run clients, switch to a different VT and run the client from
 there.  Or run it under X and start up the clients from a terminal
 window.  There are a few demo clients available, but they are all
 pretty simple and mostly for testing specific features in the wayland
-protocol: 'terminal' is a simple terminal emulator, not very compliant
-at all, but works well enough for bash</p>
+protocol: </p>
 
 <ul>
-  <li>'flower' moves a flower around the screen, testing the frame protocol</li>
-  <li>'gears' glxgears, but for wayland, currently broken</li>
+  <li>'terminal' is a simple terminal emulator, not very compliant at all,
+    but works well enough for bash</li>
+  <li>'flower' draws a flower on the screen, testing the frame
+    protocol</li>
+  <li>'gears' glxgears, but for wayland</li>
+  <li>'smoke' tests SHM buffer sharing</li>
   <li>'image' loads the image files passed on the command line and
-  shows them</li>
-
+    shows them</li>
   <li>'view' does the same for pdf files, but needs file URIs
     (file:///path/to/pdf)</li>
 </ul>
+
+<h2>Notes</h2>
+<p>To get various libraries to link appropriately while they're
+installed in $HOME/install you will need the following environment
+variables set:</p>
+
+<pre>PKG_CONFIG_PATH=$HOME/install/lib/pkgconfig/:$HOME/install/share/pkgconfig/
+ACLOCAL="aclocal -I $HOME/install/share/aclocal"
+C_INCLUDE_PATH=$HOME/install/include
+LIBRARY_PATH=$HOME/install/lib
+</pre>
+
+<p>Environment variables which will get you more debugging output:</p>
+
+<pre>MESA_DEBUG=1
+EGL_LOG_LEVEL=debug
+LIBGL_DEBUG=verbose
+WAYLAND_DEBUG=1
+</pre>
 
 </body>
 </html>
