@@ -21,6 +21,20 @@ below, but you can use your favorite directory of course or install
 over your system copy (pass --prefix=/usr --sysconfdir=/etc,
 generally).</p>
 
+<h2>Setting up the environment</h2>
+<p>If you want to install in $HOME/install (or another location that won't
+interfere with the rest of your system, you'll need to set the following
+environment variables to get various libraries to link appropriately:</p>
+
+<pre>LD_LIBRARY_PATH=$HOME/install/lib
+PKG_CONFIG_PATH=$HOME/install/lib/pkgconfig/:$HOME/install/share/pkgconfig/
+ACLOCAL="aclocal -I $HOME/install/share/aclocal"
+C_INCLUDE_PATH=$HOME/install/include
+LIBRARY_PATH=$HOME/install/lib
+</pre>
+
+<p>Do not set that LD_LIBRARY_PATH as your default, it will break things.</p>
+
 <h2>Modesetting</h2>
 
 <p>At this point, kernel modesetting is upstream for Intel, AMD and
@@ -164,18 +178,6 @@ protocol: </p>
 </ul>
 
 <h2>Notes</h2>
-<p>To get various libraries to link appropriately while they're
-installed in $HOME/install you will need the following environment
-variables set:</p>
-
-<pre>LD_LIBRARY_PATH=$HOME/install/lib
-PKG_CONFIG_PATH=$HOME/install/lib/pkgconfig/:$HOME/install/share/pkgconfig/
-ACLOCAL="aclocal -I $HOME/install/share/aclocal"
-C_INCLUDE_PATH=$HOME/install/include
-LIBRARY_PATH=$HOME/install/lib
-</pre>
-
-<p>Do not set that LD_LIBRARY_PATH as your default, it will break things.</p>
 
 <p>Environment variables which will get you more debugging output:</p>
 
