@@ -146,6 +146,7 @@ dependencies, first install just the libraries:</p>
 wayland to --enable-egl-platforms.</p>
 
 <pre>    $ cd mesa
+    $ make realclean # Otherwise important stuff doesn't get rebuilt.
     $ ./autogen.sh --prefix=$HOME/install --enable-egl --enable-gles2    \
       --enable-gallium-nouveau --with-state-trackers=glx,dri,egl         \
       --with-egl-platforms=<b>wayland,</b>drm --enable-gles-overlay             \
