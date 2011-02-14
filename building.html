@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<h1><img src="wayland.png" alt="wayland logo"></h1>
+<h1><a href="/"><img src="wayland.png" alt="wayland logo"></a></h1>
 
 <p>The instructions below assume some familiarity with git and
 building and running experimental software.  And be prepared that this
@@ -61,11 +61,8 @@ For this you'll also need a development package for libdrm.</p>
 
     $ git clone git://anongit.freedesktop.org/mesa/mesa
     $ cd mesa
-    $ ./autogen.sh --prefix=$HOME/install --enable-egl --enable-gles2    \
-      --enable-gallium-nouveau --with-state-trackers=glx,dri,egl         \
-      --with-egl-platforms=drm --enable-gles-overlay                     \
-      --enable-gallium-r600 --with-dri-drivers=i915,i965                 \
-      --disable-gallium-{i915,i965}
+    $ ./autogen.sh --prefix=$HOME/install --enable-gles2                   \
+      --disable-gallium-egl --enable-gallium-nouveau --enable-gallium-r600
     $ make &amp;&amp; make install
 </pre>
 
@@ -142,16 +139,14 @@ dependencies, first install just the libraries:</p>
 
 <h2>Building mesa with Wayland EGL platform</h2>
 
-<p>Build mesa a second time, the only difference being the addition of
-wayland to --enable-egl-platforms.</p>
+<p>Build mesa a second time, adding --with-egl-platforms (wayland must
+come first).</p>
 
 <pre>    $ cd mesa
     $ make realclean # Otherwise important stuff doesn't get rebuilt.
-    $ ./autogen.sh --prefix=$HOME/install --enable-egl --enable-gles2    \
-      --enable-gallium-nouveau --with-state-trackers=glx,dri,egl         \
-      --with-egl-platforms=<b>wayland,</b>drm --enable-gles-overlay             \
-      --enable-gallium-r600 --with-dri-drivers=i915,i965                 \
-      --disable-gallium-{i915,i965}
+    $ ./autogen.sh --prefix=$HOME/install --enable-gles2                   \
+      --disable-gallium-egl --enable-gallium-nouveau --enable-gallium-r600 \
+      --with-egl-platforms=wayland,drm
     $ make &amp;&amp; make install
 </pre>
 
