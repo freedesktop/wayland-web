@@ -43,18 +43,26 @@ enabled by default and will work with Wayland out of the box.  The
 modesetting driver must also support the page flip ioctl, which only
 the Intel driver does at this point.</p>
 
+<h2>Wayland libraries</h2>
 
-<h2>Building mesa without Wayland EGL platform</h2>
+<p>Required to build Mesa with --with-egl-platforms=wayland,drm.</p>
+
+<pre>    $ git clone git://anongit.freedesktop.org/wayland/wayland
+    $ cd wayland
+    $ ./autogen.sh --prefix=$HOME/install
+    $ make
+    $ make install
+</pre>
+
+<h2>Mesa</h2>
 
 <p>Wayland uses the mesa EGL stack, and all extensions required to run
 EGL on KMS are now upstream on the master branch.  You'll need to pull
 it from git, because 7.10 does not include required commits related to
-BGRA8888 and wayland-egl.  First build it without the Wayland EGL
-platform, because the libraries that requires are not yet installed.
-For this you'll also need a development package for libdrm.</p>
+BGRA8888 and wayland-egl.  For this you'll also need a development
+package for libdrm.</p>
 
-<pre>    
-    $ git clone git://anongit.freedesktop.org/git/mesa/drm
+<pre>    $ git clone git://anongit.freedesktop.org/git/mesa/drm
     $ cd drm
     $ ./autogen.sh --prefix=$HOME/install --enable-nouveau-experimental-api
     $ make &amp;&amp; make install
@@ -62,7 +70,8 @@ For this you'll also need a development package for libdrm.</p>
     $ git clone git://anongit.freedesktop.org/mesa/mesa
     $ cd mesa
     $ ./autogen.sh --prefix=$HOME/install --enable-gles2                   \
-      --disable-gallium-egl --enable-gallium-nouveau --enable-gallium-r600
+      --disable-gallium-egl --enable-gallium-nouveau --enable-gallium-r600 \
+      --with-egl-platforms=wayland,drm
     $ make &amp;&amp; make install
 </pre>
 
@@ -123,40 +132,18 @@ package for pixman.</p>
     $ make &amp;&amp; make install
 </pre>
 
-<h2>Wayland libraries</h2>
+<h2>Wayland applications</h2>
 
 <p>With mesa and libxkbcommon in place, we can checkout and build Wayland.
 Aside from mesa, Wayland may need development packages for gdk-pixbuf-2.0,
 libudev, libdrm, xcb-dri2, xcb-fixes (for X compositor) cairo-gl,
-glib-2.0, gdk-2.0 (for poppler) and poppler-glib.  To satisfy mesa
-dependencies, first install just the libraries:</p>
+glib-2.0, gdk-2.0 (for poppler) and poppler-glib.</p>
 
-<pre>    $ git clone git://anongit.freedesktop.org/wayland
+<pre>    $ git clone git://anongit.freedesktop.org/wayland/wayland-demos
     $ cd wayland
     $ ./autogen.sh --prefix=$HOME/install
-    $ make -C wayland/ install
-</pre>
-
-<h2>Building mesa with Wayland EGL platform</h2>
-
-<p>Build mesa a second time, adding --with-egl-platforms (wayland must
-come first).</p>
-
-<pre>    $ cd mesa
-    $ make realclean # Otherwise important stuff doesn't get rebuilt.
-    $ ./autogen.sh --prefix=$HOME/install --enable-gles2                   \
-      --disable-gallium-egl --enable-gallium-nouveau --enable-gallium-r600 \
-      --with-egl-platforms=wayland,drm
-    $ make &amp;&amp; make install
-</pre>
-
-<h2>Wayland applications</h2>
-
-<p>Now install the rest of wayland.</p>
-
-<pre>    $ cd wayland
-    $ ./autogen.sh --prefix=$HOME/install
-    $ make &amp;&amp; make install
+    $ make
+    $ make install
 </pre>
 
 <p>Installing into a non-/usr prefix is fine, but the 70-wayland.rules
