@@ -21,6 +21,23 @@ below, but you can use your favorite directory of course or install
 over your system copy (pass --prefix=/usr --sysconfdir=/etc,
 generally).</p>
 
+<h2>Hardware / Drivers</h2>
+
+<p>X output requires DRI2.  DRM output (without X) requires Kernel Mode
+Setting (KMS) and the page flip ioctl.  These are supported by:</p>
+
+<p><b>Intel</b>: i915 (June 2004) or newer cards.  DRM support has been
+in the kernel since around 2.6.29.  Sandy Bridge chips require kernel
+2.6.37.</p>
+
+<p><b>AMD/ATI</b>: Requires open source driver (radeon/ati,
+not fglrx/catalyst).  DRM output requires kernel version 2.6.38.
+Cards probably work back to Radeon 7200 (2000).</p>
+
+<p><b>nVidia</b>: Requires Nouveau (open source driver).  DRM output
+requires a kernel built from the Nouveau git repository, details below.
+Cards probably work back to Riva TNT (1998).</p>
+
 <h2>Setting up the environment</h2>
 <p>If you want to install in $HOME/install (or another location that won't
 interfere with the rest of your system) you'll need to set the following
@@ -34,14 +51,6 @@ LIBRARY_PATH=$HOME/install/lib
 </pre>
 
 <p>Do not set LD_LIBRARY_PATH as your default, it will break things.</p>
-
-<h2>Modesetting</h2>
-
-<p>At this point, kernel modesetting is upstream for Intel, ATI/AMD and
-nVidia chipsets.  Most distributions ship with kernel modesetting
-enabled by default and will work with Wayland out of the box.  The
-modesetting driver must also support the page flip ioctl, which only
-the Intel driver does at this point.</p>
 
 <h2>Wayland libraries</h2>
 
