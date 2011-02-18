@@ -1,7 +1,7 @@
-body { solid; padding: 0px 150px; }
+body { padding: 0px 150px; }
 h1 { margin: 40px 0px; color: #aaa; }
 p { margin: 20px 0px; }
-h1 img { vertical-align: middle; }
+h1 img { vertical-align: middle; border-width: 0px; }
 h2 { font-family: sans; color: #888; }
 h3 { font-family: sans; color: #888; font-style: italic; }
 a { color: #444; }
