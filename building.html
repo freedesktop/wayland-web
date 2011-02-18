@@ -220,7 +220,11 @@ Nouveau kernel git repository:<br>
     $ cp /boot/config-`uname -r` .config # use .config of currently running kernel
     $ yes "" | make oldconfig            # use defaults for new options
     $ make clean &amp;&amp; make &amp;&amp; make modules &amp;&amp; sudo make modules_install &amp;&amp; sudo make install
-    $ mkinitramfs -o initrd.img `make kernelversion`+
+</pre>
+
+Ubuntu Maverick's /sbin/installkernel is broken, requring these additional commands:
+
+<pre>    $ mkinitramfs -o initrd.img `make kernelversion`+
     $ sudo mv initrd.img /boot/initrd.img-`make kernelversion`+
     $ sudo update-grub
 </pre> 
