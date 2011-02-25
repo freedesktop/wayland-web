@@ -145,10 +145,20 @@ package for pixman.</p>
 
 <h2>Wayland applications</h2>
 
-<p>With mesa and libxkbcommon in place, we can checkout and build Wayland.
-Aside from mesa, Wayland may need development packages for gdk-pixbuf-2.0,
-libudev, libdrm, xcb-dri2, xcb-fixes (for X compositor) cairo-gl,
-glib-2.0, gdk-2.0 (for poppler) and poppler-glib.</p>
+<p>Aside from mesa and libxkbcommon, the Wayland demos' dependencies
+can be satisfied with released versions of:
+gdk-pixbuf-2.0,
+libudev 136,
+libdrm 2.4.23,
+pixman-1,
+xcb-dri2,
+xcb-xfixes,
+cairo-gl 1.10.0,
+glib-2.0, and
+gobject-2.0.  
+And optionally, for the pdf viewer:
+poppler-glib and
+gio-2.0.</p>
 
 <pre>    $ git clone git://anongit.freedesktop.org/wayland/wayland-demos
     $ cd wayland-demos
