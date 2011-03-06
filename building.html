@@ -15,11 +15,10 @@ building and running experimental software.  And be prepared that this
 project isn't at all useful right now, it's still very much a
 prototype.  When the instructions suggest to clone a git repo, you can
 of course just add a remote and fetch instead, if you have a clone of
-that repo around already.  I usually install all software I'm working
-on into $HOME/install, so that's what I'll use in the instructions
-below, but you can use your favorite directory of course or install
-over your system copy (pass --prefix=/usr --sysconfdir=/etc,
-generally).</p>
+that repo around already.  By default the software is installed in $HOME/install
+but you can change it by altering $WLD (explained later). You can also install
+everything system wide by setting WLD to /usr and passing --sysconfdir=/etc
+to autogen.sh.</p>
 
 <h2>Hardware / Drivers</h2>
 
@@ -41,18 +40,25 @@ NVC0 / Fermi, released March 2010, requires loading external firmware
 for Nouveau, which is not documented.</p>
 
 <h2>Setting up the environment</h2>
-<p>If you want to install in $HOME/install (or another location that won't
-interfere with the rest of your system) you'll need to set the following
-environment variables to get various libraries to link appropriately:</p>
+<p>If you want to install in a custom location (not system wide), you'll need
+to set the following environment variables to get various libraries to link
+appropriately:</p>
 
-<pre>LD_LIBRARY_PATH=$HOME/install/lib
-PKG_CONFIG_PATH=$HOME/install/lib/pkgconfig/:$HOME/install/share/pkgconfig/
-ACLOCAL="aclocal -I $HOME/install/share/aclocal"
-C_INCLUDE_PATH=$HOME/install/include
-LIBRARY_PATH=$HOME/install/lib
+<pre>WLD=$HOME/install   # change this to another location if you prefer
+LD_LIBRARY_PATH=$WLD/lib
+PKG_CONFIG_PATH=$WLD/lib/pkgconfig/:$WLD/share/pkgconfig/
+ACLOCAL="aclocal -I $WLD/share/aclocal"
+C_INCLUDE_PATH=$WLD/include
+LIBRARY_PATH=$WLD/lib
+PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1
+
+export WLD LD_LIBRARY_PATH PKG_CONFIG_PATH ACLOCAL C_INCLUDE_PATH \
+       LIBRARY_PATH PKG_CONFIG_ALLOW_SYSTEM_CFLAGS
 </pre>
 
 <p>Do not set LD_LIBRARY_PATH as your default, it will break things.</p>
+<p>You may put the above in a script and source it in the terminal
+you wish to build the packages.</p>
 
 <h2>Wayland libraries</h2>
 
@@ -60,7 +66,7 @@ LIBRARY_PATH=$HOME/install/lib
 
 <pre>    $ git clone git://anongit.freedesktop.org/wayland/wayland
     $ cd wayland
-    $ ./autogen.sh --prefix=$HOME/install
+    $ ./autogen.sh --prefix=$WLD
     $ make
     $ make install
 </pre>
@@ -75,12 +81,12 @@ package for libdrm.</p>
 
 <pre>    $ git clone git://anongit.freedesktop.org/git/mesa/drm
     $ cd drm
-    $ ./autogen.sh --prefix=$HOME/install --enable-nouveau-experimental-api
+    $ ./autogen.sh --prefix=$WLD --enable-nouveau-experimental-api
     $ make &amp;&amp; make install
 
     $ git clone git://anongit.freedesktop.org/mesa/mesa
     $ cd mesa
-    $ ./autogen.sh --prefix=$HOME/install --enable-gles2                   \
+    $ ./autogen.sh --prefix=$WLD --enable-gles2                   \
       --disable-gallium-egl --enable-gallium-nouveau --enable-gallium-r600 \
       --with-egl-platforms=wayland,drm
     $ make &amp;&amp; make install
@@ -99,27 +105,27 @@ kbproto, macros and libX11.</p>
 
 <pre>    $ git clone git://anongit.freedesktop.org/xorg/proto/xproto
     $ cd xproto
-    $ ./autogen.sh --prefix=$HOME/install
+    $ ./autogen.sh --prefix=$WLD
     $ make &amp;&amp; make install
 
     $ git clone git://anongit.freedesktop.org/xorg/proto/kbproto
     $ cd kbproto
-    $ ./autogen.sh --prefix=$HOME/install
+    $ ./autogen.sh --prefix=$WLD
     $ make &amp;&amp; make install
 
     $ git clone git://anongit.freedesktop.org/xorg/util/macros
     $ cd macros
-    $ ./autogen.sh --prefix=$HOME/install
+    $ ./autogen.sh --prefix=$WLD
     $ make &amp;&amp; make install
 
     $ git clone git://anongit.freedesktop.org/xorg/lib/libX11
     $ cd libX11
-    $ ./autogen.sh --prefix=$HOME/install
+    $ ./autogen.sh --prefix=$WLD
     $ make &amp;&amp; make install
 
     $ git clone git://people.freedesktop.org/xorg/lib/libxkbcommon.git
     $ cd libxkbcommon/
-    $ ./autogen.sh --prefix=$HOME/install --with-xkb-config-root=/usr/share/X11/xkb
+    $ ./autogen.sh --prefix=$WLD --with-xkb-config-root=/usr/share/X11/xkb
     $ make &amp;&amp; make install
 </pre>
 
@@ -134,12 +140,12 @@ package for pixman.</p>
 
 <pre>    $ git clone git://anongit.freedesktop.org/pixman
     $ cd pixman
-    $ ./autogen.sh --prefix=$HOME/install
+    $ ./autogen.sh --prefix=$WLD
     $ make &amp;&amp; make install
 
     $ git clone git://anongit.freedesktop.org/cairo
     $ cd cairo
-    $ ./autogen.sh --prefix=$HOME/install --enable-gl --enable-xcb
+    $ ./autogen.sh --prefix=$WLD --enable-gl --enable-xcb
     $ make &amp;&amp; make install
 </pre>
 
@@ -162,7 +168,7 @@ gio-2.0.</p>
 
 <pre>    $ git clone git://anongit.freedesktop.org/wayland/wayland-demos
     $ cd wayland-demos
-    $ ./autogen.sh --prefix=$HOME/install
+    $ ./autogen.sh --prefix=$WLD
     $ make
     $ make install
 </pre>
