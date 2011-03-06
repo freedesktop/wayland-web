@@ -103,18 +103,18 @@ be built as DRI drivers, which the EGL loader will load just fine.</p>
 keysyms.  For this you'll need development packages for xproto,
 kbproto, macros and libX11.</p>
 
-<pre>    $ git clone git://anongit.freedesktop.org/xorg/proto/xproto
+<pre>    $ git clone git://anongit.freedesktop.org/xorg/util/macros
+    $ cd macros
+    $ ./autogen.sh --prefix=$WLD
+    $ make &amp;&amp; make install
+
+    $ git clone git://anongit.freedesktop.org/xorg/proto/xproto
     $ cd xproto
     $ ./autogen.sh --prefix=$WLD
     $ make &amp;&amp; make install
 
     $ git clone git://anongit.freedesktop.org/xorg/proto/kbproto
     $ cd kbproto
-    $ ./autogen.sh --prefix=$WLD
-    $ make &amp;&amp; make install
-
-    $ git clone git://anongit.freedesktop.org/xorg/util/macros
-    $ cd macros
     $ ./autogen.sh --prefix=$WLD
     $ make &amp;&amp; make install
 
