@@ -133,10 +133,10 @@ kbproto, macros and libX11.</p>
 
 <p>The Wayland clients can render using cairo-gl, but fall back to
 software when cairo-gl is not available.  cairo-gl is an experimental
-cairo backend and has been available since cairo 1.10.  Unless your
-distribution ships cairo with the gl backend enabled, you'll need to
-compile your own version of cairo.  For this you'll need a development
-package for pixman.</p>
+cairo backend and has been available since cairo 1.10, but recent
+bugfixes (available in non-released 1.11.3) are needed.
+Thus cairo from git is required.
+For this you'll need a development package for pixman.</p>
 
 <pre>    $ git clone git://anongit.freedesktop.org/pixman
     $ cd pixman
@@ -159,7 +159,7 @@ libdrm 2.4.23,
 pixman-1,
 xcb-dri2,
 xcb-xfixes,
-cairo-gl 1.10.0,
+cairo-gl 1.11.3,
 glib-2.0, and
 gobject-2.0.  
 And optionally, for the pdf viewer:
