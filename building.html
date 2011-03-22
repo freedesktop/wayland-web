@@ -77,7 +77,8 @@ you wish to build the packages.</p>
 EGL on KMS are now upstream on the master branch.  You'll need to pull
 it from git, because 7.10 does not include required commits related to
 BGRA8888 and wayland-egl.  For this you'll also need a development
-package for libdrm.</p>
+package for libdrm.
+Other dependencies are development packages of xcb-dri2 and xcb-xfixes.</p>
 
 <pre>    $ git clone git://anongit.freedesktop.org/git/mesa/drm
     $ cd drm
@@ -157,8 +158,6 @@ gdk-pixbuf-2.0,
 libudev 136,
 libdrm 2.4.23,
 pixman-1,
-xcb-dri2,
-xcb-xfixes,
 cairo-gl 1.11.3,
 glib-2.0, and
 gobject-2.0.  
