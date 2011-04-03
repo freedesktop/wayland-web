@@ -210,7 +210,73 @@ point where the change it affects appears on screen.</p>
 <p><img src="x-on-wayland.png" alt="X on Wayland architecture diagram"></p>
 
 
-<!-- -->
+<h2>Hardware Enabling for Wayland</h2>
+
+<p>
+  Typically, hardware enabling includes modesetting/display and
+  EGL/GLES2.  On top of that Wayland needs a way to share buffers
+  efficiently between processes.  There are two sides to that, the
+  client side and the server side.
+</p>
+
+<p>
+  On the client side we've defined a Wayland EGL platform.  In the EGL
+  model, that consists of the native types (EGLNativeDisplayType,
+  EGLNativeWindowType and EGLNativePixmapType) and a way to create
+  those types.  In other words, it's the glue code that binds the EGL
+  stack and its buffer sharing mechanism to the generic Wayland API.
+  The EGL stack is expected to provide an implementation of the
+  Wayland EGL platform.  The full API is in
+  the <a href="http://cgit.freedesktop.org/wayland/wayland/tree/wayland/wayland-egl.h">wayland-egl.h</a>
+  header.  The open source implementation in the mesa EGL stack is
+  in <a href="http://cgit.freedesktop.org/mesa/mesa/tree/src/egl/wayland/wayland-egl/wayland-egl.c">wayland-egl.c</a>
+  and <a href="http://cgit.freedesktop.org/mesa/mesa/tree/src/egl/drivers/dri2/platform_wayland.c">platform_wayland.c</a>.
+</p>
+
+<p>
+  Under the hood, the EGL stack is expected to define a
+  vendor-specific protocol extension that lets the client side EGL
+  stack communicate buffer details with the compositor in order to
+  share buffers.  The point of the wayland-egl.h API is to abstract
+  that away and just let the client create an EGLSurface for a Wayland
+  surface and start rendering.  The open source stack uses
+  the <a href="http://cgit.freedesktop.org/mesa/mesa/tree/src/egl/wayland/wayland-drm/protocol/wayland-drm.xml">drm</a>
+  Wayland extension, which lets the client discover the drm device to
+  use and authenticate and then share drm (GEM) buffers with the
+  compositor.
+</p>
+
+<p>
+  The server side of Wayland is the compositor and core UX for the
+  vertical, typically integrating task switcher, app launcher, lock
+  screen in one monolithic application.  The server runs on top of a
+  modesetting API (kernel modesetting, OpenWF Display or similar) and
+  composites the final UI using a mix of EGL/GLES2 compositor and
+  hardware overlays if available.  Enabling modesetting, EGL/GLES2 and
+  overlays is something that should be part of standard hardware
+  bringup.  The extra requirement for Wayland enabling is
+  the <a href="
+  http://cgit.freedesktop.org/mesa/mesa/tree/docs/WL_bind_wayland_display.spec">EGL_WL_bind_wayland_display</a>
+  extension that lets the compositor create an EGLImage from a generic
+  Wayland shared buffer.  It's similar to
+  the <a href="http://www.khronos.org/registry/egl/extensions/KHR/EGL_KHR_image_pixmap.txt">EGL_KHR_image_pixmap</a>
+  extension to create an EGLImage from an X pixmap.
+</p>
+
+<p>
+  The extension has a setup step where you have to bind the EGL
+  display to a Wayland display.  Then as the compositor receives
+  generic Wayland buffers from the clients (typically when the client
+  calls eglSwapBuffers), it will be able to pass the struct wl_buffer
+  pointer to eglCreateImageKHR as the EGLClientBuffer argument and
+  with EGL_WAYLAND_BUFFER_WL as the target.  This will create an
+  EGLImage, which can then be used by the compositor as a texture or
+  passed to the modesetting code to use as an overlay plane.  Again,
+  this is implemented by the vendor specific protocol extension, which
+  on the server side will receive the driver specific details about
+  the shared buffer and turn that into an EGL image when the user
+  calls eglCreateImageKHR.
+</p>
 
 </body>
 </html> 
