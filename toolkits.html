@@ -15,7 +15,8 @@
 mind that they're all in progress and at most at the prototype stage.
 And Wayland is still in development and the API and the core protocol
 is still changing.  We try to keep things up to date, but you're
-likely run into breakage.</p>
+likely run into breakage.  Also, remember that you typically will have
+to set <code>EGL_PLATFORM=wayland</code>.</p>
 
 <div id="generated-toc" class="generate_from_h2"></div>
 
@@ -50,22 +51,19 @@ Wayland and X.</p>
 
 <p>With GTK+ 3.0, GTK+ gained support for multiple backends at runtime
 and can switch between backends in the same way Qt can with
-lighthouse.  The Wayland support is developed in
-a <a href="http://git.gnome.org/browse/gtk+/log/?h=gdk-backend-wayland">branch
-in the upstream GTK+ repo</a>.  To try GTK+ on Wayland, check out the
-gdk-backend-wayland branch and enable the Wayland backend in
-configure:</p>
+lighthouse.  The Wayland support is on the upstream GTK+ master branch
+but disabled by default.  To try GTK+ on Wayland, check out gtk+ and
+pass <code>--enable-wayland</code> to configure:</p>
 
 <pre>$ git clone git://git.gnome.org/gtk+
 $ cd gtk+
-$ git checkout -t origin/gdk-backend-wayland
 $ ./configure --prefix=/usr --enable-x11-backend --enable-wayland-backend --enable-debug=yes
 $ make
 </pre>
 
 <p>When both Wayland and X backends are enabled, GTK+ will default to
-the Wayland backend, but this can be overridden by setting the
-<code>GDK_BACKEND</code> environment variable to <code>x11</code>.</p>
+the X11 backend, but this can be overridden by setting the
+<code>GDK_BACKEND</code> environment variable to <code>wayland</code>.</p>
 
 <h2>Clutter</h2>
 
