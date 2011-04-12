@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html> 
+
+<head> 
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+<link href="wayland.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="generated-toc.js"></script>
+<title>Wayland</title> 
+</head>
+
+<body>
+<h1><a href="/"><img src="wayland.png" alt="Wayland logo"></a></h1>
+
+<p>Before trying to compile and run any of the toolkits below, keep in
+mind that they're all in progress and at most at the prototype stage.
+And Wayland is still in development and the API and the core protocol
+is still changing.  We try to keep things up to date, but you're
+likely run into breakage.</p>
+
+<div id="generated-toc" class="generate_from_h2"></div>
+
+<h2>Qt</h2>
+
+<p>Wayland support in the Qt toolkit is happening in
+the <a href="https://gitorious.org/+qt-developers/qt/lighthouse">Qt
+lighthouse repo</a>.
+The <a href="http://labs.qt.nokia.com/category/labs/lighthouse/">lighthouse</a>
+project is an effort to make it easier to port Qt to new window
+systems and the Wayland support is a plugin to lighthouse.  To try it
+out, clone the lighthouse repo and pass -qpa to configure to select
+the lighthouse platform:</p>
+
+<pre>$ git clone git://gitorious.org/+qt-developers/qt/lighthouse.git
+$ cd lighthouse
+$ ./configure -confirm-license -opensource -no-qt3support -no-xmlpatterns -no-multimedia -no-webkit -no-phonon -qpa -egl -opengl es2 -prefix /usr -debug
+$ make
+$ make -C src/plugins/platforms/wayland
+</pre>
+
+<p>When you run a lighthouse application you either have to
+pass <code>-platform waylandgl</code> or set
+the <code>QT_QPA_PLATFORM</code> environment variable
+to <code>waylandgl</code>.  Lighthouse supports a number of other
+window systems.  There's an XCB backend, and by
+passing <code>-platform xcb</code> you can jump back and forth between
+Wayland and X to compare the look and feel of the application under
+Wayland and X.</p>
+
+<h2>GTK+</h2>
+
+<p>With GTK+ 3.0, GTK+ gained support for multiple backends at runtime
+and can switch between backends in the same way Qt can with
+lighthouse.  The Wayland support is developed in
+a <a href="http://git.gnome.org/browse/gtk+/log/?h=gdk-backend-wayland">branch
+in the upstream GTK+ repo</a>.  To try GTK+ on Wayland, check out the
+gdk-backend-wayland branch and enable the Wayland backend in
+configure:</p>
+
+<pre>$ git clone git://git.gnome.org/gtk+
+$ cd gtk+
+$ git checkout -t origin/gdk-backend-wayland
+$ ./configure --prefix=/usr --enable-x11-backend --enable-wayland-backend --enable-debug=yes
+$ make
+</pre>
+
+<p>When both Wayland and X backends are enabled, GTK+ will default to
+the Wayland backend, but this can be overridden by setting the
+<code>GDK_BACKEND</code> environment variable to <code>x11</code>.</p>
+
+<h2>Clutter</h2>
+
+<p>The Clutter toolkit has a Wayland backend that allows it to run as
+a Wayland client.  The backend is a bit out of date, but it's in the
+master branch of
+the <a href="http://git.gnome.org/browse/clutter">main repo</a> and
+can be activated by passing <code>--with-flavour=wayland</code> to the
+configure script.</p>
+
+<h2>SDL</h2>
+
+<p>Benjamin Franzke is working on a port of SDL to Wayland, it's
+available in
+his <a href="https://bitbucket.org/bnf/sdl-wayland/overview">sdl-wayland
+repo</a> on bitbucket.org.</p>
+
+</body>
+</html>
