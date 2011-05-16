@@ -62,7 +62,7 @@ you wish to build the packages.</p>
 
 <h2>Wayland libraries</h2>
 
-<p>Required to build Mesa with --with-egl-platforms=wayland,drm.</p>
+<p>Required to build Mesa with --with-egl-platforms=x11,wayland,drm.</p>
 
 <pre>    $ git clone git://anongit.freedesktop.org/wayland/wayland
     $ cd wayland
@@ -89,7 +89,7 @@ Other dependencies are development packages of xcb-dri2 and xcb-xfixes.</p>
     $ cd mesa
     $ ./autogen.sh --prefix=$WLD --enable-gles2                   \
       --disable-gallium-egl --enable-gallium-nouveau --enable-gallium-r600 \
-      --with-egl-platforms=wayland,drm
+      --with-egl-platforms=x11,wayland,drm
     $ make &amp;&amp; make install
 </pre>
 
