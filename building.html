@@ -85,11 +85,25 @@ Other dependencies are development packages of xcb-dri2 and xcb-xfixes.</p>
     $ ./autogen.sh --prefix=$WLD --enable-nouveau-experimental-api
     $ make &amp;&amp; make install
 
+    $ git clone git://anongit.freedesktop.org/git/xorg/util/macros
+    $ cd macros
+    $ ./autogen.sh --prefix=$WLD
+    $ make &amp;&amp; make install
+
+    $ git clone git://anongit.freedesktop.org/xorg/proto/glproto
+    $ cd macros
+    $ ./autogen.sh --prefix=$WLD
+    $ make &amp;&amp; make install
+
+    $ git clone git://anongit.freedesktop.org/xorg/proto/dri2proto
+    $ cd macros
+    $ ./autogen.sh --prefix=$WLD
+    $ make &amp;&amp; make install
+
     $ git clone git://anongit.freedesktop.org/mesa/mesa
     $ cd mesa
-    $ ./autogen.sh --prefix=$WLD --enable-gles2                   \
-      --disable-gallium-egl --enable-gallium-nouveau --enable-gallium-r600 \
-      --with-egl-platforms=x11,wayland,drm
+    $ ./autogen.sh --prefix=$WLD --enable-gles2 --disable-gallium-egl \
+      --with-egl-platforms=x11,wayland,drm --enable-gbm --enable-shared-glapi
     $ make &amp;&amp; make install
 </pre>
 
