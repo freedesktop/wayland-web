@@ -186,18 +186,6 @@ gio-2.0.</p>
     $ make install
 </pre>
 
-<p>Installing into a non-/usr prefix is fine, but the 70-wayland.rules
-udev rule file has to be copied to /etc/udev/rules.d.</p>
-
-<pre>    $ sudo cp compositor/70-wayland.rules /etc/udev/rules.d/
-</pre>
-
-<p>Once installed, either reboot or run the following to make udev label
-the devices wayland will use.</p>
-
-<pre>    $ sudo udevadm trigger --subsystem-match=drm --subsystem-match=input
-</pre>
-
 <p>If DISPLAY is set, the wayland compositor will run under X in a
 window and take input from X.  Otherwise it will run on the KMS
 framebuffer and take input from evdev devices.  Pick a background
