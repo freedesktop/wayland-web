@@ -87,7 +87,7 @@
   clients.  The session Wayland server can run as a nested Wayland
   server under the system Wayland server described above, maybe even
   side by side with X sessions.  There's a number of intermediate
-  steps, suchs as running the GNOME screen saver as a native wayland
+  steps, such as running the GNOME screen saver as a native wayland
   client, for example, or running a composited X desktop, where the
   compositor is a Wayland client, pushing the composited desktop to
   Wayland.
@@ -140,7 +140,7 @@
 <p>
   If you're running a fullscreen X server, which pushes it's root
   window buffer to Wayland there is little overhead.  If the X server
-  root window is transformed (ie scaled down or spinning on the side
+  root window is transformed (i.e. scaled down or spinning on the side
   of a cube) the Wayland compositor will have to do an extra copy to
   get the pixels on screen.  But once the animation finishes and the X
   server buffer fills the entire screen, the Wayland compositor can
@@ -159,7 +159,7 @@
   simple and feasible at all is that I'm sidestepping this big task
   and pushing it to the clients.  It's an interesting challenge, a
   very big task and it's hard to get right, but essentially orthogonal
-  to what Wayland tries to acheive.
+  to what Wayland tries to achieve.
 </p>
 
 <p>
@@ -180,9 +180,9 @@
   a full desktop compositor.  This will let us forward native Wayland
   applications.  The standalone compositor could let you log into a
   server and run an application back on your desktop.  Building the
-  fowarding into the desktop compositor, could let you export or share
-  a window on the fly with a remote wayland compositor, for example a
-  friends desktop.
+  forwarding into the desktop compositor could let you export or share
+  a window on the fly with a remote wayland compositor, for example, a
+  friend's desktop.
 </p>
 
 <h3>How to download and build Wayland?</h3>
@@ -191,7 +191,7 @@
   See the <a href="building.html">build instructions</a>.
 </p>
 
-<h3>Why wasn't DBus used instead of the Wayland IPC mechanism?</h3>
+<h3>Why wasn't D-Bus used instead of the Wayland IPC mechanism?</h3>
 
 <p>
   I wanted to preserve some important properties from the X protocol:
