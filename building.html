@@ -164,10 +164,15 @@ For this you'll need a development package for pixman.</p>
     $ make &amp;&amp; make install
 </pre>
 
-<h2>Wayland applications</h2>
+<h2>Weston and demo applications</h2>
 
-<p>Aside from mesa and libxkbcommon, the Wayland demos' dependencies
-can be satisfied with released versions of:
+<p>Weston is the reference implementation of a Wayland compositor.
+It's available in the weston repo and comes with a few demo
+applications.
+
+<p>Aside from mesa and libxkbcommon, the Weston dependencies can be
+satisfied with released versions of:
+
 gdk-pixbuf-2.0,
 libudev 136,
 libdrm 2.4.23,
@@ -179,20 +184,20 @@ And optionally, for the pdf viewer:
 poppler-glib and
 gio-2.0.</p>
 
-<pre>    $ git clone git://anongit.freedesktop.org/wayland/wayland-demos
-    $ cd wayland-demos
+<pre>    $ git clone git://anongit.freedesktop.org/wayland/weston
+    $ cd weston
     $ ./autogen.sh --prefix=$WLD
     $ make
     $ make install
 </pre>
 
-<p>If DISPLAY is set, the wayland compositor will run under X in a
-window and take input from X.  Otherwise it will run on the KMS
-framebuffer and take input from evdev devices.  Pick a background
-image that you like and copy it to the Wayland source directory as
-background.jpg or use the -b command line option:</p>
+<p>If DISPLAY is set, the weston will run under X in a window and take
+input from X.  Otherwise it will run on the KMS framebuffer and take
+input from evdev devices.  Copy the weston-deskop-shell.ini config
+file to ~/.config and edit it to set a background image that you
+like.  The run the compositor by typing</p>
 
-<pre>    $ ./compositor -b my-image.jpg
+<pre>    $ ./weston
 </pre>
 
 <p>To run clients, switch to a different VT and run the client from
