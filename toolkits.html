@@ -20,32 +20,67 @@ to set <code>EGL_PLATFORM=wayland</code>.</p>
 
 <div id="generated-toc" class="generate_from_h2"></div>
 
-<h2>Qt</h2>
+<h2>Qt 5</h2>
 
-<p>Wayland support in the Qt toolkit is happening in
-the <a href="https://gitorious.org/+qt-developers/qt/lighthouse">Qt
-lighthouse repo</a>.
-The <a href="http://labs.qt.nokia.com/category/labs/lighthouse/">lighthouse</a>
-project is an effort to make it easier to port Qt to new window
-systems and the Wayland support is a plugin to lighthouse.  To try it
-out, clone the lighthouse repo and pass -qpa to configure to select
-the lighthouse platform:</p>
+<p>Wayland support in the Qt 5 toolkit is happening in the Lighthouse
+<a href="https://qt.gitorious.org/qt/qtwayland">wayland plugin</a>. To try it out, first clone the qtbase:</p>
 
-<pre>$ git clone git://gitorious.org/+qt-developers/qt/lighthouse.git
-$ cd lighthouse
-$ ./configure -confirm-license -opensource -no-qt3support -no-xmlpatterns -no-multimedia -no-webkit -no-phonon -qpa -egl -opengl es2 -prefix /usr -debug
-$ make
-$ make -C src/plugins/platforms/wayland
+<pre>
+$ mkdir qt; cd qt
+$ git clone git://gitorious.org/qt/qtbase.git
 </pre>
 
-<p>When you run a lighthouse application you either have to
-pass <code>-platform waylandgl</code> or set
+you might want to set some env variables for compilation as well:
+
+<pre>
+$ export QTVER=qt5
+$ export QTDIR=/opt/qt/$QTVER
+$ export PATH=$QTDIR/bin/:$PATH
+$ export LD_LIBRARY_PATH=$QTDIR/lib/:$LD_LIBRARY_PATH
+$ export PKG_CONFIG_PATH=$QTDIR/lib/pkgconfig/:$PKG_CONFIG_PATH
+$ export QT_PLUGIN_PATH=$QTDIR/lib/plugins/
+</pre>
+
+<pre>$ ./configure -confirm-license -opensource -no-multimedia -no-webkit -no-phonon -no-v8 -debug -qpa -xcb -wayland -egl -opengl es2 -nomake examples -prefix ${QTDIR}
+$ make
+$ sudo make install
+</pre>
+
+at this point you got all needed Qt libraries, and needed tools to compile
+qtwayland platform:
+
+<pre>
+$ cd ../
+$ git clone git://gitorious.org/qt/qtwayland.git
+$ cd qtwayland/
+$ qmake
+$ make
+$ make && make install
+</pre>
+
+don't forget to set the XDG directory and re-run .bashrc:
+
+<pre>
+$ export XDG_RUNTIME_DIR=$HOME/.xdg
+$ mkdir $HOME/.xdg
+</pre>
+
+<p>when you run a Lighthouse application you either have to
+pass <code>-platform wayland</code> or set
 the <code>QT_QPA_PLATFORM</code> environment variable
-to <code>waylandgl</code>.  Lighthouse supports a number of other
+to <code>wayland</code>.  Lighthouse supports a number of other
 window systems.  There's an XCB backend, and by
 passing <code>-platform xcb</code> you can jump back and forth between
 Wayland and X to compare the look and feel of the application under
-Wayland and X.</p>
+Wayland and X:</p>
+
+<pre>
+$ cd ../qtbase/examples/opengl/hellowindow
+$ qmake
+$ make
+$ wayland-compositor &
+$ ./hellowindow -platform wayland
+</pre>
 
 <h2>GTK+</h2>
 
