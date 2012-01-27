@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html> 
+
+<head> 
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+<link href="wayland.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="generated-toc.js"></script>
+<title>GTK+ on Wayland</title> 
+</head>
+
+<body>
+<h1><a href="/"><img src="wayland.png" alt="Wayland logo"></a></h1>
+<h1>GTK+</h1>
+<p>GTK+ is a multi platform toolkit for creating graphical user interfaces. It
+has a large range of widgets available for the user all driven through a
+centralised theme syste</p>
+
+<p><strong>The GTK+ backend is under active continous development - currently you
+  should only attempt to use it if you are experienced with GTK+.</strong></p>
+
+<div id="generated-toc" class="generate_from_h2"></div>
+
+<h2>Getting the source</h2>
+
+<p>For correct functionality with current Wayland you must use the GTK+ master
+branche. As a precursor to these steps you must have downloaded and compiled
+Wayland as per the <a href="/building.html">building instructions</a>.</p>
+
+<p><strong>GTK+ master also currently depends on an unstable release version of
+glib and atk. To avoid problems it is advisable to install this into the prefix used
+in the <a href="/building.html">Wayland build instructions</a>.</strong></p>
+
+<pre>
+$ git clone git://git.gnome.org/glib
+$ git clone git://git.gnome.org/atk
+$ git clone git://git.gnome.org/gtk+
+</pre>
+
+<h2>Compiling GTK+ and its dependencies</h2>
+
+<p>This section depends on the environment variables defined in the
+<a href="/building.html">build instructions</a> being set. </p>
+
+<h3>glib</h3>
+<pre>
+$ ./autogen.sh --prefix=$WLD
+$ make &amp;&amp; make install
+</pre>
+
+<h3>atk</h3>
+<pre>
+$ ./autogen.sh --prefix=$WLD
+$ make &amp;&amp; make install
+</pre>
+
+<h3>gtk</h3>
+<pre>
+$ ./autogen.sh --prefix=$WLD --enable-wayland-backend
+$ make &amp;&amp; make install
+</pre>
+
+<p>The configure scripts may report some missing packages. Install these from
+source or from your distribution.</a>
+
+<h2>Trying it out</h2>
+
+<p>The GTK+ source tree includes some test programs that you can
+run to check functionality. If you have configured with multiple backends then
+you should make sure to set the following environment variable.</p>
+
+<pre>export GDK_BACKEND=wayland</pre>
+
+<p>Inside the <code>tests</code> tests directory are some standalone test
+programs for various pieces of widget functionality. A more comprehensive tool
+for testing is <code>demo/gtk-demo/gtk3-demo</code> which provides a UI for
+selecting various widgets to play with. The screenshot below shows what the
+demo application looks like.</p>
+
+<img src="gtk-demo.png" width="513" height="337"/>
+
+<h2>Porting your GTK+ application</h2>
+
+<p>The GTK+ port to Wayland has some major functionality gaps. Porting of
+applications at this stage should simply be to start identifying where
+applications makes API calls that will not function under Wayland.</p>
+
+<ul>
+  <li>Ensure that your application uses <code>gtk+-3.0</code> for its
+  pkg-config request.</li>
+  <li>Your application must not use any API in the gdk_x11_ namespace or
+  any raw Xlib calls.</li>
+  <li>Check the errata below for issues that might affect your
+  application.</li>
+</ul>
+
+<p>API to access the underlying wl_surface, wl_shell_surface and wl_display may
+be available in later versions of the code but are not available right
+now.</p>
+
+<h2>Known issues</h2>
+<ul>
+  <li>Client side decorations are still under active development. An early
+  preview is available on a branch <a
+    href="https://github.com/krh/gtk/tree/csd">here</a></li>
+  <li>The keyboard is hardcoded (US pc105) for the keycode mapping. This
+  can be resolved when there is a mechanism in Wayland communicating preferred
+  keyboard map.</li>
+  <li>Programmatically changing the size of a window that has already been created
+  (by the use of an expanding widget) will sometimes result in a window that
+  does not have the correct contents.</li>
+  <li>Events from the scroll wheel (buttons 4 and 5) are not handled
+  correctly.</li>
+  <li>Scrolling can result in distorted rendering - this is usually resolved the
+  next time the window is fully repainted.</li>
+  <li>Copy and paste functionality is implemented however there may be certain
+  cases that do not work - please report these in the bug tracking system</li>
+  <li>Drag and drop is not implemented.</li>
+  <li>Occasionally the window surface may not be appear - try using
+  gtk_widget_show_all on the top level window to force the windows to be
+  visible.</li>
+  <li>Popup menus appear but do not have the correct grab behaviour and are not
+  positioned in the correct location.</li>
+</ul>
+
+<h2>Getting help and reporting issues</h2>
+
+<p>Try the #gtk+ IRC channel on irc.gimp.org or if you've found a bug you
+can report it in <a href="https://bugzilla.gnome.org/enter_bug.cgi?product=gtk+">GNOME Bugzilla</a>.</p>
+
+</body>
+</html>
