@@ -84,29 +84,16 @@ $ ./hellowindow -platform wayland
 
 <h2>GTK+</h2>
 
-<p>With GTK+ 3.0, GTK+ gained support for multiple backends at runtime
-and can switch between backends in the same way Qt can with
-lighthouse.  The Wayland support is on the upstream GTK+ master branch
-but disabled by default.  To try GTK+ on Wayland, check out gtk+ and
-pass <code>--enable-wayland</code> to configure:</p>
-
-<pre>$ git clone git://git.gnome.org/gtk+
-$ cd gtk+
-$ ./configure --prefix=/usr --enable-x11-backend --enable-wayland-backend --enable-debug=yes
-$ make
-</pre>
-
-<p>When both Wayland and X backends are enabled, GTK+ will default to
-the X11 backend, but this can be overridden by setting the
-<code>GDK_BACKEND</code> environment variable to <code>wayland</code>.</p>
+<p>With GTK+ 3.0, GTK+ gained support for multiple backends at runtime and can
+switch between backends in the same way Qt can with lighthouse. The Wayland
+support is on the upstream GTK+ master branch but disabled by default. You can
+find full details in the <a href="gtk.html">GTK Wayland instructions</a>.</p>
 
 <h2>Clutter</h2>
 
-<p>The Clutter toolkit has a Wayland backend that allows it to run as
-a Wayland client.  The backend is in the master branch of
-the <a href="http://git.gnome.org/browse/clutter">main repo</a> and
-can be activated by passing <code>--with-flavour=wayland</code> to the
-configure script.</p>
+<p>The Clutter toolkit has a Wayland backend that allows it to run as a
+Wayland client. The backend is in the master branch of the upstream the You
+can find full details in the <a href="clutter.html">Clutter Wayland instructions</a>.</p>
 
 <h2>SDL</h2>
 
