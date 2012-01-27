@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html> 
+
+<head> 
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+<link href="wayland.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="generated-toc.js"></script>
+<title>Qt 5 on Wayland</title> 
+</head>
+
+<body>
+<h1><a href="/"><img src="wayland.png" alt="Wayland logo"></a></h1>
+<h1>Qt 5 on Wayland</h1>
+<p>Wayland support in the Qt 5 toolkit is happening in the Lighthouse
+<a href="https://qt.gitorious.org/qt/qtwayland">wayland plugin</a>.
+
+<div id="generated-toc" class="generate_from_h2"></div>
+
+<h2>Getting the source and compiling</h2>
+To try it
+out, first clone the qtbase:</p>
+
+<pre>
+$ mkdir qt; cd qt
+$ git clone git://gitorious.org/qt/qtbase.git
+</pre>
+
+you might want to set some env variables for compilation as well:
+
+<pre>
+$ export QTVER=qt5
+$ export QTDIR=/opt/qt/$QTVER
+$ export PATH=$QTDIR/bin/:$PATH
+$ export LD_LIBRARY_PATH=$QTDIR/lib/:$LD_LIBRARY_PATH
+$ export PKG_CONFIG_PATH=$QTDIR/lib/pkgconfig/:$PKG_CONFIG_PATH
+$ export QT_PLUGIN_PATH=$QTDIR/lib/plugins/
+</pre>
+<pre>$ ./configure -confirm-license -opensource -no-multimedia -no-webkit
+-no-phonon -no-v8 -debug -qpa -xcb -wayland -egl -opengl es2 -nomake examples
+-prefix ${QTDIR}
+$ make
+$ sudo make install
+</pre>
+
+at this point you got all needed Qt libraries, and needed tools to compile
+qtwayland platform:
+
+<pre>
+$ cd ../
+$ git clone git://gitorious.org/qt/qtwayland.git
+$ cd qtwayland/
+$ qmake
+$ make
+$ make && make install
+</pre>
+
+<h2>Trying it out</h2>
+first, don't forget to set the XDG directory and re-run .bashrc:
+
+<pre>
+$ export XDG_RUNTIME_DIR=$HOME/.xdg
+$ mkdir $HOME/.xdg
+</pre>
+
+<p>
+you can jump back and forth between Wayland and X ("-platform xcb") to compare the look and feel
+of the application under Wayland and X:</p>
+
+<pre>
+$ cd ../qtbase/examples/opengl/hellowindow
+$ qmake
+$ make
+$ wayland-compositor &
+$ ./hellowindow -platform wayland
+</pre>
+
+<h2>Porting your Qt application</h2>
+
+<p>
+Qt 5 is structured with the Lighthouse (or Qt Platform) Abstraction, which is
+the windowing system and device agnostic architecture. That means Qt can load
+in run-time different backend plugins for different window systems as desired.
+For instance, an application developed on Qt could be run using "-platform
+xcb" and "-platform wayland" for XCB or Wayland respectively (or set
+the <code>QT_QPA_PLATFORM</code>) and should have a
+similar behavior on both systems, without the need to recompile.
+</p>
+
+<p>
+Qt abstraction exposes to applications developers two native resources of
+Wayland: <code>wl_display</code> and <code>wl_surface</code>. With those types, one could access
+Wayland internals to deal with special cases through the interface:
+</p>
+<pre>
+    void *QPlatformNativeInterface::nativeResourceForWindow(const QByteArray &resource, QWindow *window)
+</pre>
+<p>
+Getting the display global handler is quite straightforward, as shown in the
+following example:
+</p>
+
+<pre>
+    QPlatformNativeInterface *native =
+        QGuiApplication::platformNativeInterface();
+    struct wl_display *wl_dpy = (struct wl_display *)
+        native->nativeResourceForWindow("display", NULL);
+</pre>
+<p>
+and for <code>wl_surface</code>:
+</p>
+
+<pre>
+    QPlatformNativeInterface *native =
+        QGuiApplication::platformNativeInterface();
+    struct wl_surface *surface = static_cast<struct wl_surface *>(
+        native->nativeResourceForWindow("surface", this->windowHandle()));
+</pre>
+
+
+<h2>Known issues</h2>
+<ul>
+  <li>
+Applications have to implement their own way of decorating windows.
+Therefore, some Qt functions like setWindowTitle(), raise() or lower(),
+holding window properties will have different effect on Wayland compositors.
+  </li>
+</ul>
+
+<h2>Getting help and reporting issues</h2>
+
+<p>Try the #qt-labs IRC channel on freenode.net
+
+</body>
+</html>
