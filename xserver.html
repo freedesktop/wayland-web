@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html> 
+
+<head> 
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+<link href="wayland.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="generated-toc.js"></script>
+<title>Wayland</title> 
+</head>
+
+<body>
+<h1><a href="/"><img src="wayland.png" alt="Wayland logo"></a></h1>
+
+<div id="generated-toc" class="generate_from_h2"></div>
+
+<h2>X Clients under Wayland</h2>
+
+<p>
+  Wayland is a complete window system in itself, but even so, if we're
+  migrating away from X, it makes sense to have a good backwards
+  compatibility story.  With a few changes, the Xorg server can be
+  modified to use wayland input devices for input and forward either
+  the root window or individual top-level windows as wayland surfaces.
+  The server still runs the same 2D driver with the same acceleration
+  code as it does when it runs natively.  The main difference is that
+  wayland handles presentation of the windows instead of KMS.
+</p>
+
+<p><img src="x-on-wayland.png" alt="X on Wayland architecture diagram"></p>
+
+<h2>Building xwayland</h2>
+
+<p>
+  The Wayland backend for the X server is not yet upstream, but it's
+  available from these repos:
+</p>
+
+<pre>    http://cgit.freedesktop.org/~krh/xserver/log/?h=xwayland
+    http://cgit.freedesktop.org/~krh/xf86-video-intel/log/?h=xwayland
+</pre>
+
+</body>
+</html> 

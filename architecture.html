@@ -197,22 +197,6 @@ point where the change it affects appears on screen.</p>
   a spinner.
 </p>
 
-<h2>X as a Wayland Client</h2>
-
-<p>
-  Wayland is a complete window system in itself, but even so, if we're
-  migrating away from X, it makes sense to have a good backwards
-  compatibility story.  With a few changes, the Xorg server can be
-  modified to use wayland input devices for input and forward either
-  the root window or individual top-level windows as wayland surfaces.
-  The server still runs the same 2D driver with the same acceleration
-  code as it does when it runs natively, the main difference is that
-  wayland handles presentation of the windows instead of KMS.
-</p>
-
-<p><img src="x-on-wayland.png" alt="X on Wayland architecture diagram"></p>
-
-
 <h2>Hardware Enabling for Wayland</h2>
 
 <p>
