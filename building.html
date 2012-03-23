@@ -34,10 +34,10 @@ not fglrx/catalyst).  DRM output requires kernel version 2.6.38.
 Cards probably work back to Radeon 7200 (2000).</p>
 
 <p><b>nVidia</b>: Requires Nouveau (open source driver).  DRM output
-requires a kernel built from the Nouveau git repository, details below.
-Cards probably work back to Riva TNT (1998).  The latest series of chips,
-NVC0 / Fermi, released March 2010, requires loading external firmware
-for Nouveau, which is not documented.</p>
+requires kernel version 2.6.37 for nv40 or lower cards, 2.6.38 for nv50
+cards. NVC0 / Fermi chips, release March 2010, require loading external
+firmware, which is documented
+<a href="http://nouveau.freedesktop.org/wiki/NVC0_Firmware">here</a></p>
 
 <h2>Setting up the environment</h2>
 <p>If you want to install in a custom location (not system wide), you'll need
@@ -228,31 +228,5 @@ LIBGL_DEBUG=verbose
 WAYLAND_DEBUG=1
 </pre>
 
-<h2>Nouveau Kernel</h2>
-
-<p>To use DRM output with nVidia, you need to build a kernel from the
-Nouveau kernel git repository:<br>
-(<a href="http://cgit.freedesktop.org/nouveau/linux-2.6/commit/?id=8e645575d469bf08c9d5d98a101ef4cfce6a9180">required commit</a>)
-</p>
-
-<pre>    $ git clone --depth 1 git://anongit.freedesktop.org/nouveau/linux-2.6
-    $ cd linux-2.6
-    $ cp /boot/config-`uname -r` .config # use .config of currently running kernel
-    $ yes "" | make oldconfig            # use defaults for new options
-    $ make clean &amp;&amp; make &amp;&amp; make modules &amp;&amp; sudo make modules_install &amp;&amp; sudo make install
-</pre>
-
-Ubuntu Maverick's /sbin/installkernel is broken, requring these additional commands:
-
-<pre>    $ mkinitramfs -o initrd.img `make kernelversion`+
-    $ sudo mv initrd.img /boot/initrd.img-`make kernelversion`+
-    $ sudo update-grub
-</pre> 
- 
-<p>To uninstall a kernel installed this way:</p>
- 
-<pre>    $ sudo rm /boot/initrd.img-`make kernelversion`+ /lib/modules/`make kernelversion`+
-    $ sudo update-grub
-</pre> 
 </body>
 </html>
