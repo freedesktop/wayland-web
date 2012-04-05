@@ -87,8 +87,10 @@ applications makes API calls that will not function under Wayland.</p>
 <ul>
   <li>Ensure that your application uses <code>gtk+-3.0</code> for its
   pkg-config request.</li>
-  <li>Your application must not use any API in the gdk_x11_ namespace or
-  any raw Xlib calls.</li>
+  <li>All calls to the gdk_x11_ namespace
+  and raw Xlib calls must be wrapped in <a
+  href="http://developer.gnome.org/gtk3/3.3/ch24s02.html#id1502079">both
+  build-time and run-time backend checks</a>.</li>
   <li>Check the errata below for issues that might affect your
   application.</li>
 </ul>
