@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
 <link href="wayland.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="generated-toc.js"></script>
-<title>Wayland</title> 
+<title>XWayland</title> 
 </head>
 
 <body>
@@ -13,7 +13,7 @@
 
 <div id="generated-toc" class="generate_from_h2"></div>
 
-<h2>X Clients under Wayland</h2>
+<h2>X Clients under Wayland (XWayland)</h2>
 
 <p>
   Wayland is a complete window system in itself, but even so, if we're
@@ -28,16 +28,84 @@
 
 <p><img src="x-on-wayland.png" alt="X on Wayland architecture diagram"></p>
 
-<h2>Building xwayland</h2>
+<h2>Building XWayland</h2>
 
 <p>
-  The Wayland backend for the X server is not yet upstream, but it's
-  available from these repos:
+  Follow the <a href="http://wayland.freedesktop.org/building.html">main
+  Wayland build instructions first</a>.
 </p>
 
-<pre>    http://cgit.freedesktop.org/~krh/xserver/log/?h=xwayland
-    http://cgit.freedesktop.org/~krh/xf86-video-intel/log/?h=xwayland
+
+<h2>X.org</h2>
+
+<pre>    git clone git://people.freedesktop.org/~krh/xserver -b xwayland-1.12
+    cd xserver
+    ./autogen.sh --prefix=$WLD
+    make
+    make install
+    cd ..
 </pre>
+
+<h2>DDX</h2>
+
+<p>
+  The Device Dependent part of X.  Only one of these is necessary.
+  xf86-video-intel works with Intel open source video drivers.
+  xf86-video-ati works with AMD Radeon open source drivers.
+  xf86-video-wlshm is implemented in software, so it works on all
+  hardware, but is somewhat less complete.  Nvidia / Nouveau support
+  still needs to be added.
+</p>
+    
+<pre>    git clone git://people.freedesktop.org/~krh/xf86-video-intel -b xwayland-1.12
+    cd xf86-video-intel
+    ./autogen.sh --prefix=$WLD
+    make
+    make install
+    cd ..
+</pre>
+
+<pre>    git clone https://github.com/timon37/xf86-video-ati
+    cd xf86-video-ati
+    ./autogen.sh --prefix=$WLD
+    make
+    make install
+    cd ..
+</pre>
+
+<pre>    git clone git://people.freedesktop.org/~iksaif/xf86-video-wlshm
+    sed -i -e s/hosted.h/xwayland.h/ xf86-video-wlshm/src/wlshm.h
+    cd xf86-video-wlshm
+    ./autogen.sh --prefix=$WLD
+    make
+    make install
+    cd ..
+</pre>
+
+
+<h2>Running</h2>
+
+<p>
+  The Intel and ATI / AMD / Radeon DDXes should work automatically.
+  wlshm requires an xorg.conf containing 'Driver "wlshm"'.
+</p>
+
+<p>
+  Run weston with one of the following (which will need to be SUID root
+  to be able to spawn X.org):
+</p>
+
+<pre>    weston --xserver
+</pre>
+
+<pre>    weston-launcher --xserver
+</pre>
+
+<p>
+  The weston console output will include "xserver listening on display
+  :1".  Within weston-terminal you will find $DISPLAY has already
+  been set.  Run an X client.  
+</p>
 
 </body>
 </html> 
