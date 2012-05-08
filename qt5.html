@@ -12,7 +12,19 @@
 <h1><a href="/"><img src="wayland.png" alt="Wayland logo"></a></h1>
 <h1>Qt 5 on Wayland</h1>
 <p>Wayland support in the Qt 5 toolkit is happening in the Lighthouse
-<a href="https://qt.gitorious.org/qt/qtwayland">wayland plugin</a>.</p>
+<a href="https://qt.gitorious.org/qt/qtwayland">Wayland plugin</a>.
+The qtwayland repo has a 0.85 branch that will build against Wayland 0.85.
+If building qtwayland master, you need to check out the Wayland commit
+in the file wayland_sha1.txt in the qtwayland repo (which might not be
+compatible with the latest Weston master).</p>
+
+<p>If you also want to build the qtwebkit
+browser, you may be better off following the <a
+href="http://qt-project.org/wiki/Building_Qt_5_from_Git">directions for
+building Qt 5 from git</a>, which builds a lot more.  The init-repository
+script does <i>not</i> appropriately return an error when it fails
+(unfortunately frequently), so you need to run it manually and make sure
+it doesn't print an error.</p>
 
 <div id="generated-toc" class="generate_from_h2"></div>
 
@@ -41,7 +53,11 @@ $ make
 $ sudo make install
 </pre>
 
-<p>at this point you got all needed Qt libraries, and needed tools to compile
+<p>Here you need to also clone and build qtjsbackend and qtdeclarative: 
+git://gitorious.org/qt/qtjsbackend.git
+git://gitorious.org/qt/qtdeclarative.git</p>
+
+<p>At this point you have all needed Qt libraries, and needed tools to compile
 qtwayland platform:</p>
 
 <pre>
