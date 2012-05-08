@@ -27,10 +27,10 @@ script does <i>not</i> appropriately return an error when it fails
 it doesn't print an error.</p>
 
 <p>The third option is the <a
-href="http://qt-project.org/wiki/Qt-5-Alpha-building-instructions">Qt
-5 Alpha building instructions</a>, which is smaller and more reliable
-than the git instructions, but which requires an LD_PRELOAD for Wayland
-clients:<br />
+href="http://qt-project.org/wiki/Qt-5-Alpha-building-instructions">Qt 5
+Alpha building instructions</a>, which is smaller and more reliable than
+the git instructions while still including qtwebkit, but which requires
+an LD_PRELOAD for Wayland clients:<br>
 <tt>$ LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libfontconfig.so.1
 ./fancybrowser -platform wayland</tt></p>
 
