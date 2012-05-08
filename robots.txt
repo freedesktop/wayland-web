@@ -1,0 +1,3 @@
+# Block WDG HTML validator from html docs due to problem with Publican's html.
+User-agent: WDG_SiteValidator
+Disallow: /docs/html/
