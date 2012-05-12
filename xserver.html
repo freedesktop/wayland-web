@@ -98,14 +98,23 @@
 </p>
 
 <p>
-  Run weston with one of the following (which will need to be SUID root
-  to be able to spawn X.org):
+  Run weston or weston-launch, which need to be SUID root to be able to
+  span X.org.  weston-launch requires that you enable systemd session
+  support for weston-launch (how?) or add yourself to the "weston-launch"
+  group:
 </p>
 
-<pre>    weston --xserver
+<pre>    sudo chown root weston
+    sudo chmod +s weston
+    weston --xserver
+    sudo chmod ugo+rw /tmp/wayland* # weston-launch fixes this
 </pre>
 
-<pre>    weston-launcher -- --xserver
+<pre>    sudo groupadd weston-launch
+    sudo usermod -a -G weston-launch $USER
+    sudo chown root weston-launch
+    sudo chmod +s weston-launch
+    weston-launch -- --xserver
 </pre>
 
 <p>
