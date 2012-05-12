@@ -112,6 +112,7 @@
 
 <pre>    sudo groupadd weston-launch
     sudo usermod -a -G weston-launch $USER
+    # Log all the way out (of X, etc.)
     sudo chown root weston-launch
     sudo chmod +s weston-launch
     weston-launch -- --xserver
