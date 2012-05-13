@@ -104,10 +104,10 @@
 </p>
 
 <p>
-  Run weston or weston-launch, which need to be SUID root to be able to
-  span X.org.  weston-launch requires that you enable systemd session
-  support for weston-launch (how?) or add yourself to the "weston-launch"
-  group:
+  Run weston or weston-launch, which need to be SUID root to be able
+  to spawn X.org.  weston-launch only works outside of X, and requires
+  that you enable systemd session support for weston-launch (how?) or
+  add yourself to the "weston-launch" group:
 </p>
 
 <pre>    sudo chown root weston
