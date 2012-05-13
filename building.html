@@ -195,12 +195,16 @@ like.  The run the compositor by typing</p>
 <p>For KMS/DRM output weston needs root permissions.  You can accomplish
 this by making weston SUID root (<tt>sudo chown root weston; sudo chmod
 +s weston</tt>) or, with weston master, using weston-launch, which also
-requires SUID root.  You will also need to grant yourself permissions
-to use it, which it will recommend when run.</p>
+requires SUID root, only works outside of X, and requires that you enable
+systemd session support for weston-launch (how?) or add yourself to the
+"weston-launch" group:</p>
 
-<pre>    $ sudo chown root weston-launch
+<pre>    $ sudo groupadd weston-launch
+    $ sudo usermod -a -G weston-launch $USER
+    $ # Log all the way out (of X, etc.)
+    $ sudo chown root weston-launch
     $ sudo chmod +s weston-launch
-    $ ./weston-launch
+    $ weston-launch
 </pre>
 
 <p>To run clients, switch to a different VT and run the client from
