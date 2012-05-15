@@ -1,3 +1,6 @@
 # Block WDG HTML validator from html docs due to problem with Publican's html.
+# The only remaining problem is duplicate IDs which
+# should be solved in the next Publican release:
+# https://bugzilla.redhat.com/show_bug.cgi?id=788576
 User-agent: WDG_SiteValidator
 Disallow: /docs/html/
