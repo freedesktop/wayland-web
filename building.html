@@ -113,24 +113,10 @@ be built as DRI drivers, which the EGL loader will load just fine.</p>
 
 <p>Wayland needs libxkbcommon for translating evdev keycodes to keysyms.
 For wayland 0.85 use libxkbcommon branch for-weston-0.85.  For this you'll
-need development packages for xproto, kbproto, macros and libX11.</p>
+need a development packages for macros.</p>
 
-<pre>    $ git clone git://anongit.freedesktop.org/xorg/proto/xproto
-    $ cd xproto
-    $ ./autogen.sh --prefix=$WLD
-    $ make &amp;&amp; make install
 
-    $ git clone git://anongit.freedesktop.org/xorg/proto/kbproto
-    $ cd kbproto
-    $ ./autogen.sh --prefix=$WLD
-    $ make &amp;&amp; make install
-
-    $ git clone git://anongit.freedesktop.org/xorg/lib/libX11
-    $ cd libX11
-    $ ./autogen.sh --prefix=$WLD
-    $ make &amp;&amp; make install
-
-    $ git clone git://people.freedesktop.org/xorg/lib/libxkbcommon.git
+<pre>    $ git clone git://people.freedesktop.org/xorg/lib/libxkbcommon.git
     $ cd libxkbcommon/
     $ ./autogen.sh --prefix=$WLD --with-xkb-config-root=/usr/share/X11/xkb
     $ make &amp;&amp; make install
@@ -141,7 +127,7 @@ need development packages for xproto, kbproto, macros and libX11.</p>
 <p>The Wayland clients can render using cairo-gl, but fall back to
 software when cairo-gl is not available.  cairo-gl is an experimental
 cairo backend and has been available since cairo 1.10, but recent
-bugfixes (available in non-released 1.11.3) are needed.
+bug fixes (available in non-released 1.11.3) are needed.
 Thus cairo from git is required.
 For this you'll need a development package for pixman.</p>
 
