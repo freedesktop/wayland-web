@@ -88,6 +88,15 @@
     cd ..
 </pre>
 
+<pre>    git clone http://cgit.freedesktop.org/nouveau/xf86-video-nouveau/
+    cd xf86-video-nouveau
+    # apply patch from <a href="http://lists.freedesktop.org/archives/wayland-devel/2012-May/003614.html">http://lists.freedesktop.org/archives/wayland-devel/2012-May/003614.html</a>
+    ./autogen.sh --prefix=$WLD
+    make
+    make install
+    cd ..
+</pre>
+
 <h2>Paths</h2>
 
 <pre>    mkdir -p $WLD/share/X11/xkb/rules
