@@ -73,6 +73,7 @@
 
 <pre>    git clone https://github.com/timon37/xf86-video-ati
     cd xf86-video-ati
+    # apply patch from <a href="http://lists.freedesktop.org/archives/wayland-devel/2012-May/003632.html">http://lists.freedesktop.org/archives/wayland-devel/2012-May/003632.html</a>
     ./autogen.sh --prefix=$WLD
     make
     make install
@@ -82,6 +83,7 @@
 <pre>    git clone git://people.freedesktop.org/~iksaif/xf86-video-wlshm
     sed -i -e s/hosted.h/xwayland.h/ xf86-video-wlshm/src/wlshm.h
     cd xf86-video-wlshm
+    # apply patch from <a href="http://lists.freedesktop.org/archives/wayland-devel/2012-May/003633.html">http://lists.freedesktop.org/archives/wayland-devel/2012-May/003633.html</a>
     ./autogen.sh --prefix=$WLD
     make
     make install
