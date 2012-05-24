@@ -84,7 +84,7 @@ point where the change it affects appears on screen.</p>
   compositing manager, X still controls the front buffer and
   modesetting.  Most of the complexity that the X server used to
   handle is now available in the kernel or self contained libraries
-  (KMS, evdev, mesa, fontconfig, freetype, cairo, Qt etc).  In
+  (KMS, evdev, mesa, fontconfig, freetype, cairo, Qt, etc).  In
   general, the X server is now just a middle man that introduces an
   extra step between applications and the compositor and an extra step
   between the compositor and the hardware.
@@ -168,7 +168,7 @@ point where the change it affects appears on screen.</p>
 
   <li>
     Render the new content into the buffer that it previously told the
-    compositor to to use.  While it's possible to just render directly
+    compositor to use.  While it's possible to just render directly
     into the buffer shared with the compositor, this might race with
     the compositor.  What can happen is that repainting the window
     contents could be interrupted by the compositor repainting the
@@ -188,7 +188,7 @@ point where the change it affects appears on screen.</p>
 <p>
   In either case, the application must tell the compositor which area
   of the surface holds new contents.  When the application renders
-  directly the to shared buffer, the compositor needs to be noticed
+  directly to the shared buffer, the compositor needs to be noticed
   that there is new content.  But also when exchanging buffers, the
   compositor doesn't assume anything changed, and needs a request from
   the application before it will repaint the desktop.  The idea that
@@ -201,7 +201,7 @@ point where the change it affects appears on screen.</p>
 
 <p>
   Typically, hardware enabling includes modesetting/display and
-  EGL/GLES2.  On top of that Wayland needs a way to share buffers
+  EGL/GLES2.  On top of that, Wayland needs a way to share buffers
   efficiently between processes.  There are two sides to that, the
   client side and the server side.
 </p>

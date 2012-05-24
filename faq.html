@@ -108,7 +108,7 @@
   What's different now is that a lot of infrastructure has moved from
   the X server into the kernel (memory management, command scheduling,
   mode setting) or libraries (cairo, pixman, freetype, fontconfig,
-  pango etc) and there is very little left that has to happen in a
+  pango, etc) and there is very little left that has to happen in a
   central server process.
 </p>
 
@@ -128,7 +128,7 @@
   as XRandR, XRender and COMPOSITE and to some extent phase out less
   useful extension.  But we can't ever get rid of the core rendering
   API and much other complexity that is rarely used in a modern
-  desktop.  With Wayland we can move the X server and all it's legacy
+  desktop.  With Wayland we can move the X server and all its legacy
   technology to a optional code path.  Getting to a point where the X
   server is a compatibility option instead of the core rendering
   system will take a while, but we'll never get there if don't plan
@@ -138,7 +138,7 @@
 <h3>What about the overhead of running X on wayland?</h3>
 
 <p>
-  If you're running a fullscreen X server, which pushes it's root
+  If you're running a fullscreen X server, which pushes its root
   window buffer to Wayland there is little overhead.  If the X server
   root window is transformed (i.e. scaled down or spinning on the side
   of a cube) the Wayland compositor will have to do an extra copy to
