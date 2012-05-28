@@ -80,10 +80,8 @@
     cd ..
 </pre>
 
-<pre>    git clone git://people.freedesktop.org/~iksaif/xf86-video-wlshm
-    sed -i -e s/hosted.h/xwayland.h/ xf86-video-wlshm/src/wlshm.h
+<pre>    git clone git://github.com/soreau/xf86-video-wlshm.git
     cd xf86-video-wlshm
-    # apply patch from <a href="http://lists.freedesktop.org/archives/wayland-devel/2012-May/003633.html">http://lists.freedesktop.org/archives/wayland-devel/2012-May/003633.html</a>
     ./autogen.sh --prefix=$WLD
     make
     make install
