@@ -130,13 +130,10 @@ For this you'll need a development package for pixman.</p>
 <h2>libvpx</h2>
 
 <p>webm video encoding library required for Weston video capture.
-Fedora 16 package works, Ubuntu Oneric package does not.  Upstream has
-a <a href="https://code.google.com/p/webm/issues/detail?id=451">bug</a>
-which requires a patch.</p>
+Fedora 16 package works, Ubuntu Oneric package does not.</p>
 
 <pre>    $ git clone http://git.chromium.org/webm/libvpx.git
     $ cd libvpx
-    $ # Download and apply <a href="http://webm.googlecode.com/issues/attachment?aid=4510000000&amp;name=0001-Fix-pkg-config-file-to-pull-in-libm.patch&amp;token=xYxetpyHWdr7Cgde-t7mMCn6O0o%3A1338213644544">patch from bug</a>.
     $ ./configure --prefix=$WLD # This is unusual.
     $ make &amp;&amp; make install
 </pre>
