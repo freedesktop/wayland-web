@@ -130,7 +130,9 @@ For this you'll need a development package for pixman.</p>
 <h2>libvpx</h2>
 
 <p>webm video encoding library required for Weston video capture.
-Fedora 16 package works, Ubuntu Oneric package does not.</p>
+Fedora 16 package works, Ubuntu Oneric package does not.  Instead of
+installing libvpx you can disable video capture capability by building
+Weston with --disable-wcap-tools.</p>
 
 <pre>    $ git clone http://git.chromium.org/webm/libvpx.git
     $ cd libvpx
