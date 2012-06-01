@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+<link href="wayland.css" rel="stylesheet" type="text/css">
+<title>Mesa configuration for Wayland</title> 
+<style type="text/css">
+b {font-weight:900; background-color:cyan;} 
+</style>
+</head>
+<body>
+<pre>
+        prefix:          /home/darxus/install
+        exec_prefix:     ${prefix}
+        libdir:          ${exec_prefix}/lib
+        includedir:      ${prefix}/include
+
+        OpenGL:          yes (ES1: no <b>ES2: yes</b>)
+        OpenVG:          no
+
+        OSMesa:          no
+        DRI drivers:     <b>i915 i965 nouveau r200 radeon</b> swrast
+        DRI driver dir:  ${libdir}/dri
+        GLX:             DRI-based
+
+        GLU:             yes
+
+        EGL:             <b>yes</b>
+        EGL platforms:   <b>wayland x11 drm</b>
+        EGL drivers:     builtin:egl_glx <b>builtin:egl_dri2</b>
+
+        llvm:            yes
+        llvm-config:     /usr/bin/llvm-config
+        llvm-version:    2.8
+
+        Gallium:         yes
+        Gallium dirs:    auxiliary drivers state_trackers
+        Target dirs:     <b>dri-nouveau dri-r300 dri-r600</b> dri-swrast 
+        Winsys dirs:     nouveau/drm radeon/drm sw sw/dri sw/wayland 
+        Driver dirs:     galahad identity llvmpipe noop <b>nouveau nv30 nv50 nvc0 r300 r600</b> rbug softpipe trace 
+        Trackers dirs:   dri
+
+        Shared libs:     yes
+        Static libs:     no
+
+        CFLAGS:          -g -O2 -Wall -std=c99 -Werror=implicit-function-declaration -Werror=missing-prototypes -fno-strict-aliasing -fno-builtin-memcmp -g -O2 -fPIC
+        CXXFLAGS:        -g -O2 -Wall -fno-strict-aliasing -fno-builtin-memcmp -fPIC
+        Macros:          -D_GNU_SOURCE -DPTHREADS -DHAVE_POSIX_MEMALIGN -DIN_DRI_DRIVER -DUSE_XCB -DGLX_INDIRECT_RENDERING -DGLX_DIRECT_RENDERING -DUSE_EXTERNAL_DXTN_LIB=1 -DIN_DRI_DRIVER -DHAVE_ALIAS -DHAVE_MINCORE -DHAVE_LIBUDEV -DXCB_DRI2_CONNECT_DEVICE_NAME_BROKEN -DHAVE_LLVM=0x0208 -DUSE_X86_64_ASM
+
+        PYTHON2:         python
+
+        Run 'make' to build Mesa
+</pre></body></html>
