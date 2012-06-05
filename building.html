@@ -141,6 +141,18 @@ Weston with --disable-wcap-tools.</p>
     $ make &amp;&amp; make install
 </pre>
 
+<h2>$XDG_RUNTIME_DIR</h2>
+
+<p>Weston creates its unix socket file (for example, wayland-0)
+in the directory specified by the required environment variable
+$XDG_RUNTIME_DIR .  Clients use the same variable to find that socket.
+This is provided by Fedora using systemd.  It is not provided by <a
+href="https://blueprints.launchpad.net/ubuntu/+spec/foundations-q-xdg-runtime-dir">Ubuntu
+(they're working on it)</a>, Arch, or Gentoo.</p>
+
+<pre>    $ export XDG_RUNTIME_DIR=/tmp/
+</pre>
+
 <h2>Weston and demo applications</h2>
 
 <p>Weston is the reference implementation of a Wayland compositor.
