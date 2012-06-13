@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html> 
+
+  <head> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+    <link href="wayland.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="generated-toc.js"></script>
+    <title>Wayland</title> 
+  </head>
+
+  <body>
+    <h1><a href="/"><img src="wayland.png" alt="Wayland logo"></a></h1>
+    <h1>EFL</h1>
+    <p><a href="http://www.enlightenment.org/p.php?p=about">EFL</a>
+    (Enlightenment Foundation Libraries) is a set of components that can be used
+    to build graphical applications.</p>
+
+    <p>Porting of EFL and E17 to Wayland is under active development. Much of
+    this work has been done by Christopher Michael (aka devilhorns)</p>
+
+    <p>A blog report about the EFL port to Wayland can be found <a
+      href="http://trac.enlightenment.org/e/wiki/Wayland">here</a>.</p>
+
+    <div id="generated-toc" class="generate_from_h2"></div>
+
+    <h2>Getting the source</h2>
+
+    <p>For correct functionality when running under Wayland you must use the
+    latest versions of all the EFL components under Wayland. As a precursor to
+    these steps you must have downloaded and compiled Wayland as per the <a
+      href="/building.html">building instructions</a>.</p>
+
+    <p><strong>EFL is currently tracking Wayland master and will not function
+      with the 0.85 release.</strong></p>
+
+      <pre>
+      $ svn co http://svn.enlightenment.org/svn/e/trunk/eina
+      $ svn co http://svn.enlightenment.org/svn/e/trunk/eet
+      $ svn co http://svn.enlightenment.org/svn/e/trunk/evas
+      $ svn co http://svn.enlightenment.org/svn/e/trunk/ecore
+      $ svn co http://svn.enlightenment.org/svn/e/trunk/embryo
+      $ svn co http://svn.enlightenment.org/svn/e/trunk/edje
+      $ svn co http://svn.enlightenment.org/svn/e/trunk/elementary
+      </pre>
+
+      <h2>Compiling EFL</h2>
+      <p>It is important you compile these components in this particular order
+      and that the module is installed before moving onto the next one. These
+      steps assume that you have the environment variables set as per the <a
+        href="building.html">building instructions</a>.</p>
+
+      <p>Along the way you may need to install extra dependencies from your
+      distribution.</p>
+
+      <h3>eina</h3>
+      <pre>
+      $ ./autogen.sh --prefix=$WLD
+      $ make
+      $ make install
+      </pre>
+
+      <h3>eet</h3>
+      <pre>
+      $ ./autogen.sh --prefix=$WLD
+      $ make
+      $ make install
+      </pre>
+
+
+      <h3>evas</h3>
+      <pre>
+      $ ./autogen.sh --prefix=$WLD --enable-wayland-shm --enable-wayland-egl \
+      --enable-gl-flavor-gles --enable-gles-variety-sgx
+      $ make
+      $ make install
+      </pre>
+
+
+      <h3>ecore</h3>
+      <pre>
+      $ ./autogen.sh --prefix=$WLD --enable-ecore-wayland \
+      --enable-ecore-evas-wayland-shm --enable-ecore-evas-wayland-egl
+      $ make
+      $ make install
+      </pre>
+
+
+      <h3>embryo</h3>
+      <pre>
+      $ ./autogen.sh --prefix=$WLD
+      $ make
+      $ make install
+      </pre>
+
+      <h3>edje</h3>
+      <pre>
+      $ ./autogen.sh --prefix=$WLD
+      $ make
+      $ make install
+      </pre>
+
+      <h3>elementary</h3>
+      <pre>
+      $ ./autogen.sh --prefix=$WLD --enable-ecore-wayland
+      $ make
+      $ make install
+      </pre>
+
+      <p><strong>With all these components it is important to read the output
+        given by configure to ensure the requested options were enabled. You
+        may need to look in config.log to identify missing
+        dependencies.</strong></p>
+      <h2>Running EFL applications under Wayland</h2>
+
+      <p>For applications that use Ecore_Evas directly set the environment
+      variable <code>ECORE_EVAS_ENGINE</code> to either
+      <code>wayland_egl</code> or <code>wayland_shm</code> depending on
+      whether you wish to use the SHM based interface with software rendering
+      or use EGL.</p>
+
+      <p>For applications that use Elementary set the environment variable
+      <code>ELM_ENGINE</code> to <code>wayland_egl</code> or
+      <code>wayland_shm</code> as above.</p>
+
+      <h2>Getting help and reporting issues</h2>
+
+      <p>Issues in the Wayland port of EFL can be reported in the
+      Enlightenment <a href="http://trac.enlightenment.org/e/">bug
+        tracker</a>.</p>
+    </body>
+</html>
