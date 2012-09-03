@@ -71,10 +71,8 @@
     cd ..
 </pre>
 
-<pre>    git clone https://github.com/timon37/xf86-video-ati
+<pre>    git clone https://github.com/RAOF/xf86-video-ati -b xwayland
     cd xf86-video-ati
-    # apply patch from <a href="http://lists.freedesktop.org/archives/wayland-devel/2012-May/003632.html">http://lists.freedesktop.org/archives/wayland-devel/2012-May/003632.html</a> (API change)
-    # apply patch from <a href="http://lists.freedesktop.org/archives/wayland-devel/2012-May/003634.html">http://lists.freedesktop.org/archives/wayland-devel/2012-May/003634.html</a> ("Unable to retrieve master")
     ./autogen.sh --prefix=$WLD
     make
     make install
@@ -99,6 +97,10 @@
 </pre>
 
 <h2>Paths</h2>
+
+<p>
+  Without this you will get the error "XKB: Failed to compile keymap".
+</p>
 
 <pre>    mkdir -p $WLD/share/X11/xkb/rules
     ln -s /usr/share/X11/xkb/rules/evdev $WLD/share/X11/xkb/rules/
