@@ -87,9 +87,8 @@
     cd ..
 </pre>
 
-<pre>    git clone http://cgit.freedesktop.org/nouveau/xf86-video-nouveau/
+<pre>    git clone https://github.com/RAOF/xf86-video-nouveau -b xwayland
     cd xf86-video-nouveau
-    # apply patch from <a href="http://lists.freedesktop.org/archives/wayland-devel/2012-May/003614.html">http://lists.freedesktop.org/archives/wayland-devel/2012-May/003614.html</a>
     ./autogen.sh --prefix=$WLD
     make
     make install
