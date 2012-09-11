@@ -197,7 +197,7 @@
   I wanted to preserve some important properties from the X protocol:
   the ability to queue up an event or request by just memcpy'ing into
   the protocol out-buffer.  That's what wl_connection_write does.
-  Further more, it lets us memcpy several message into the buffer and
+  Furthermore, it lets us memcpy several messages into the buffer and
   only write it all before we go back to blocking in the main loop.
   Second, everything is explicitly asynchronous, which is a really
   powerful feature in a protocol.
@@ -219,7 +219,7 @@
   comparable or less than the X boilerplate involved in becoming an X
   window manager and compositor.  Bringing up EGL and GLES2 on the
   Linux KMS framebuffer and reading input from evdev can be done in
-  less that a thousand lines of code.  The Wayland server side library
+  less than a thousand lines of code.  The Wayland server side library
   provides the protocol implementation and makes it easy to put the
   pieces together.
 </p>
