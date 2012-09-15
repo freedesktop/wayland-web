@@ -20,7 +20,7 @@
 <p>
   It's not an X server and not a fork.  It's a protocol between a
   compositor and its clients.  The compositor sends input events to
-  the clients.  The clients renders locally and then communicate video
+  the clients.  The clients render locally and then communicate video
   memory buffers and information about updates to those buffers back
   to the compositor.
 </p>
@@ -124,9 +124,9 @@
   (seriously, XLFDs!). Also, the entire core rendering API that lets
   you draw stippled lines, polygons, wide arcs and many more
   state-of-the-1980s style graphics primitives.  For many things we've
-  been able to keep the X.org server modern by adding extension such
+  been able to keep the X.org server modern by adding extensions such
   as XRandR, XRender and COMPOSITE and to some extent phase out less
-  useful extension.  But we can't ever get rid of the core rendering
+  useful extensions.  But we can't ever get rid of the core rendering
   API and much other complexity that is rarely used in a modern
   desktop.  With Wayland we can move the X server and all its legacy
   technology to a optional code path.  Getting to a point where the X
@@ -146,7 +146,7 @@
   server buffer fills the entire screen, the Wayland compositor can
   change the video scanout to source from the X server buffer and
   retreat into the background.  The X server uses the standard X.org
-  DDX drivers, renders to directly to its pixmaps and its root window,
+  DDX drivers, renders directly to its pixmaps and its root window,
   and the path from X to hardware is exactly as a native X.org server.
 </p>
 
