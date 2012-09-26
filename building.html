@@ -128,19 +128,6 @@ For this you'll need a development package for pixman.</p>
     $ make &amp;&amp; make install
 </pre>
 
-<h2>libvpx</h2>
-
-<p>webm video encoding library required for Weston video capture.
-Fedora 16 package works, Ubuntu Oneric package does not.  Instead of
-installing libvpx you can disable video capture capability by building
-Weston with --disable-wcap-tools.</p>
-
-<pre>    $ git clone http://git.chromium.org/webm/libvpx.git
-    $ cd libvpx
-    $ ./configure --prefix=$WLD # This is unusual.
-    $ make &amp;&amp; make install
-</pre>
-
 <h2>$XDG_RUNTIME_DIR</h2>
 
 <p>Weston creates its unix socket file (for example, wayland-0)
