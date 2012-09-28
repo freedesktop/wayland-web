@@ -133,9 +133,10 @@ For this you'll need a development package for pixman.</p>
 <p>Weston creates its unix socket file (for example, wayland-0)
 in the directory specified by the required environment variable
 $XDG_RUNTIME_DIR .  Clients use the same variable to find that socket.
-This is provided by Fedora using systemd.  It is not provided by <a
-href="https://blueprints.launchpad.net/ubuntu/+spec/foundations-q-xdg-runtime-dir">Ubuntu
-(they're working on it)</a>, Arch, or Gentoo.</p>
+This is provided by Fedora using systemd.  
+<a href="https://bugs.launchpad.net/ubuntu/+source/pam-xdg-support/+bug/894391">Ubuntu began providing it in Quantal.</a>
+<a href="https://www.archlinux.org/news/systemd-tools-replaces-udev/">Arch began providing it with systemd in June 2012.</a>
+It is not provided by Gentoo.</p>
 
 <pre>    $ export XDG_RUNTIME_DIR=/tmp/
 </pre>
