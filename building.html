@@ -40,8 +40,9 @@ cards. Some new cards require
 external firmware</a>.</p>
 
 <h2>Setting up the environment</h2>
-<p>If you want to install in a custom location (not system wide), you'll need
-to set the following environment variables to get various libraries to link
+<h3>Installing in a custom location</h3>
+<p>If you do not want to install system wide, you'll need to set
+the following environment variables to get various libraries to link
 appropriately:</p>
 
 <pre>WLD=$HOME/install   # change this to another location if you prefer
@@ -55,6 +56,14 @@ export WLD LD_LIBRARY_PATH PKG_CONFIG_PATH ACLOCAL
 <p>Do not set LD_LIBRARY_PATH as your default, it will break things.</p>
 <p>You may put the above in a script and source it in the terminal
 you wish to build the packages.</p>
+
+<h3>Installing system wide</h3>
+<p>To install system wide, you'll need to set this variable, and possibly
+build with --libdir=/usr/lib64 :</p>
+
+<pre>WLD=/usr
+export WLD
+</pre>
 
 <h2>Wayland libraries</h2>
 
