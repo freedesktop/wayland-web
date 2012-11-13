@@ -143,14 +143,34 @@ environment set up.</p>
 
 <h2>Troubleshooting</h2>
 
-<p>If the right pkg-config files are not installed, building weston can fail.
-If you see the following during Weston's configure step, the
-<tt>bcm_host.pc</tt> file was not found, and the rpi-backend will not work:</p>
+<h3>Missing <tt>bcm_host.pc</tt></h3>
+
 <pre>checking for RPI_BCM_HOST... no
 configure: WARNING: Raspberry Pi BCM host libraries not found, will use stubs instead.
 </pre>
 
-<p>Too old firmware might cause corrupted graphics.</p>
+<p>If the right pkg-config files are not installed, building weston can
+fail. If you see the above during Weston's configure step, the
+<tt>bcm_host.pc</tt> file was not found, and the rpi-backend will not
+work. The following is what you should see:</p>
+<pre>checking for RPI_BCM_HOST... yes</pre>
+
+<h3>Build error: <tt>undefined reference to `wl_egl_...</tt></h3>
+
+<p>Somehow, cairo-egl is getting used, when it should not. Remove the
+dummy <tt>wayland-egl.pc</tt>, and make sure
+<tt>--disable-wayland-compositor</tt> is in the configure line. When
+everything is right, you should see:</p>
+<pre>checking for CAIRO_EGL... no
+configure: WARNING: clients will use cairo image, cairo-egl not used</pre>
+
+
+<h3>Some or all surfaces (graphics) are corrupted</h3>
+
+<p>Too old firmware might cause corrupted graphics. If you don't want to
+update the firmware, a workaround is to add <tt>--max-planes=0</tt> to the
+Weston command line. This forces everything to be composited with
+GLESv2.</p>
 
 </body>
 </html>
