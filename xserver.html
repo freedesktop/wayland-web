@@ -106,6 +106,15 @@
     ln -s /usr/bin/xkbcomp $WLD/bin/
 </pre>
 
+<h2>Config file</h2>
+
+<p>
+  Add this to <tt>~/.config/weston.ini</tt> (or use the --modules=xwayland.so command line argument):
+</p>
+
+<pre>    [core]
+    modules=xwayland.so,desktop-shell.so
+</pre>
 
 <h2>Running</h2>
 
@@ -123,7 +132,7 @@
 
 <pre>    sudo chown root weston
     sudo chmod +s weston
-    weston --xserver
+    weston
     sudo chmod ugo+rw /tmp/wayland* # weston-launch fixes this
 </pre>
 
@@ -132,7 +141,7 @@
     # Log all the way out (of X, etc.)
     sudo chown root weston-launch
     sudo chmod +s weston-launch
-    weston-launch -- --xserver
+    weston-launch
 </pre>
 
 <p>
