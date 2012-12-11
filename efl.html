@@ -34,12 +34,9 @@
       with the 0.85 release.</strong></p>
 
       <pre>
-      $ svn co http://svn.enlightenment.org/svn/e/trunk/eina
-      $ svn co http://svn.enlightenment.org/svn/e/trunk/eet
-      $ svn co http://svn.enlightenment.org/svn/e/trunk/evas
-      $ svn co http://svn.enlightenment.org/svn/e/trunk/ecore
-      $ svn co http://svn.enlightenment.org/svn/e/trunk/embryo
+      $ svn co http://svn.enlightenment.org/svn/e/trunk/efl
       $ svn co http://svn.enlightenment.org/svn/e/trunk/edje
+      $ svn co http://svn.enlightenment.org/svn/e/trunk/emotion
       $ svn co http://svn.enlightenment.org/svn/e/trunk/elementary
       </pre>
 
@@ -52,47 +49,21 @@
       <p>Along the way you may need to install extra dependencies from your
       distribution.</p>
 
-      <h3>eina</h3>
+      <h3>efl</h3>
       <pre>
-      $ ./autogen.sh --prefix=$WLD
-      $ make
-      $ make install
-      </pre>
-
-      <h3>eet</h3>
-      <pre>
-      $ ./autogen.sh --prefix=$WLD
-      $ make
-      $ make install
-      </pre>
-
-
-      <h3>evas</h3>
-      <pre>
-      $ ./autogen.sh --prefix=$WLD --enable-wayland-shm --enable-wayland-egl \
-      --enable-gl-flavor-gles --enable-gles-variety-sgx
-      $ make
-      $ make install
-      </pre>
-
-
-      <h3>ecore</h3>
-      <pre>
-      $ ./autogen.sh --prefix=$WLD --enable-ecore-wayland \
-      --enable-ecore-evas-wayland-shm --enable-ecore-evas-wayland-egl
-      $ make
-      $ make install
-      </pre>
-
-
-      <h3>embryo</h3>
-      <pre>
-      $ ./autogen.sh --prefix=$WLD
+      $ ./autogen.sh --prefix=$WLD --enable-wayland --enable-egl --with-opengl=es
       $ make
       $ make install
       </pre>
 
       <h3>edje</h3>
+      <pre>
+      $ ./autogen.sh --prefix=$WLD
+      $ make
+      $ make install
+      </pre>
+
+      <h3>emotion</h3>
       <pre>
       $ ./autogen.sh --prefix=$WLD
       $ make
