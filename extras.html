@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html> 
+
+<head> 
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+<link href="wayland.css" rel="stylesheet" type="text/css">
+<title>Extras that work with Wayland</title> 
+</head>
+
+<body>
+
+<p>
+This page describes a few other things that work with Wayland that are
+not included in the Wayland or Weston repos.
+</p>
+
+
+<h1>
+mplayer2 port by Alexander Preisinger
+</h1>
+
+<pre>    git clone https://github.com/giselher/mplayer2-wayland.git
+    cd mplayer2-wayland
+    ./configure --prefix=$prefix --enable-wayland --enable-debug --disable-x11
+    make
+    make install
+</pre>
+
+
+<h1>
+wlterm by David Herrmann
+</h1>
+
+<p>
+<a
+href="http://lists.freedesktop.org/archives/wayland-devel/2012-September/005529.html">Native
+Wayland terminal emulator based on kmscon by the same author.</a>
+</p>
+
+
+<h1>
+Java bindings by Jason Ekstrand's 
+</h1>
+
+<p>
+<a href="https://github.com/jekstrand/wayland-java">Git.</a>
+</p>
+
+</body>
+</html>
