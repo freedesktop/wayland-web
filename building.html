@@ -155,9 +155,13 @@ $XDG_RUNTIME_DIR .  Clients use the same variable to find that socket.
 This is provided by Fedora using systemd.  
 <a href="https://bugs.launchpad.net/ubuntu/+source/pam-xdg-support/+bug/894391">Ubuntu began providing it in Quantal.</a>
 <a href="https://www.archlinux.org/news/systemd-tools-replaces-udev/">Arch began providing it with systemd in June 2012.</a>
-It is not provided by Gentoo.</p>
+It is not provided by Gentoo.
+If you are using a distro that does not set $XDG_RUNTIME_DIR for you, do:
+</p>
 
-<pre>    $ export XDG_RUNTIME_DIR=/tmp/
+<pre>    $ mkdir /tmp/wayland
+    $ chmod 0700 /tmp/wayland
+    $ sudo echo XDG_RUNTIME_DIR=/tmp/wayland &gt;&gt; /etc/environment
 </pre>
 
 <h2>Weston and demo applications</h2>
