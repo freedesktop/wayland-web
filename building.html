@@ -159,7 +159,7 @@ If you are using a distro that does not set $XDG_RUNTIME_DIR for you, do:
 
 <pre>    $ mkdir /tmp/wayland
     $ chmod 0700 /tmp/wayland
-    $ sudo echo XDG_RUNTIME_DIR=/tmp/wayland &gt;&gt; /etc/environment
+    $ su -c 'echo XDG_RUNTIME_DIR=/tmp/wayland &gt;&gt; /etc/environment'
 </pre>
 
 <h2>Weston and demo applications</h2>
