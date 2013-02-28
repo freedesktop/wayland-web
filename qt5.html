@@ -11,16 +11,10 @@
 <body>
 <h1><a href="/"><img src="wayland.png" alt="Wayland logo"></a></h1>
 <h1>Qt 5 on Wayland</h1>
-<p>Wayland support in the Qt 5 toolkit is happening in the Lighthouse
+<p>Wayland support in the Qt 5 toolkit is happening in the Qt Platform Abstraction (QPA)
 <a href="https://qt.gitorious.org/qt/qtwayland">Wayland plugin</a>.
-The qtwayland repo has a 0.85 branch that will build against Wayland 0.85.
-If building qtwayland master, you need to check out the Wayland commit
-in the file <a href=
-"https://qt.gitorious.org/qt/qtwayland/blobs/master/wayland_sha1.txt"
->wayland_sha1.txt</a> and the libxkbcommon commit in the file <a href=
-"https://qt.gitorious.org/qt/qtwayland/blobs/master/libxkbcommon_sha1.txt"
->libxkbcommon_sha1.txt</a> in the qtwayland repo (which might not be
-compatible with the latest Weston master).</p>
+The minimum requirement for building and using QtWayland is Wayland (and
+Weston) 1.0.0.</p>
 
 <p>If you also want to build the qtwebkit
 browser, you may be better off following the <a
@@ -42,13 +36,6 @@ an LD_PRELOAD for Wayland clients:<br>
 
 <h2>Getting the source and compiling</h2>
 
-<p><b>This section is out of date and will not work.</b>
-Instead, <a href="/building.html">build Wayland</a>, follow the <a
-href="http://qt-project.org/wiki/Building_Qt_5_from_Git">directions
-from Qt for building from git</a>, then build the Wayland module from
-Qt's git.</p>
-<hr>
-
 <p>To try it out, first clone the qtbase:</p>
 
 <pre>
@@ -66,19 +53,27 @@ $ export LD_LIBRARY_PATH=$QTDIR/lib/:$LD_LIBRARY_PATH
 $ export PKG_CONFIG_PATH=$QTDIR/lib/pkgconfig/:$PKG_CONFIG_PATH
 $ export QT_PLUGIN_PATH=$QTDIR/lib/plugins/
 </pre>
-<pre>$ ./configure -confirm-license -opensource -no-multimedia -no-webkit
--no-phonon -no-v8 -debug -qpa -xcb -wayland -egl -opengl es2 -nomake examples
--prefix ${QTDIR}
+<pre>
+$ ./configure -confirm-license -opensource -debug -nomake examples \
+   -nomake tests -nomake demos -make libs --prefix ${QTDIR}
 $ make
 $ sudo make install
 </pre>
 
-<p>Here you need to also clone and build qtjsbackend and qtdeclarative: 
+<p>Here you need to also clone and build qtjsbackend and qtdeclarative:
+<pre>
 git://gitorious.org/qt/qtjsbackend.git
-git://gitorious.org/qt/qtdeclarative.git</p>
+git://gitorious.org/qt/qtdeclarative.git</pre></p>
 
-<p>At this point you have all needed Qt libraries, and needed tools to compile
-qtwayland platform:</p>
+<p>To build them run these commands:</p>
+<pre>
+$ qmake
+$ make
+$ sudo make install
+</pre>
+
+<p>At this point you have all needed Qt libraries and needed tools to compile
+the QtWayland platform:</p>
 
 <pre>
 $ cd ../
@@ -86,11 +81,12 @@ $ git clone git://gitorious.org/qt/qtwayland.git
 $ cd qtwayland/
 $ qmake
 $ make
-$ make &amp;&amp; make install
+$ sudo make install
 </pre>
 
 <h2>Trying it out</h2>
-<p>First, don't forget to set the XDG directory and re-run .bashrc:</p>
+<p>First, don't forget to set the XDG directory, as well as the variables set
+before for compiling Qt, and re-run .bashrc:</p>
 
 <pre>
 $ export XDG_RUNTIME_DIR=$HOME/.xdg
@@ -105,7 +101,7 @@ of the application under Wayland and X:</p>
 $ cd ../qtbase/examples/opengl/hellowindow
 $ qmake
 $ make
-$ wayland-compositor &amp;
+$ weston &amp;
 $ ./hellowindow -platform wayland
 </pre>
 
@@ -117,7 +113,7 @@ the windowing system and device agnostic architecture. That means Qt can load
 in run-time different backend plugins for different window systems as desired.
 For instance, an application developed on Qt could be run using "-platform
 xcb" and "-platform wayland" for XCB or Wayland respectively (or set
-the <code>QT_QPA_PLATFORM</code>) and should have a
+the <code>QT_QPA_PLATFORM</code> environment variable) and should have a
 similar behavior on both systems, without the need to recompile.
 </p>
 
@@ -155,9 +151,8 @@ and for <code>wl_surface</code>:
 <h2>Known issues</h2>
 <ul>
   <li>
-Applications have to implement their own way of decorating windows.
-Therefore, some Qt functions like setWindowTitle(), raise() or lower(),
-holding window properties will have different effect on Wayland compositors.
+    See the <a href=https://bugreports.qt-project.org/secure/IssueNavigator.jspa?mode=hide&requestId=13847> Qt bug tracker</a>
+    for a list of QtWayland bugs.
   </li>
 </ul>
 
