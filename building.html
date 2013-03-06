@@ -162,6 +162,13 @@ If you are using a distro that does not set $XDG_RUNTIME_DIR for you, do:
     $ su -c 'echo XDG_RUNTIME_DIR=/tmp/wayland &gt;&gt; /etc/environment'
 </pre>
 
+<p>
+Using PAM like this involves some security concerns,
+and may break things.  Don't forget to undo it.  (<a
+href="https://bugs.freedesktop.org/show_bug.cgi?id=61877">Relevant
+bug.</a>)
+</p>
+
 <h2>Weston and demo applications</h2>
 
 <p>Weston is the reference implementation of a Wayland compositor.
