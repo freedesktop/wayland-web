@@ -34,10 +34,8 @@
       with the 0.85 release.</strong></p>
 
       <pre>
-      $ svn co http://svn.enlightenment.org/svn/e/trunk/efl
-      $ svn co http://svn.enlightenment.org/svn/e/trunk/edje
-      $ svn co http://svn.enlightenment.org/svn/e/trunk/emotion
-      $ svn co http://svn.enlightenment.org/svn/e/trunk/elementary
+      $ git clone git://git.enlightenment.org/core/efl.git
+      $ git clone git://git.enlightenment.org/core/elementary.git
       </pre>
 
       <h2>Compiling EFL</h2>
@@ -56,23 +54,9 @@
       $ make install
       </pre>
 
-      <h3>edje</h3>
-      <pre>
-      $ ./autogen.sh --prefix=$WLD
-      $ make
-      $ make install
-      </pre>
-
-      <h3>emotion</h3>
-      <pre>
-      $ ./autogen.sh --prefix=$WLD
-      $ make
-      $ make install
-      </pre>
-
       <h3>elementary</h3>
       <pre>
-      $ ./autogen.sh --prefix=$WLD --enable-ecore-wayland
+      $ ./autogen.sh --prefix=$WLD
       $ make
       $ make install
       </pre>
