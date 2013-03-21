@@ -205,10 +205,9 @@ by typing:</p>
 <pre>    $ ./weston
 </pre>
 
-<p>For KMS/DRM output weston needs root permissions.  You can accomplish
-this by making weston SUID root (<tt>sudo chown root weston; sudo chmod
-+s weston</tt>) or, with weston master, using weston-launch, which also
-requires SUID root, only works outside of X, and requires that you enable
+<p>For KMS/DRM output (outside of X) use weston-launch, which needs
+root permissions, which are set if "make install" is run as root,
+but some distributions disable it.  It also requires that you enable
 systemd session support for weston-launch (how?) or add yourself to the
 "weston-launch" group:</p>
 
