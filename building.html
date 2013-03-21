@@ -208,7 +208,8 @@ by typing:</p>
 <p>For KMS/DRM output (outside of X) use weston-launch, which needs
 root permissions, which are set if "make install" is run as root,
 but some distributions disable it.  It also requires that you enable
-systemd session support for weston-launch (how?) or add yourself to the
+systemd session support for weston-launch (by using systemd and having
+the systemd-login devel headers at configure time) or add yourself to the
 "weston-launch" group:</p>
 
 <pre>    $ sudo groupadd weston-launch
