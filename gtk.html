@@ -97,26 +97,12 @@ applications makes API calls that will not function under Wayland.</p>
 
 <h2>Known issues</h2>
 <ul>
-  <li>Client side decorations are still under active development. An early
-  preview is available on a branch <a
-    href="https://github.com/krh/gtk/tree/csd">here</a></li>
-  <li>The keyboard is hardcoded (US pc105) for the keycode mapping. This
-  can be resolved when there is a mechanism in Wayland communicating preferred
-  keyboard map.</li>
-  <li>Programmatically changing the size of a window that has already been created
-  (by the use of an expanding widget) will sometimes result in a window that
-  does not have the correct contents.</li>
-  <li>Events from the scroll wheel (buttons 4 and 5) are not handled
-  correctly.</li>
-  <li>Scrolling can result in distorted rendering - this is usually resolved the
-  next time the window is fully repainted.</li>
+  <li>Client side decorations are available in the the master branch but not
+  in 3.8 or older.</li>
   <li>Copy and paste functionality is implemented however there may be certain
   cases that do not work - please report these in the bug tracking system</li>
   <li>Drag and drop is not implemented.</li>
-  <li>Occasionally the window surface may not appear - try using
-  gtk_widget_show_all on the top level window to force the windows to be
-  visible.</li>
-  <li>Popup menus appear but do not have the correct grab behavior and are not
+  <li>Popup menus appear but may not have the correct grab behavior and are not
   positioned in the correct location.</li>
 </ul>
 
