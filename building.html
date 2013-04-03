@@ -145,6 +145,17 @@ pixman.</p>
     $ make &amp;&amp; make install
 </pre>
 
+<h2>libunwind</h2>
+
+<p>Weston requires libunwind v1.1.</p>
+
+<pre>    $ git clone git://git.sv.gnu.org/libunwind
+    $ cd libunwind
+    $ autoreconf -i
+    $ ./configure --prefix=$installdir
+    $ make &amp;&amp; make install
+</pre>
+
 <h2>$XDG_RUNTIME_DIR</h2>
 
 <p>Weston creates its unix socket file (for example, wayland-0)
