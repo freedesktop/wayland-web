@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html> 
+
+<head> 
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+<link href="wayland.css" rel="stylesheet" type="text/css">
+<title>Wayland - Reviewing Patches</title> 
+</head>
+
+<body>
+<h1><a href="/"><img src="wayland.png" alt="Wayland logo"></a></h1>
+
+<h1>Reviewing Patches</h1>
+
+<p>
+Recent circumstances have shown that patch reviewing in Wayland and Weston is 
+becoming a bottleneck for development (at least, it is perceived to be). This 
+email is intended to begin addressing that.
+</p>
+
+<p>
+TL;DR: if you want to help, the best thing you can do right now is review 
+other people's contributions.
+</p>
+
+<p>
+Longer: 
+</p>
+
+<p>
+Correct or not, the perception is that only Kristian has the authority to 
+review and accept patches into Wayland and Weston. For that reason, it seems 
+that no one else reviews patches, leaving them all to Kristian. In turn, that 
+means Kristian has a lot of reviews to do, in addition to writing code. That 
+does not scale.
+</p>
+
+<p>
+Everyone can help in reviewing, from the newest member of the community to the 
+oldest. Reviewing is basically two separate operations:
+</p>
+
+<p>
+(1) technical (objective) review: 
+ - is the code correct?
+ - does it compile? Does it introduce new bugs?
+ - does it fix the problem that it proposed to fix? Or does it successfully 
+   implement the feature it proposed to implement?
+ - will it pose future problems, architecturally, security-wise, etc.?
+ - does it have unit tests? Is it documenting the API? 
+ - is the code style correct?
+ - ...
+</p>
+
+<p>
+(2) subjective review:
+ - does this solution belong in Wayland or Weston?
+ - is it in scope for the project?
+ - is it the right solution for the problem?
+ - is the API easy to use? Not confusing?
+ - is the code readable, and properly commented?
+ - is this the right time for this? Is this the best use of resources?
+ - ...
+</p>
+
+<p>
+In both cases, the more experience you have in reviewing, the better the 
+review will be and the easier it will be to review. However, for a new 
+contributor, starting with the technical is easier, since it's objective. In 
+time, you'll learn how to do the subjective review too.
+</p>
+
+<p>
+Also, don't be afraid of doing bad reviews. Other people will review the same 
+contribution and review reviews. If a mistake is found, everyone learns. For 
+the subjective review, there is really no right or wrong, but a consensus of 
+the community. So speak up.
+</p>
+
+<p>
+Especially, speak up if the patch looks good. If you think it passes the 
+review criteria, *say so*. Reply to the email saying "This looks good", "Ship 
+it!" or "Awesome, thanks!" (BTW, praise goes a long way towards making people 
+feel welcome).
+</p>
+
+<p>
+Kristian and other designated people with repository access will gladly accept 
+those reviews and apply the contribution to the codebase. Of course, they 
+reserve the right to re-review and point out if there were any problems. But 
+just like above, if that happens, everyone learns.
+</p>
+
+<h2>Why you should do this?</h2>
+
+<p>
+Well, if you're here, it's because you want Wayland and/or Weston to succeed. 
+If you contribute a bit of your time and expertise, you're helping the project 
+achieve that goal.
+</p>
+
+<p>
+If you have patches you have submitted yourself, by reviewing you free up the 
+time from other reviewers, increasing the chances that your contribution will 
+be dealt with sooner. Think also of this as tit-for-tat: if you want code 
+reviewed, review code too.
+</p>
+
+<p>
+You'll also gain experience in reviewing. You'll become more familiar with the 
+codebase. That might come in very handy if you're doing this as part of some 
+company project.
+
+<p>
+And you'll gain merit in the project. The more you contribute (in reviews or 
+in code, but those go hand-in-hand), the more you'll be respected and the more 
+your own opinions will be listened to. This is important when it comes to 
+consensus-building and decision-making: Open Source Projects are not 
+democracies and definitely not tyrannies. They are meritocracies, where those 
+who have contributed the most get to make decisions.
+</p>
+
+</body>
+</html>
