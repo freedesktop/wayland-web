@@ -68,8 +68,17 @@ MPV
 glmark2
 </h2>
 
-<p>A GLES2 benchmark: <a href="https://github.com/rafalmiel/glmark2-wl">https://github.com/rafalmiel/glmark2-wl</a>
+<p><a href="https://afrantzis.wordpress.com/2011/12/16/glmark2-more-than-a-benchmark/">A GLES2 benchmark.</a>
 </p>
+
+<pre>    export CPLUS_INCLUDE_PATH=$WLD/include # I believe needing this is a bug.
+    bzr branch lp:glmark2
+    cd glmark2
+    ./waf configure --with-flavors=wayland-glesv2,wayland-gl --prefix=$WLD
+    ./waf
+    ./waf install
+    $WLD/bin/glmark2-es2-wayland 
+</pre>
 
 </body>
 </html>
