@@ -71,7 +71,7 @@ glmark2
 <p><a href="https://afrantzis.wordpress.com/2011/12/16/glmark2-more-than-a-benchmark/">A GLES2 benchmark.</a>
 </p>
 
-<pre>    export CPLUS_INCLUDE_PATH=$WLD/include # I believe needing this is a bug.
+<pre>    export CPLUS_INCLUDE_PATH=$WLD/include # <a href="https://bugs.launchpad.net/glmark2/+bug/1165075">I believe needing this is a bug.</a>
     bzr branch lp:glmark2
     cd glmark2
     ./waf configure --with-flavors=wayland-glesv2,wayland-gl --prefix=$WLD
