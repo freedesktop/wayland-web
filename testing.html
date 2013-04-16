@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<link href="wayland.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="generated-toc.js"></script>
+<title>Wayland Testing</title>
+</head>
+
+<body>
+<h1><a href="/"><img src="wayland.png" alt="Wayland logo"></a></h1>
+<div id="generated-toc" class="generate_from_h2"></div>
+<h2>Wayland Unit Test Suite</h2>
+<p>
+The Wayland unit test suite is part of the Wayland source tree found under
+the <i>tests</i> directory.  It leverages automake's
+<a href="http://www.gnu.org/software/automake/manual/html_node/Serial-Test-Harness.html">Serial Test Harness</a> to
+specify, compile, and execute the tests thru <i>make check</i>.
+</p>
+<p>
+It is recommended that all Wayland developers write unit tests for the
+code that they write.  All unit tests should pass before submitting patches upstream.
+The Wayland maintainer(s) have the right to refuse any patches that are not accompanied
+by a unit test or if the patches break existing unit tests.
+</p>
+<h3>Compiling and Running</h3>
+<pre>
+$ make check
+</pre>
+
+<p>NO_ASSERT_LEAK_CHECK=1 disables the test runner's simple memory checks.</p>
+
+<h3>Writing Tests</h3>
+<p>
+The test runner (tests/test-runner.h,c) predefines the <i>main</i> function, does simple
+memory leak checking for each test, and defines various convenience macros to simplify
+writing unit tests.  When running a unit test group, the test runner executes each
+test case in a separate forked subprocess.
+</p>
+<p>
+The <i>TEST(&lt;test name&gt;)</i> macro defines a test case that "passes" on a
+<b>normal</b> exit status of the test (i.e. exitcode 0).  An abnormal exit status causes the test
+to "fail".  Tests defined with this macro are auto-registered with the test runner.
+</p>
+<p>
+The <i>FAIL_TEST(&lt;test name&gt;)</i> macro defines a test case that "passes" on a
+<b>abnormal</b> exit status of the test.  A normal exit status causes the test to
+"fail".  Tests defined with this macro are auto-registered with the test runner.
+</p>
+
+<h2>Weston Unit Test Suite</h2>
+<p>
+The Weston unit test suite is part of the Weston source tree found under
+the <i>tests</i> directory.  It leverages automake's
+<a href="http://www.gnu.org/software/automake/manual/html_node/Parallel-Test-Harness.html">Parallel Test Harness</a> to
+specify, compile, and execute the tests thru <i>make check</i>.
+</p>
+<p>
+It is recommended that all Weston developers write unit tests for the
+code that they write.  All unit tests should pass before submitting patches upstream.
+The Weston maintainer(s) have the right to refuse any patches that are not accompanied
+by a unit test or if the patches break existing unit tests.
+</p>
+<h3>Compiling and Running</h3>
+<pre>
+$ make check
+</pre>
+
+<h3>Writing Tests</h3>
+
+<p><b>Compositor Tests</b></p>
+<p>
+These tests are written by leveraging Weston's module feature.  See the "surface-test" for
+an example of how this is done.
+<p>
+<p>
+In general, you define a <i>module_init(...)</i> function which registers an idle callback
+to your test function.  The test function is responsible for ensuring the compositor
+exits at the end of you test.  For example:
+</p>
+<pre>
+static void
+test_foo(void *data)
+{
+	struct weston_compositor *compositor = data;
+
+	/* Test stuff...
+	assert(...);
+	assert(...);
+	...
+	*/
+
+	wl_display_terminate(compositor->wl_display);
+}
+
+WL_EXPORT int
+module_init(struct weston_compositor *compositor,
+            int *argc, char *argv[], const char *config_file)
+{
+	struct wl_event_loop *loop;
+
+	loop = wl_display_get_event_loop(compositor->wl_display);
+
+	wl_event_loop_add_idle(loop, test_foo, compositor);
+
+	return 0;
+}
+</pre>
+
+<p><b>Client Tests</b></p>
+<p>
+Similar to the Wayland unit test suite, the test runner (tests/weston-test-runner.h,c)
+predefines the <i>main</i> function and various convenience macros to simplify writing
+unit tests.  When running a unit test group, the test runner executes each test case
+in a separate forked subprocess.  Unlike the Wayland unit test suite, this runner
+does not have a simple memory leak checker.
+</p>
+<p>
+The <i>TEST(&lt;test name&gt;)</i> macro defines a test case that "passes" on a
+<b>normal</b> exit status of the test (i.e. exitcode 0).  An abnormal exit status causes the test
+to "fail".  Tests defined with this macro are auto-registered with the test runner.
+</p>
+<p>
+The <i>FAIL_TEST(&lt;test name&gt;)</i> macro defines a test case that "passes" on a
+<b>abnormal</b> exit status of the test.  A normal exit status causes the test to
+"fail".  Tests defined with this macro are auto-registered with the test runner.
+</p>
+<p>
+Client tests have access to the <i>wl_test</i> interface which defines a small API
+for interacting with the compositor (e.g. emit input events, query surface data, etc...).
+There is also a client helper API (tests/weston-test-client-helper.h,c), that
+simplifies client setup and wl_test interface usage.  Probably the most effective
+way to learn how to leverage these API's is to study some of the existing tests
+(e.g. tests/button-test.c).
+</p>
+
+</body>
