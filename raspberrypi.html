@@ -22,14 +22,17 @@ compiling are done directly on the Pi.</p>
 build dependencies:</p>
 <pre>    $ sudo apt-get install build-essential automake libtool bison flex \
     xutils-dev libcairo2-dev libffi-dev libmtdev-dev libjpeg-dev \
-    libudev-dev libxcb-xfixes0-dev libxcursor-dev
+    libudev-dev libxcb-xfixes0-dev libxcursor-dev libraspberrypi-dev
 </pre>
 
 <h2>Firmware</h2>
 
-<p>Make sure you have the latest Raspberry Pi firmware with the
+<p>You may need the latest Raspberry Pi firmware, which you can get with the
 <a href="https://github.com/Hexxeh/rpi-update">rpi-update</a> tool. A too
-old firmware may cause rpi-backend to malfunction on Raspberry Pi.</p>
+old firmware may cause rpi-backend to malfunction on Raspberry Pi. Running
+<tt>rpi-update</tt> will overwrite files installed by some raspbian packages
+like libraspberrypi-dev. You can safely try Weston without <tt>rpi-update</tt>
+first, but if you encounter graphics problems, see if it fixes them.</p>
 
 <p>You may want to tweak the following options in
 <tt>/boot/config.txt</tt>:</p>
@@ -44,7 +47,7 @@ old firmware may cause rpi-backend to malfunction on Raspberry Pi.</p>
 	elements. With off-line enabled, an off-screen buffer
 	is allocated for compositing. When scene complexity
 	(number and sizes of elements) is high, compositing will
-	happen off-line into the buffer.</dd>
+	happen off-line into the buffer. <b>Heavily recommended.</b></dd>
 </dl>
 
 <h2>Setting up the environment</h2>
