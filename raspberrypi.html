@@ -14,7 +14,35 @@
 
 <p>This is a guide for installing Weston into
 <a href="http://www.raspberrypi.org/">Raspberry Pi</a>. All commands and
-compiling are done directly on the Pi.</p>
+compiling are done directly on the Pi. In Raspbian, it is recommended to
+run Weston as the user 'pi', as Raspbian seems to allow input device access
+mostly for this user while logged in locally (not via ssh).</p>
+
+<p>However, if you just want to try Weston and not build it, there are
+packages.</p>
+
+<blockquote>
+<h3>Raspbian packages</h3>
+
+<p>There are pre-built Wayland and Weston packages for the
+<a href="http://www.raspbian.org/">Raspbian</a> distribution.</p>
+
+<p>Add the following line to <tt>/etc/apt/sources.list</tt> file:</p>
+<pre>    deb http://raspberrypi.collabora.com wheezy rpi
+</pre>
+<p>Then just issue:</p>
+<pre>    sudo apt-get update
+    sudo apt-get install weston</pre>
+
+<p>This will install also a script called <tt>weston-launch</tt>
+(not the real <tt>weston-launch</tt> program), which will automatically
+set up <tt>XDG_RUNTIME_DIR</tt> for you and run <tt>weston</tt>.
+Running Weston with this package is as simple as:</p>
+<pre>    weston-launch</pre>
+<p>No need to manually set up environment variables. The firmware notes
+below are still worth checking, though.</p>
+</blockquote>
+
 
 <h2>Build dependencies</h2>
 
@@ -138,7 +166,9 @@ EGL. EGL does not work for clients due to EGL Wayland platform being
 unimplemented on Raspberry Pi.</p>
 
 <p>Weston should work by running <tt>weston</tt>. Remember to have the
-environment set up.</p>
+environment set up, and it is useful to have an ssh session open to your
+RPi on the first try, in case Weston cannot open any input or output
+devices. It is best to try as the user 'pi' on Raspbian.</p>
 
 <h2>Troubleshooting</h2>
 
