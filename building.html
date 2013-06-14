@@ -157,29 +157,55 @@ pixman.</p>
     $ make &amp;&amp; make install
 </pre>
 
-<h2>$XDG_RUNTIME_DIR</h2>
+
+<h2><code>$XDG_RUNTIME_DIR</code></h2>
 
 <p>Weston creates its unix socket file (for example, wayland-0)
 in the directory specified by the required environment variable
-$XDG_RUNTIME_DIR .  Clients use the same variable to find that socket.
-This is provided by Fedora using systemd.  
+<code>$XDG_RUNTIME_DIR</code> . Clients use the same variable to find that
+socket. This is provided using systemd by some distributions (Fedora,
+<a href="https://www.archlinux.org/news/systemd-tools-replaces-udev/">Arch
+since June 2012</a> or Exherbo).
 <a href="https://bugs.launchpad.net/ubuntu/+source/pam-xdg-support/+bug/894391">Ubuntu began providing it in Quantal.</a>
-<a href="https://www.archlinux.org/news/systemd-tools-replaces-udev/">Arch began providing it with systemd in June 2012.</a>
 It is not provided by Gentoo.
-If you are using a distro that does not set $XDG_RUNTIME_DIR for you, do:
+</p>
+<p>
+If you are using a distro that does set <code>$XDG_RUNTIME_DIR</code> for you,
+you can skipthis part. Otherwise, you must set it using your shell profile
+capability.
+</p>
+<p>
+First, please read your shell manual to use the correct file. Some shells will
+read multiple files (Zshell), others will pick the first available one ignoring
+the others (Bash). <code>~/.profile</code> is generally a good guess, for most
+Bourne-shell compatible shells, <code>~/.zprofile</code> is the Zshell
+equivalent. You should use the profile file if there is any, otherwise the
+login file will do the trick.
+</p>
+<p>
+We will use <code>/tmp</code> as the base to put our
+<code>$XDG_RUNTIME_DIR</code> in. Since <code>/tmp</code> can be a tmpfs, and
+thus wiped on restart, we should take care of creating it when we need it. Also,
+if you share your computer between several users, you must take care of using a
+unique <code>$XDG_RUNTIME_DIR</code> for each one. We will also check if the
+variable is already set. This way, if your system start providing it, you will
+use it directly. It is also useful if you want to use your profile file on
+different systems.
+<br>
+Here is the code to put in your shell profile file (it is Bourne-shell
+compatible, feel free to adapt it to your shell’s internals):
 </p>
 
-<pre>    $ mkdir /tmp/wayland
-    $ chmod 0700 /tmp/wayland
-    $ su -c 'echo XDG_RUNTIME_DIR=/tmp/wayland &gt;&gt; /etc/environment'
+<pre>
+if test -z "${XDG_RUNTIME_DIR}"; then
+    export XDG_RUNTIME_DIR=/tmp/${UID}-runtime-dir
+    if ! test -d "${XDG_RUNTIME_DIR}"; then
+        mkdir "${XDG_RUNTIME_DIR}"
+        chmod 0700 "${XDG_RUNTIME_DIR}"
+    fi
+fi
 </pre>
 
-<p>
-Using PAM like this involves some security concerns,
-and may break things.  Don't forget to undo it.  (<a
-href="https://bugs.freedesktop.org/show_bug.cgi?id=61877">Relevant
-bug.</a>)
-</p>
 
 <h2>Weston and demo applications</h2>
 
