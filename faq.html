@@ -50,11 +50,11 @@
 <p>
   "Whatever you want it to be, honey".  Wayland doesn't render on
   behalf of the clients, it expects the clients to use whatever means
-  they prefer to render into a shareable buffer.  When the client is,
-  it informs the Wayland server of the new contents.  The current test
-  clients use either cairo software rendering, cairo on OpenGL or
-  hardware accelerated OpenGL directly.  As long as you have a
-  userspace driver library that will let you render into a sharable
+  they prefer to render into a shareable buffer.  When the client is
+  done, it informs the Wayland server of the new contents.  The
+  current test clients use either cairo software rendering, cairo on
+  OpenGL or hardware accelerated OpenGL directly.  As long as you have
+  a userspace driver library that will let you render into a sharable
   buffer, you're good to go.
 </p>
 
