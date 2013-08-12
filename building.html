@@ -12,8 +12,7 @@
 
 <p>The instructions below assume some familiarity with git and
 building and running experimental software.  Also, be prepared for the fact that this
-project isn't at all useful right now, it's still very much a
-prototype.  When the instructions suggest to clone a git repo, you can
+project is still very much a prototype.  When the instructions suggest to clone a git repo, you can
 of course just add a remote and fetch instead, if you have a clone of
 that repo around already.  By default the software is installed in $HOME/install
 but you can change it by altering $WLD (explained later). You can also install
@@ -117,9 +116,8 @@ this often.</p>
 
 <h2>libxkbcommon</h2>
 
-<p>Wayland needs libxkbcommon for translating evdev keycodes to keysyms.
-For wayland 0.85 use libxkbcommon branch for-weston-0.85.  For this you'll
-need a development packages for macros.</p>
+<p>Wayland needs libxkbcommon >= 0.3.0 for translating evdev keycodes to keysyms.
+For wayland 0.85 use libxkbcommon branch for-weston-0.85.</p>
 
 
 <pre>    $ git clone git://github.com/xkbcommon/libxkbcommon
