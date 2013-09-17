@@ -146,24 +146,25 @@ contains similar files for Android, and will not work.</p>
 <pre>    $ git clone git://anongit.freedesktop.org/wayland/weston
     $ cd weston
 
-    $ ./autogen.sh --prefix=$WLD \
-    --disable-setuid-install --with-cairo-glesv2 \
+    $ ./autogen.sh --prefix=$WLD --disable-setuid-install \
     --disable-x11-compositor --disable-drm-compositor \
     --disable-fbdev-compositor --disable-wayland-compositor \
-    --disable-weston-launch --disable-simple-egl-clients \
-    --disable-egl --disable-libunwind --disable-colord \
-    --disable-resize-optimization --disable-xwayland-test \
+    --disable-weston-launch --disable-simple-egl-clients --disable-egl \
+    --disable-libunwind --disable-colord --disable-resize-optimization \
+    --disable-xwayland-test \
     WESTON_NATIVE_BACKEND="rpi-backend.so"
 
     $ make
     $ make install
 </pre>
 
-<p>When adding <tt>--disable-wayland-compositor</tt> you can remove the
-dummy <tt>wayland-egl.pc</tt> pkg-config file, if you installed it before.
-This makes sure, that toytoolkit (Weston demo programs) does not use Cairo
-EGL. EGL does not work for clients due to EGL Wayland platform being
-unimplemented on Raspberry Pi.</p>
+<p>If you decide to use the <tt>--disable-wayland-compositor</tt>
+flag supplied above you can remove the dummy <tt>wayland-egl.pc</tt>
+pkg-config file which you may have installed from following an older
+version of this guide. Removing this file makes sure, that toytoolkit
+(Weston demo programs) does not use Cairo EGL. EGL does not work for
+clients due to the EGL Wayland platform being unimplemented on the
+Raspberry Pi.</p>
 
 <p>Weston should work by running <tt>weston</tt>. Remember to have the
 environment set up, and it is useful to have an ssh session open to your
