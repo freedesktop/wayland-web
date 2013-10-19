@@ -87,7 +87,7 @@ generated_toc = {
       }
     }
     
-    // add all levels of heading we're paying attention to to the
+    // add all levels of heading we're paying attention to the
     // headings_to_treat dictionary, ready to be filled in later
     headings_to_treat = {"h6":''};
     for (var i=5; i>= parseInt(generate_from); i--) {
