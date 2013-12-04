@@ -27,10 +27,17 @@ packages.</p>
 <p>There are pre-built Wayland and Weston packages for the
 <a href="http://www.raspbian.org/">Raspbian</a> distribution.</p>
 
-<p>Add the following line to <tt>/etc/apt/sources.list</tt> file:</p>
+<p>Recent versions of the Raspbian image
+<a href="http://www.raspberrypi.org/downloads">downloaded from
+raspberrypi.org</a> already have the raspberrypi.collabora.com repository
+enabled. At least version 2013-09-25 is confirmed to have it, and
+in fact that image comes with Weston 1.1.0 pre-installed.</p>
+
+<p>If you need to add the repository manually,
+add the following line to <tt>/etc/apt/sources.list</tt> file:</p>
 <pre>    deb http://raspberrypi.collabora.com wheezy rpi
 </pre>
-<p>Then just issue:</p>
+<p>To install Weston, just issue:</p>
 <pre>    sudo apt-get update
     sudo apt-get install weston</pre>
 
@@ -50,8 +57,13 @@ below are still worth checking, though.</p>
 build dependencies:</p>
 <pre>    $ sudo apt-get install build-essential automake libtool bison flex \
     xutils-dev libcairo2-dev libffi-dev libmtdev-dev libjpeg-dev \
-    libudev-dev libxcb-xfixes0-dev libxcursor-dev libraspberrypi-dev
+    libudev-dev libxcb-xfixes0-dev libxcursor-dev libraspberrypi-dev \
+    libxkbcommon-dev libxcb-composite0-dev libpam-dev
 </pre>
+
+<p>On December 4th, 2013, libxkbcommon-dev is not yet found in Raspbian
+itself, but it is available from the raspberrypi.collabora.com repository,
+see above.</p>
 
 <h2>Firmware</h2>
 
@@ -87,7 +99,9 @@ first, but if you encounter graphics problems, see if it fixes them.</p>
 export PATH="$WLD/bin:$PATH"
 export LD_LIBRARY_PATH="$WLD/lib:/opt/vc/lib"
 export PKG_CONFIG_PATH="$WLD/lib/pkgconfig/:$WLD/share/pkgconfig/"
-export ACLOCAL="aclocal -I $WLD/share/aclocal"
+export ACLOCAL_PATH="$WLD/share/aclocal"
+export ACLOCAL="aclocal -I $ACLOCAL_PATH"
+
 export XDG_RUNTIME_DIR="/run/shm/wayland"
 export XDG_CONFIG_HOME="$WLD/etc"
 export XORGCONFIG="$WLD/etc/xorg.conf"
@@ -128,48 +142,41 @@ contains similar files for Android, and will not work.</p>
 </pre>
 <p>The <tt>--disable-documentation</tt> makes it not require Doxygen.</p>
 
-<h2>libxkbcommon</h2>
-
-<p>Libxkbcommon is built and installed the same way as in
-<a href="building.html">the generic build guide</a>, too.</p>
-
-<pre>    $ git clone git://people.freedesktop.org/xorg/lib/libxkbcommon.git
-    $ cd libxkbcommon/
-    $ ./autogen.sh --prefix=$WLD
-    $ make &amp;&amp; make install
-</pre>
-
-
 <h2>Weston and demo applications</h2>
 
 <p>Weston is configured slightly differently compared to the normal build:</p>
 <pre>    $ git clone git://anongit.freedesktop.org/wayland/weston
     $ cd weston
 
-    $ ./autogen.sh --prefix=$WLD --disable-setuid-install \
+    $ ./autogen.sh --prefix=$WLD \
     --disable-x11-compositor --disable-drm-compositor \
-    --disable-fbdev-compositor --disable-wayland-compositor \
-    --disable-weston-launch --disable-simple-egl-clients --disable-egl \
+    --disable-wayland-compositor \
+    --enable-weston-launch --disable-simple-egl-clients --disable-egl \
     --disable-libunwind --disable-colord --disable-resize-optimization \
-    --disable-xwayland-test \
+    --disable-xwayland-test --with-cairo=image \
     WESTON_NATIVE_BACKEND="rpi-backend.so"
 
     $ make
-    $ make install
+    $ sudo make install
 </pre>
 
-<p>If you decide to use the <tt>--disable-wayland-compositor</tt>
-flag supplied above you can remove the dummy <tt>wayland-egl.pc</tt>
-pkg-config file which you may have installed from following an older
-version of this guide. Removing this file makes sure, that toytoolkit
-(Weston demo programs) does not use Cairo EGL. EGL does not work for
-clients due to the EGL Wayland platform being unimplemented on the
-Raspberry Pi.</p>
+<p>To use <tt>weston-launch</tt>, the user must be in the
+<em>weston-launch</em> group. Create the group and add the user <em>pi</em>
+to it:</p>
+<pre>    $ sudo addgroup weston-launch
+    $ sudo adduser pi weston-launch
+    $ logout
+</pre>
+<p>You need to log out and then back in to make the group addition effective.
+You can check that it succeeded with the command <tt>id</tt> which should
+now list <em>weston-launch</em>. This needs to be done only once, unlike the
+environment setup.</p>
 
-<p>Weston should work by running <tt>weston</tt>. Remember to have the
-environment set up, and it is useful to have an ssh session open to your
-RPi on the first try, in case Weston cannot open any input or output
-devices. It is best to try as the user 'pi' on Raspbian.</p>
+<p>On Raspbian, the user also needs to be in the group <em>video</em> to
+have read and write access to <tt>/dev/vchiq</tt>.</p>
+
+<p>Weston should work by running <tt>weston-launch</tt>. Remember to have the
+environment set up.</p>
 
 <h2>Troubleshooting</h2>
 
@@ -189,10 +196,7 @@ work. The following is what you should see:</p>
 
 <p>Somehow, cairo-egl is getting used, when it should not. Remove the
 dummy <tt>wayland-egl.pc</tt>, and make sure
-<tt>--disable-wayland-compositor</tt> is in the configure line. When
-everything is right, you should see:</p>
-<pre>checking for CAIRO_EGL... no
-configure: WARNING: clients will use cairo image, cairo-egl not used</pre>
+<tt>--disable-wayland-compositor</tt> is in the configure line.</p>
 
 
 <h3>Some or all surfaces (graphics) are corrupted</h3>
