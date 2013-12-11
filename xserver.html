@@ -44,13 +44,15 @@
 
 <h2>X.org</h2>
 
-<pre>    git clone git://anongit.freedesktop.org/xorg/xserver -b xwayland-1.12
+<pre>    git clone git://anongit.freedesktop.org/xorg/xserver -b xwayland
     cd xserver
     ./autogen.sh --prefix=$WLD
     make
     make install
     cd ..
 </pre>
+<p>This gets you the latest Wayland enabled X server, until the Wayland enablement
+gets merged into the master branch.</p>
 
 <h2>DDX</h2>
 
@@ -58,7 +60,7 @@
   The Device Dependent part of X.  Only one of these is necessary.
   xf86-video-intel works with Intel open source video drivers.
   xf86-video-ati works with AMD Radeon open source drivers.
-  xf86-video-wlshm is implemented in software, so it works on all
+  xf86-video-wayland is implemented in software, so it works on all
   hardware, but is somewhat less complete.  xf86-video-nouveau works
   with Nvidia / Nouveau.
 </p>
@@ -79,8 +81,8 @@
     cd ..
 </pre>
 
-<pre>    git clone git://people.freedesktop.org/~iksaif/xf86-video-wlshm
-    cd xf86-video-wlshm
+<pre>    git clone git://anongit.freedesktop.org/xorg/driver/xf86-video-wayland
+    cd xf86-video-wayland
     ./autogen.sh --prefix=$WLD
     make
     make install
