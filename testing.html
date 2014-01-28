@@ -19,8 +19,8 @@ the <i>tests</i> directory.  It leverages automake's
 specify, compile, and execute the tests thru <i>make check</i>.
 </p>
 <p>
-It is recommended that all Wayland developers write unit tests for the
-code that they write.  All unit tests should pass before submitting patches upstream.
+It is recommended that all Wayland developers create unit tests for their
+code.  All unit tests should pass before submitting patches upstream.
 The Wayland maintainer(s) have the right to refuse any patches that are not accompanied
 by a unit test or if the patches break existing unit tests.
 </p>
@@ -77,7 +77,7 @@ an example of how this is done.
 <p>
 In general, you define a <i>module_init(...)</i> function which registers an idle callback
 to your test function.  The test function is responsible for ensuring the compositor
-exits at the end of you test.  For example:
+exits at the end of your test.  For example:
 </p>
 <pre>
 static void
@@ -128,7 +128,7 @@ The <i>FAIL_TEST(&lt;test name&gt;)</i> macro defines a test case that "passes" 
 </p>
 <p>
 Client tests have access to the <i>wl_test</i> interface which defines a small API
-for interacting with the compositor (e.g. emit input events, query surface data, etc...).
+for interacting with the compositor (e.g. emit input events, query surface data, etc.)
 There is also a client helper API (tests/weston-test-client-helper.h,c), that
 simplifies client setup and wl_test interface usage.  Probably the most effective
 way to learn how to leverage these API's is to study some of the existing tests
