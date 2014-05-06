@@ -63,8 +63,14 @@ The Weston maintainer(s) have the right to refuse any patches that are not accom
 by a unit test or if the patches break existing unit tests.
 </p>
 <h3>Compiling and Running</h3>
+<p>To run with the default headless backend:</p>
 <pre>
 $ make check
+</pre>
+
+<p>To run with a different backend, e.g. the X11 backend:</p>
+<pre>
+$ make check BACKEND=x11-backend.so
 </pre>
 
 <h3>Writing Tests</h3>
