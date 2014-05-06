@@ -42,55 +42,13 @@
   xserver on 32-bit systems.
 </p>
 
-<h2>X.org</h2>
+<h2>X Server</h2>
 
-<pre>    git clone git://anongit.freedesktop.org/xorg/xserver -b xwayland
+<p>XWayland support has been merged in the master branch on April 4th, 2014,
+and is first released with xserver 1.16. The separate X.org video DDXes
+are not needed anymore.</p>
+<pre>    git clone git://anongit.freedesktop.org/xorg/xserver
     cd xserver
-    ./autogen.sh --prefix=$WLD
-    make
-    make install
-    cd ..
-</pre>
-<p>This gets you the latest Wayland enabled X server, until the Wayland enablement
-gets merged into the master branch.</p>
-
-<h2>DDX</h2>
-
-<p>
-  The Device Dependent part of X.  Only one of these is necessary.
-  xf86-video-intel works with Intel open source video drivers.
-  xf86-video-ati works with AMD Radeon open source drivers.
-  xf86-video-wayland is implemented in software, so it works on all
-  hardware, but is somewhat less complete.  xf86-video-nouveau works
-  with Nvidia / Nouveau.
-</p>
-    
-<pre>    git clone git://anongit.freedesktop.org/xorg/driver/xf86-video-intel -b xwayland
-    cd xf86-video-intel
-    ./autogen.sh --prefix=$WLD
-    make
-    make install
-    cd ..
-</pre>
-
-<pre>    git clone https://github.com/RAOF/xf86-video-ati -b xwayland
-    cd xf86-video-ati
-    ./autogen.sh --prefix=$WLD
-    make
-    make install
-    cd ..
-</pre>
-
-<pre>    git clone git://anongit.freedesktop.org/xorg/driver/xf86-video-wayland
-    cd xf86-video-wayland
-    ./autogen.sh --prefix=$WLD
-    make
-    make install
-    cd ..
-</pre>
-
-<pre>    git clone https://github.com/RAOF/xf86-video-nouveau -b xwayland
-    cd xf86-video-nouveau
     ./autogen.sh --prefix=$WLD
     make
     make install
@@ -106,19 +64,6 @@ gets merged into the master branch.</p>
 <pre>    mkdir -p $WLD/share/X11/xkb/rules
     ln -s /usr/share/X11/xkb/rules/evdev $WLD/share/X11/xkb/rules/
     ln -s /usr/bin/xkbcomp $WLD/bin/
-</pre>
-
-<h2>xorg.conf</h2>
-
-<p>
-  Intel, ATI / AMD, and Nouveau DDXes probably do not require
-  any xorg.conf modifications.  If you use WLSHM, it requires a
-  $WLD/etc/X11/xorg.conf containing:
-</p>
-<pre>Section "Device"
-        Identifier "Device"
-        Driver "wlshm"
-EndSection
 </pre>
 
 <h2>weston.ini</h2>
