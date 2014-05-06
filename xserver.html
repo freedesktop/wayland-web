@@ -47,12 +47,12 @@
 The Xwayland server depends on
 <a href="https://github.com/anholt/libepoxy">libepoxy</a>.
 </p>
-<pre>    git clone https://github.com/anholt/libepoxy.git
-    cd libepoxy
-    ./autogen.sh --prefix=$WLD
-    make
-    make install
-    cd ..
+<pre>    $ git clone https://github.com/anholt/libepoxy.git
+    $ cd libepoxy
+    $ ./autogen.sh --prefix=$WLD
+    $ make
+    $ make install
+    $ cd ..
 </pre>
 
 
@@ -61,12 +61,12 @@ The Xwayland server depends on
 <p>XWayland support has been merged in the master branch on April 4th, 2014,
 and is first released with xserver 1.16. The separate X.org video DDXes
 are not needed anymore.</p>
-<pre>    git clone git://anongit.freedesktop.org/xorg/xserver
-    cd xserver
-    ./autogen.sh --prefix=$WLD
-    make
-    make install
-    cd ..
+<pre>    $ git clone git://anongit.freedesktop.org/xorg/xserver
+    $ cd xserver
+    $ ./autogen.sh --prefix=$WLD
+    $ make
+    $ make install
+    $ cd ..
 </pre>
 
 <h2>Paths</h2>
@@ -75,9 +75,9 @@ are not needed anymore.</p>
   Without this you will get the error "XKB: Failed to compile keymap".
 </p>
 
-<pre>    mkdir -p $WLD/share/X11/xkb/rules
-    ln -s /usr/share/X11/xkb/rules/evdev $WLD/share/X11/xkb/rules/
-    ln -s /usr/bin/xkbcomp $WLD/bin/
+<pre>    $ mkdir -p $WLD/share/X11/xkb/rules
+    $ ln -s /usr/share/X11/xkb/rules/evdev $WLD/share/X11/xkb/rules/
+    $ ln -s /usr/bin/xkbcomp $WLD/bin/
 </pre>
 
 <h2>weston.ini</h2>
