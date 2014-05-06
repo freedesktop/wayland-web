@@ -42,6 +42,20 @@
   xserver on 32-bit systems.
 </p>
 
+<h2>libepoxy</h2>
+<p>
+The Xwayland server depends on
+<a href="https://github.com/anholt/libepoxy">libepoxy</a>.
+</p>
+<pre>    git clone https://github.com/anholt/libepoxy.git
+    cd libepoxy
+    ./autogen.sh --prefix=$WLD
+    make
+    make install
+    cd ..
+</pre>
+
+
 <h2>X Server</h2>
 
 <p>XWayland support has been merged in the master branch on April 4th, 2014,
