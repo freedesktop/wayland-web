@@ -63,7 +63,9 @@ and is first released with xserver 1.16. The separate X.org video DDXes
 are not needed anymore.</p>
 <pre>    $ git clone git://anongit.freedesktop.org/xorg/xserver
     $ cd xserver
-    $ ./autogen.sh --prefix=$WLD
+    $ ./autogen.sh --prefix=$WLD --disable-docs --disable-devel-docs \
+      --enable-xwayland --disable-xorg --disable-xvfb --disable-xnest \
+      --disable-xquartz --disable-xwin
     $ make
     $ make install
     $ cd ..
