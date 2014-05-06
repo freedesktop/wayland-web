@@ -79,29 +79,20 @@ are not needed anymore.</p>
 <h2>Running</h2>
 
 <p>
-  Run weston under X, or weston-launch on KMS / DRM / outside of X.
-  weston-launch requires that you enable systemd session support for
-  weston-launch (by using systemd and having the systemd-login devel
-  headers at configure time) or add yourself to the "weston-launch" group:
+  Run weston under X, or weston-launch on KMS / DRM / outside of X, just
+  like explained on <a href="http://wayland.freedesktop.org/building.html">main
+  Wayland build instructions</a>.
 </p>
 
-<pre>    sudo groupadd weston-launch
-    sudo usermod -a -G weston-launch $USER
-    # Log all the way out (of X, etc.)
-    sudo chown root weston-launch
-    sudo chmod +s weston-launch
-    weston-launch
-</pre>
-
 <p>
-  The weston console output will include "xserver listening on display
+  The weston log output will include "xserver listening on display
   :1".  Within weston-terminal you will find $DISPLAY has already
-  been set.  Run an X client.  
+  been set.  Run any X client.
 </p>
 
 <p>
   Weston listens on the X socket until a client attempts to connect,
-  then launches X.org.
+  then launches the X server.
 </p>
 
 </body>
