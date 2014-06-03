@@ -162,7 +162,36 @@ $ make &amp;&amp; make install
 $ cd ..
 </pre>
 
-<h2><code>$XDG_RUNTIME_DIR</code></h2>
+<h2>Weston and demo applications</h2>
+
+<p>Weston is the reference implementation of a Wayland compositor.
+It's available in the weston repo and comes with a few demo
+applications.
+
+<p>Aside from mesa and libxkbcommon, the Weston dependencies can be
+satisfied with released versions of:
+
+gdk-pixbuf-2.0,
+libudev 136,
+libdrm 2.4.23,
+pixman-1,
+cairo-gl 1.11.3,
+glib-2.0, and
+gobject-2.0.  
+</p>
+
+<pre>
+$ git clone git://anongit.freedesktop.org/wayland/weston
+$ cd weston
+$ ./autogen.sh --prefix=$WLD --enable-libinput-backend
+$ make
+$ sudo make install
+$ cd ..
+</pre>
+
+<h2>Running Weston</h2>
+
+<h3><code>$XDG_RUNTIME_DIR</code></h3>
 
 <p>Weston creates its unix socket file (for example, wayland-0)
 in the directory specified by the required environment variable
@@ -194,9 +223,9 @@ if you share your computer between several users, you must take care of using a
 unique <code>$XDG_RUNTIME_DIR</code> for each one. We will also check if the
 variable is already set. This way, if your system starts providing it, you will
 use it directly. It is also useful if you want to use your profile file on
-different systems.
-<br>
-Here is the code to put in your shell profile file (it is Bourne-shell
+different systems.</p>
+
+<p>Here is the code to put in your shell profile file (it is Bourne-shell
 compatible, feel free to adapt it to your shell’s internals):
 </p>
 
@@ -210,46 +239,25 @@ if test -z "${XDG_RUNTIME_DIR}"; then
 fi
 </pre>
 
-
-<h2>Weston and demo applications</h2>
-
-<p>Weston is the reference implementation of a Wayland compositor.
-It's available in the weston repo and comes with a few demo
-applications.
-
-<p>Aside from mesa and libxkbcommon, the Weston dependencies can be
-satisfied with released versions of:
-
-gdk-pixbuf-2.0,
-libudev 136,
-libdrm 2.4.23,
-pixman-1,
-cairo-gl 1.11.3,
-glib-2.0, and
-gobject-2.0.  
-</p>
+<p>Copy the <code>weston.ini</code> file and edit it to set a
+background image that you like:</p>
 
 <pre>
-$ git clone git://anongit.freedesktop.org/wayland/weston
-$ cd weston
-$ ./autogen.sh --prefix=$WLD --enable-libinput-backend
-$ make
-$ sudo make install
-$ cd ..
+$ mkdir -p ~/.config
+$ cp weston/weston.ini ~/.config
+$ $EDITOR ~/.config/weston.ini
 </pre>
 
-<p>If DISPLAY is set, the weston will run under X in a window and take
-input from X.  Otherwise it will run on the KMS framebuffer and take input
-from evdev devices.  Copy the weston.ini config file to ~/.config and
-edit it to set a background image that you like.  Then run the compositor
-by typing:</p>
+<p>If <code>$DISPLAY</code> is set, the weston will run under X in a
+window and take input from X. Run the compositor by typing:</p>
 
 <pre>
 $ weston
 </pre>
 
-<p>For KMS/DRM output (outside of X) use weston-launch, which needs
-root permissions.  It also requires that you enable
+<p>Otherwise (outside of X) it will run on the KMS/DRM framebuffer and
+take input from evdev devices. Use weston-launch, which needs
+root permissions. It also requires that you enable
 systemd session support for weston-launch (by using systemd and having
 the systemd-login devel headers at configure time) or add yourself to the
 "weston-launch" group:</p>
@@ -263,9 +271,10 @@ $ sudo chmod +s $WLD/bin/weston-launch
 $ weston-launch
 </pre>
 
-<p>To run clients, switch to a different VT and run the client from
-there.  Or run it under X and start up the clients from a terminal
-window.  There are a few demo clients available in the weston build
+<p>To run clients, the second button in the top bar will run weston-terminal,
+from which you can run clients. It is also possible to run clients from
+a different VT when running on hardware, or from an xterm if running
+under X. There are a few demo clients available in the weston build
 directory, but they are all
 pretty simple and mostly for testing specific features in the wayland
 protocol: </p>
@@ -286,20 +295,20 @@ protocol: </p>
     events to console (see weston-eventdemo --help)</li>
 </ul>
 
+<p>Optional environment variables which will get you more debugging
+output:</p>
+
+<pre>
+export MESA_DEBUG=1
+export EGL_LOG_LEVEL=debug
+export LIBGL_DEBUG=verbose
+export WAYLAND_DEBUG=1
+</pre>
+
 <h2>XWayland</h2>
 <p>
 <a href="xserver.html">Directions for building support for X clients (XWayland)</a>
 </p>
-
-<h2>Notes</h2>
-
-<p>Environment variables which will get you more debugging output:</p>
-
-<pre>MESA_DEBUG=1
-EGL_LOG_LEVEL=debug
-LIBGL_DEBUG=verbose
-WAYLAND_DEBUG=1
-</pre>
 
 </body>
 </html>
