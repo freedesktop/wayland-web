@@ -104,7 +104,7 @@ sudo make install
 <p>This is required in order to be able to build Mesa with the Wayland EGL platform.</p>
 
 <pre>
-$ git clone git://anongit.freedesktop.org/wayland/wayland
+$ git clone <a href="http://cgit.freedesktop.org/wayland/wayland">git://anongit.freedesktop.org/wayland/wayland</a>
 $ cd wayland
 $ ./autogen.sh --prefix=$WLD
 $ make &amp;&amp; make install
@@ -125,7 +125,7 @@ release after 9.0, but in some cases extra functionality or
 optimization will only be available in more recent releases.</p>
 
 <pre>
-$ git clone git://anongit.freedesktop.org/mesa/mesa
+$ git clone <a href="http://cgit.freedesktop.org/mesa/mesa">git://anongit.freedesktop.org/mesa/mesa</a>
 $ cd mesa
 $ ./autogen.sh --prefix=$WLD --enable-gles2 --disable-gallium-egl \
   --with-egl-platforms=x11,wayland,drm --enable-gbm --enable-shared-glapi \
@@ -142,14 +142,16 @@ be built as DRI drivers, which the EGL loader will load just fine.</p>
 <li><a href="mesa-configure.html">Example mesa configure output.</a></li>
 
 <li>You will probably need a development package for <a href="https://01.org/linuxgraphics/community/libdrm">libdrm</a>. This is
-available in <code>git://anongit.freedesktop.org/git/mesa/drm</code></li>
+available in <a href="http://cgit.freedesktop.org/mesa/drm"><code>git://anongit.freedesktop.org/mesa/drm</code></a></li>
 
 <li><a href="http://xcb.freedesktop.org/">xcb</a>-* dependencies can be fixed by compiling and installing
-<code>git://anongit.freedesktop.org/xcb/proto</code> and
-<code>git://anongit.freedesktop.org/xcb/libxcb</code>.</li>
+<a href="http://cgit.freedesktop.org/xcb/proto"><code>git://anongit.freedesktop.org/xcb/proto</code></a> and
+<a href="http://cgit.freedesktop.org/xcb/libxcb"><code>git://anongit.freedesktop.org/xcb/libxcb</code></a>.
+</li>
 
-<li>presentproto and other *proto dependencies can be built from
-<code>git://anongit.freedesktop.org/xorg/proto/presentproto</code>, etc.</li>
+<li>*proto dependencies can be built from
+<a href="http://cgit.freedesktop.org/xorg/proto"><code>git://anongit.freedesktop.org/xorg/proto/*proto</code></a>.
+</li>
 
 <li><code>--disable-dri3</code> may remove some dependencies.</li>
 
@@ -169,7 +171,7 @@ this often.</p>
 crash reports and is safe to skip, if not intending to report bugs.</p>
 
 <pre>
-$ git clone git://git.sv.gnu.org/libunwind
+$ git clone <a href="http://git.savannah.gnu.org/gitweb/?p=libunwind.git">git://git.sv.gnu.org/libunwind</a>
 $ cd libunwind
 $ autoreconf -i
 $ ./configure --prefix=$WLD
@@ -184,7 +186,7 @@ translates evdev events into Wayland events. It has been split from
 Weston as the code is reusable by any Wayland compositor on Linux.</p>
 
 <pre>
-$ git clone git://anongit.freedesktop.org/wayland/libinput
+$ git clone <a href="http://cgit.freedesktop.org/wayland/libinput">git://anongit.freedesktop.org/wayland/libinput</a>
 $ cd libinput
 $ ./autogen.sh --prefix=$WLD
 $ make &amp;&amp; make install
@@ -193,10 +195,10 @@ $ cd ..
 
 <ul>
 <li>You probably need the development package for <a href="http://www.freedesktop.org/wiki/Software/libevdev/">libevdev</a>, this is in
-<code>git://anongit.freedesktop.org/libevdev</code></li>
+<a href="http://cgit.freedesktop.org/libevdev"><code>git://anongit.freedesktop.org/libevdev</code></a></li>
 
 <li><a href="http://xkbcommon.org/">libxkbcommon</a> source is
-in <code>git://github.com/xkbcommon/libxkbcommon</code>.</li>
+in <a href="http://github.com/xkbcommon/libxkbcommon"><code>git://github.com/xkbcommon/libxkbcommon</code></a>.</li>
 </ul>
 
 <h2>Weston and demo applications</h2>
@@ -206,7 +208,7 @@ It's available in the weston repo and comes with a few demo
 applications.
 
 <pre>
-$ git clone git://anongit.freedesktop.org/wayland/weston
+$ git clone <a href="http://cgit.freedesktop.org/wayland/weston">git://anongit.freedesktop.org/wayland/weston</a>
 $ cd weston
 $ ./autogen.sh --prefix=$WLD --enable-libinput-backend
 $ make
