@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<h1><a href="/"><img src="wayland.png" alt="Wayland logo"></a></h1>
+<h1><a href="index.html"><img src="wayland.png" alt="Wayland logo"></a></h1>
 
 <div id="generated-toc" class="generate_from_h2"></div>
 
@@ -35,24 +35,17 @@
   Wayland build instructions first</a>.
 </p>
 
-<h2>libxtrans</h2>
-<p>
-  It may be necessary to build libxtrans from
-  git://anongit.freedesktop.org/xorg/lib/libxtrans before building
-  xserver on 32-bit systems.
-</p>
-
 <h2>libepoxy</h2>
 <p>
 The Xwayland server depends on
 <a href="https://github.com/anholt/libepoxy">libepoxy</a>.
 </p>
-<pre>    $ git clone https://github.com/anholt/libepoxy.git
-    $ cd libepoxy
-    $ ./autogen.sh --prefix=$WLD
-    $ make
-    $ make install
-    $ cd ..
+<pre>
+$ git clone https://github.com/anholt/libepoxy.git
+$ cd libepoxy
+$ ./autogen.sh --prefix=$WLD
+$ make &amp;&amp; make install
+$ cd ..
 </pre>
 
 
@@ -60,15 +53,17 @@ The Xwayland server depends on
 
 <p>XWayland support has been merged in the master branch on April 4th, 2014,
 and is first released with xserver 1.16. The separate X.org video DDXes
-are not needed anymore.</p>
-<pre>    $ git clone git://anongit.freedesktop.org/xorg/xserver
-    $ cd xserver
-    $ ./autogen.sh --prefix=$WLD --disable-docs --disable-devel-docs \
-      --enable-xwayland --disable-xorg --disable-xvfb --disable-xnest \
-      --disable-xquartz --disable-xwin
-    $ make
-    $ make install
-    $ cd ..
+are not needed anymore. With this config it will only install the Xwayland
+binary and few other files:</p>
+
+<pre>
+$ git clone git://anongit.freedesktop.org/xorg/xserver
+$ cd xserver
+$ ./autogen.sh --prefix=$WLD --disable-docs --disable-devel-docs \
+  --enable-xwayland --disable-xorg --disable-xvfb --disable-xnest \
+  --disable-xquartz --disable-xwin
+$ make &amp;&amp; make install
+$ cd ..
 </pre>
 
 <h2>Paths</h2>
@@ -77,9 +72,10 @@ are not needed anymore.</p>
   Without this you will get the error "XKB: Failed to compile keymap".
 </p>
 
-<pre>    $ mkdir -p $WLD/share/X11/xkb/rules
-    $ ln -s /usr/share/X11/xkb/rules/evdev $WLD/share/X11/xkb/rules/
-    $ ln -s /usr/bin/xkbcomp $WLD/bin/
+<pre>
+$ mkdir -p $WLD/share/X11/xkb/rules
+$ ln -s /usr/share/X11/xkb/rules/evdev $WLD/share/X11/xkb/rules/
+$ ln -s /usr/bin/xkbcomp $WLD/bin/
 </pre>
 
 <h2>weston.ini</h2>
@@ -88,8 +84,9 @@ are not needed anymore.</p>
   Add this to <tt>~/.config/weston.ini</tt> (or use the --modules=xwayland.so command line argument):
 </p>
 
-<pre>    [core]
-    modules=xwayland.so,desktop-shell.so
+<pre>
+[core]
+    modules=xwayland.so
 </pre>
 
 <h2>Running</h2>
