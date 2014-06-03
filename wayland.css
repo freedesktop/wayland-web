@@ -8,3 +8,5 @@ a { color: #444; }
 a:hover { color: #888; }
 a:visited { color: #666; }
 li { margin: 10px 0px; }
+pre { border: 1px solid; padding: 10px; background: #eee; }
+.comment { color: #800; }
