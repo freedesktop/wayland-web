@@ -51,8 +51,8 @@ $ cd ..
 
 <h2>X Server</h2>
 
-<p>XWayland support has been merged in the master branch on April 4th, 2014,
-and is first released with xserver 1.16. The separate X.org video DDXes
+<p>XWayland support has been merged in the master <a href="http://www.freedesktop.org/wiki/Software/xorg/">X.Org</a> branch on April 4th, 2014,
+and is first released with xserver 1.16. The separate X.Org video DDXes
 are not needed anymore. With this config it will only install the Xwayland
 binary and few other files:</p>
 
@@ -66,10 +66,25 @@ $ make &amp;&amp; make install
 $ cd ..
 </pre>
 
+<ul>
+<li>glproto, xproto, etc are available
+from <code>git://anongit.freedesktop.org/xorg/proto/glproto</code>,
+etc.</li>
+
+<li><a href="https://github.com/canoon/libxtrans">libxtrans</a> is
+in <code>git://anongit.freedesktop.org/xorg/lib/libxtrans</code>.</li>
+
+<li>libxkbfile is in
+in <code>git://anongit.freedesktop.org/xorg/lib/libxkbfile</code>.</li>
+
+</ul>
+
 <h2>Paths</h2>
 
 <p>
-  Without this you will get the error "XKB: Failed to compile keymap".
+Without this you will get the error "XKB: Failed to compile keymap". Weston uses
+<a href="http://www.freedesktop.org/wiki/Software/XKeyboardConfig/">xkeyboard-config</a>
+to find these files, but the XServer needs these links:
 </p>
 
 <pre>
@@ -81,7 +96,7 @@ $ ln -s /usr/bin/xkbcomp $WLD/bin/
 <h2>weston.ini</h2>
 
 <p>
-  Add this to <tt>~/.config/weston.ini</tt> (or use the --modules=xwayland.so command line argument):
+Add this to <tt>~/.config/weston.ini</tt> (or use the <code>--modules=xwayland.so</code> command line argument):
 </p>
 
 <pre>
@@ -98,8 +113,8 @@ $ ln -s /usr/bin/xkbcomp $WLD/bin/
 </p>
 
 <p>
-  The weston log output will include "xserver listening on display
-  :1".  Within weston-terminal you will find $DISPLAY has already
+  The weston log output will include "<code>xserver listening on display
+  :1</code>".  Within weston-terminal you will find $DISPLAY has already
   been set.  Run any X client.
 </p>
 

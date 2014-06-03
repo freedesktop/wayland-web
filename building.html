@@ -11,11 +11,18 @@
 <h1><a href="index.html"><img src="wayland.png" alt="Wayland logo"></a>
 Building Weston</h1>
 
-<p>The instructions below assume some familiarity with git and
+<p>The instructions below assume some familiarity with
+<a href="http://git-scm.com/">git</a>,
+<a href="http://www.freedesktop.org/wiki/Software/pkg-config/">pkg-config</a>,
+<a href="http://www.gnu.org/software/autoconf/">autoconf</a>, and
 building and running experimental software.  Also, be prepared for the fact that this
 project is still very much a prototype.  When the instructions suggest to clone a git repo, you can
 of course just add a remote and fetch instead, if you have a clone of
 that repo around already.</p>
+
+<p>Some help for figuring out how to fix dependency problems:
+<a href="http://who-t.blogspot.com.au/2014/05/configure-fails-with-no-package-foo.html">Configure
+fails with "No package 'foo' found" - and how to fix it</a>.</p>
 
 <h2>System-specific Directions</h2>
 
@@ -35,8 +42,9 @@ Pi</a>, see <a href="raspberrypi.html">Raspberry Pi build guide</a>.</li>
 
 <h2>Hardware / Drivers</h2>
 
-<p>X output requires DRI2.  DRM output (without X) requires Kernel Mode
-Setting (KMS) and the page flip ioctl.  These are supported by:</p>
+<p>X output requires <a href="http://dri.freedesktop.org/wiki/">DRI2</a>.
+Output outside of X requres <a href="http://dri.freedesktop.org/wiki/DRM/">DRM</a> and <a href="https://wiki.archlinux.org/index.php/kernel_mode_setting">Kernel Mode
+Setting (KMS)</a> with the page flip ioctl.  These are supported by:</p>
 
 <p><b>Intel</b>: i915 (June 2004) or newer cards.  DRM support has been
 in the kernel since around 2.6.29.  Sandy Bridge chips require kernel
@@ -80,7 +88,7 @@ you wish to build the packages.</p>
 <p>To install system wide, you'll need to set WLD differently, add
 some switches to every autogen.sh invocation, and use sudo to make
 install. Choose the libdir as appropriate for your distribution and
-architecture (32 vs. 64 bit).</p>
+architecture (it may be <code>/usr/lib32</code> or <code>/usr/lib64</code>).</p>
 
 <pre>
 export WLD=/usr
@@ -93,8 +101,7 @@ sudo make install
 
 <h2>Wayland libraries</h2>
 
-<p>This is required in order to be able to build Mesa with
---with-egl-platforms=x11,wayland,drm.</p>
+<p>This is required in order to be able to build Mesa with the Wayland EGL platform.</p>
 
 <pre>
 $ git clone git://anongit.freedesktop.org/wayland/wayland
@@ -104,16 +111,18 @@ $ make &amp;&amp; make install
 $ cd ..
 </pre>
 
+<ul>
+<li>You can avoid the <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> dependency
+with <code>--disable-documentation</code>.</li>
+
+</ul>
+
 <h2>Mesa</h2>
 
-<p>Wayland uses the mesa EGL stack, and all extensions required to run
+<p>Wayland uses the <a href="http://www.mesa3d.org/egl.html">Mesa EGL</a> stack, and all extensions required to run
 EGL on KMS are now upstream.  Wayland should work with any mesa
 release after 9.0, but in some cases extra functionality or
 optimization will only be available in more recent releases.</p>
-
-<p>To compile mesa you'll need a development package for libdrm.
-Other dependencies are development packages of xcb-dri2 and
-xcb-xfixes.</p>
 
 <pre>
 $ git clone git://anongit.freedesktop.org/mesa/mesa
@@ -125,11 +134,29 @@ $ make &amp;&amp; make install
 $ cd ..
 </pre>
 
-<p>We disable Gallium for Intel 915 and 965, which just means that libEGL
+<p>We disable <a href="http://www.freedesktop.org/wiki/Software/gallium/">Gallium</a> for Intel 915 and 965, which just means that libEGL
 won't try to load the Gallium drivers directly.  The Gallium drivers will
 be built as DRI drivers, which the EGL loader will load just fine.</p>
 
-<p><a href="mesa-configure.html">Example mesa configure output.</a></p>
+<ul>
+<li><a href="mesa-configure.html">Example mesa configure output.</a></li>
+
+<li>You will probably need a development package for <a href="https://01.org/linuxgraphics/community/libdrm">libdrm</a>. This is
+available in <code>git://anongit.freedesktop.org/git/mesa/drm</code></li>
+
+<li><a href="http://xcb.freedesktop.org/">xcb</a>-* dependencies can be fixed by compiling and installing
+<code>git://anongit.freedesktop.org/xcb/proto</code> and
+<code>git://anongit.freedesktop.org/xcb/libxcb</code>.</li>
+
+<li>presentproto and other *proto dependencies can be built from
+<code>git://anongit.freedesktop.org/xorg/proto/presentproto</code>, etc.</li>
+
+<li><code>--disable-dri3</code> may remove some dependencies.</li>
+
+<li>If you plan to compile <a href="xserver.html">XWayland</a> you may
+want to install any dependencies it needs now. This is so Mesa
+uses the same header files as xwayland.
+</ul>
 
 <p>Note on Mesa build failures:  If you're not building in your Mesa git
 repo for the first time, the first thing to try is always "<code>git&nbsp;clean&nbsp;-xfd</code>", and possibly deleting your $WLD directory, as Mesa requires
@@ -137,8 +164,9 @@ this often.</p>
 
 <h2>libunwind</h2>
 
-<p>Weston requires libunwind v1.1 if you don't configure with
---disable-libunwind .</p>
+<p>Weston requires <a href="http://www.nongnu.org/libunwind/">libunwind</a> v1.1 if you don't configure it with
+<code>--disable-libunwind</code>. linunwind only helps with weston
+crash reports and is safe to skip, if not intending to report bugs.</p>
 
 <pre>
 $ git clone git://git.sv.gnu.org/libunwind
@@ -151,8 +179,9 @@ $ cd ..
 
 <h2>libinput</h2>
 
-<p>Libinput translates evdev events into Wayland events. It has been split
-from Weston as the code is reusable by any Wayland compositor on Linux.</p>
+<p><a href="http://www.freedesktop.org/wiki/Software/libinput/">Libinput</a>
+translates evdev events into Wayland events. It has been split from
+Weston as the code is reusable by any Wayland compositor on Linux.</p>
 
 <pre>
 $ git clone git://anongit.freedesktop.org/wayland/libinput
@@ -162,23 +191,19 @@ $ make &amp;&amp; make install
 $ cd ..
 </pre>
 
+<ul>
+<li>You probably need the development package for <a href="http://www.freedesktop.org/wiki/Software/libevdev/">libevdev</a>, this is in
+<code>git://anongit.freedesktop.org/libevdev</code></li>
+
+<li><a href="http://xkbcommon.org/">libxkbcommon</a> source is
+in <code>git://github.com/xkbcommon/libxkbcommon</code>.</li>
+</ul>
+
 <h2>Weston and demo applications</h2>
 
 <p>Weston is the reference implementation of a Wayland compositor.
 It's available in the weston repo and comes with a few demo
 applications.
-
-<p>Aside from mesa and libxkbcommon, the Weston dependencies can be
-satisfied with released versions of:
-
-gdk-pixbuf-2.0,
-libudev 136,
-libdrm 2.4.23,
-pixman-1,
-cairo-gl 1.11.3,
-glib-2.0, and
-gobject-2.0.  
-</p>
 
 <pre>
 $ git clone git://anongit.freedesktop.org/wayland/weston
@@ -189,13 +214,17 @@ $ sudo make install
 $ cd ..
 </pre>
 
-<h2>Running Weston</h2>
+<ul>
+<li>Use <code>--disable-setuid-install</code> to avoid having to
+use <code>sudo make install</code>. This is useful
+if you only plan to run weston under X.</li>
+</ul>
 
-<h3><code>$XDG_RUNTIME_DIR</code></h3>
+<h2>Running Weston</h2>
 
 <p>Weston creates its unix socket file (for example, wayland-0)
 in the directory specified by the required environment variable
-<code>$XDG_RUNTIME_DIR</code> . Clients use the same variable to find that
+<a href="http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html"><code>$XDG_RUNTIME_DIR</code></a>. Clients use the same variable to find that
 socket. This is provided using systemd by some distributions (Fedora,
 <a href="https://www.archlinux.org/news/systemd-tools-replaces-udev/">Arch
 since June 2012</a> or Exherbo).
