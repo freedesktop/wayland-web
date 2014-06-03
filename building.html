@@ -4,20 +4,18 @@
 <head> 
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
 <link href="wayland.css" rel="stylesheet" type="text/css">
-<title>Wayland</title> 
+<title>Building Weston</title>
 </head>
 
 <body>
-<h1><a href="/"><img src="wayland.png" alt="Wayland logo"></a></h1>
+<h1><a href="index.html"><img src="wayland.png" alt="Wayland logo"></a>
+Building Weston</h1>
 
 <p>The instructions below assume some familiarity with git and
 building and running experimental software.  Also, be prepared for the fact that this
 project is still very much a prototype.  When the instructions suggest to clone a git repo, you can
 of course just add a remote and fetch instead, if you have a clone of
-that repo around already.  By default the software is installed in $HOME/install
-but you can change it by altering $WLD (explained later). You can also install
-everything system-wide by setting WLD to /usr and passing --sysconfdir=/etc
-to autogen.sh.</p>
+that repo around already.</p>
 
 <h2>Hardware / Drivers</h2>
 
@@ -49,13 +47,15 @@ Pi</a>, see <a href="raspberrypi.html">Raspberry Pi build guide</a>.</p>
 the following environment variables to get various libraries to link
 appropriately:</p>
 
-<pre>WLD=$HOME/install   # change this to another location if you prefer
-LD_LIBRARY_PATH=$WLD/lib
-PKG_CONFIG_PATH=$WLD/lib/pkgconfig/:$WLD/share/pkgconfig/
-ACLOCAL_PATH="$WLD/share/aclocal"
-ACLOCAL="aclocal -I $ACLOCAL_PATH"
+<pre>
+export WLD=$HOME/install   <span class="comment"># change this to another location if you prefer</span>
+export LD_LIBRARY_PATH=$WLD/lib
+export PKG_CONFIG_PATH=$WLD/lib/pkgconfig/:$WLD/share/pkgconfig/
+export PATH=$WLD/bin:$PATH
+export ACLOCAL_PATH=$WLD/share/aclocal
+export ACLOCAL="aclocal -I $ACLOCAL_PATH"
 
-export WLD LD_LIBRARY_PATH PKG_CONFIG_PATH ACLOCAL ACLOCAL_PATH
+mkdir -p $WLD/share/aclocal <span class="comment"># needed by autotools</span>
 </pre>
 
 <p>Do not set LD_LIBRARY_PATH as your default, it will break things.</p>
@@ -63,11 +63,19 @@ export WLD LD_LIBRARY_PATH PKG_CONFIG_PATH ACLOCAL ACLOCAL_PATH
 you wish to build the packages.</p>
 
 <h3>Installing system wide</h3>
-<p>To install system wide, you'll need to set this variable, and possibly
-build with --libdir=/usr/lib64 :</p>
 
-<pre>WLD=/usr
-export WLD
+<p>To install system wide, you'll need to set WLD differently, add
+some switches to every autogen.sh invocation, and use sudo to make
+install. Choose the libdir as appropriate for your distribution and
+architecture (32 vs. 64 bit).</p>
+
+<pre>
+export WLD=/usr
+...
+./autogen.sh --prefix=$WLD --libdir=/usr/lib --sysconfdir=/etc
+make
+sudo make install
+...
 </pre>
 
 <h2>Wayland libraries</h2>
@@ -75,11 +83,12 @@ export WLD
 <p>This is required in order to be able to build Mesa with
 --with-egl-platforms=x11,wayland,drm.</p>
 
-<pre>    $ git clone git://anongit.freedesktop.org/wayland/wayland
-    $ cd wayland
-    $ ./autogen.sh --prefix=$WLD
-    $ make
-    $ make install
+<pre>
+$ git clone git://anongit.freedesktop.org/wayland/wayland
+$ cd wayland
+$ ./autogen.sh --prefix=$WLD
+$ make &amp;&amp; make install
+$ cd ..
 </pre>
 
 <h2>Mesa</h2>
@@ -93,17 +102,14 @@ optimization will only be available in more recent releases.</p>
 Other dependencies are development packages of xcb-dri2 and
 xcb-xfixes.</p>
 
-<pre>    $ git clone git://anongit.freedesktop.org/git/mesa/drm
-    $ cd drm
-    $ ./autogen.sh --prefix=$WLD
-    $ make &amp;&amp; make install
-
-    $ git clone git://anongit.freedesktop.org/mesa/mesa
-    $ cd mesa
-    $ ./autogen.sh --prefix=$WLD --enable-gles2 --disable-gallium-egl \
-      --with-egl-platforms=x11,wayland,drm --enable-gbm --enable-shared-glapi \
-      --with-gallium-drivers=r300,r600,swrast,nouveau
-    $ make &amp;&amp; make install
+<pre>
+$ git clone git://anongit.freedesktop.org/mesa/mesa
+$ cd mesa
+$ ./autogen.sh --prefix=$WLD --enable-gles2 --disable-gallium-egl \
+  --with-egl-platforms=x11,wayland,drm --enable-gbm --enable-shared-glapi \
+  --with-gallium-drivers=r300,r600,swrast,nouveau
+$ make &amp;&amp; make install
+$ cd ..
 </pre>
 
 <p>We disable Gallium for Intel 915 and 965, which just means that libEGL
@@ -113,50 +119,35 @@ be built as DRI drivers, which the EGL loader will load just fine.</p>
 <p><a href="mesa-configure.html">Example mesa configure output.</a></p>
 
 <p>Note on Mesa build failures:  If you're not building in your Mesa git
-repo for the first time, the first thing to try is always "git clean
--xfd", and possibly deleting your $WLD directory, as Mesa requires
+repo for the first time, the first thing to try is always "<code>git&nbsp;clean&nbsp;-xfd</code>", and possibly deleting your $WLD directory, as Mesa requires
 this often.</p>
-
-<h2>libxkbcommon</h2>
-
-<p>Wayland needs libxkbcommon >= 0.3.0 for translating evdev keycodes to keysyms.</p>
-
-<pre>    $ git clone git://github.com/xkbcommon/libxkbcommon
-    $ cd libxkbcommon/
-    $ ./autogen.sh --prefix=$WLD --with-xkb-config-root=/usr/share/X11/xkb
-    $ make &amp;&amp; make install
-</pre>
-
-<h2>cairo-gl</h2>
-
-<p>The Wayland clients can render using cairo-gl, but fall back to
-software when cairo-gl is not available.  For cairo-gl, cairo 1.11.3
-or newer is needed.  For this you'll need a development package for
-pixman.</p>
-
-<pre>    $ git clone git://anongit.freedesktop.org/pixman
-    $ cd pixman
-    $ ./autogen.sh --prefix=$WLD
-    $ make &amp;&amp; make install
-
-    $ git clone git://anongit.freedesktop.org/cairo
-    $ cd cairo
-    $ ./autogen.sh --prefix=$WLD --enable-gl --enable-xcb
-    $ make &amp;&amp; make install
-</pre>
 
 <h2>libunwind</h2>
 
 <p>Weston requires libunwind v1.1 if you don't configure with
 --disable-libunwind .</p>
 
-<pre>    $ git clone git://git.sv.gnu.org/libunwind
-    $ cd libunwind
-    $ autoreconf -i
-    $ ./configure --prefix=$WLD
-    $ make &amp;&amp; make install
+<pre>
+$ git clone git://git.sv.gnu.org/libunwind
+$ cd libunwind
+$ autoreconf -i
+$ ./configure --prefix=$WLD
+$ make &amp;&amp; make install
+$ cd ..
 </pre>
 
+<h2>libinput</h2>
+
+<p>Libinput translates evdev events into Wayland events. It has been split
+from Weston as the code is reusable by any Wayland compositor on Linux.</p>
+
+<pre>
+$ git clone git://anongit.freedesktop.org/wayland/libinput
+$ cd libinput
+$ ./autogen.sh --prefix=$WLD
+$ make &amp;&amp; make install
+$ cd ..
+</pre>
 
 <h2><code>$XDG_RUNTIME_DIR</code></h2>
 
@@ -223,15 +214,15 @@ pixman-1,
 cairo-gl 1.11.3,
 glib-2.0, and
 gobject-2.0.  
-And optionally, for the pdf viewer:
-poppler-glib and
-gio-2.0.</p>
+</p>
 
-<pre>    $ git clone git://anongit.freedesktop.org/wayland/weston
-    $ cd weston
-    $ ./autogen.sh --prefix=$WLD
-    $ make
-    $ make install
+<pre>
+$ git clone git://anongit.freedesktop.org/wayland/weston
+$ cd weston
+$ ./autogen.sh --prefix=$WLD --enable-libinput-backend
+$ make
+$ sudo make install
+$ cd ..
 </pre>
 
 <p>If DISPLAY is set, the weston will run under X in a window and take
@@ -240,27 +231,29 @@ from evdev devices.  Copy the weston.ini config file to ~/.config and
 edit it to set a background image that you like.  Then run the compositor
 by typing:</p>
 
-<pre>    $ ./weston
+<pre>
+$ weston
 </pre>
 
 <p>For KMS/DRM output (outside of X) use weston-launch, which needs
-root permissions, which are set if "make install" is run as root,
-but some distributions disable it.  It also requires that you enable
+root permissions.  It also requires that you enable
 systemd session support for weston-launch (by using systemd and having
 the systemd-login devel headers at configure time) or add yourself to the
 "weston-launch" group:</p>
 
-<pre>    $ sudo groupadd weston-launch
-    $ sudo usermod -a -G weston-launch $USER
-    $ # Log all the way out (of X, etc.)
-    $ sudo chown root weston-launch
-    $ sudo chmod +s weston-launch
-    $ weston-launch
+<pre>
+$ sudo groupadd weston-launch
+$ sudo usermod -a -G weston-launch $USER
+$ <span class="comment"># Log all the way out (of X, etc.)</span>
+$ sudo chown root $WLD/bin/weston-launch
+$ sudo chmod +s $WLD/bin/weston-launch
+$ weston-launch
 </pre>
 
 <p>To run clients, switch to a different VT and run the client from
 there.  Or run it under X and start up the clients from a terminal
-window.  There are a few demo clients available, but they are all
+window.  There are a few demo clients available in the weston build
+directory, but they are all
 pretty simple and mostly for testing specific features in the wayland
 protocol: </p>
 
