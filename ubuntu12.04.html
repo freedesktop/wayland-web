@@ -1,0 +1,291 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<link href="wayland.css" rel="stylesheet" type="text/css">
+<title>Building Weston on Ubuntu 12.04</title>
+</head>
+
+<body>
+<h1><a href="index.html"><img src="wayland.png" alt="Wayland logo"></a>
+Building Weston on Ubuntu 12.04</h1>
+
+<p>The following sequence of commands successfully built Weston and
+XWayland on an Ubuntu 12.04 LTS system, on May 23rd, 2014. This system had
+previously been used to compile Xlib programs, and thus already had
+some dependencies (such as git, the compiler, and X11 header files)
+installed.</p>
+
+<p>Parallel make (<code>make -j 9</code>) will probably work on all
+packages but only the ones shown were compiled this way.</p>
+
+<p>Newer Linux distributions should require fewer things to be
+compiled from git.</p>
+
+<p>Conversely, newer versions of the code, in particular Mesa, will
+probably require more dependencies than shown here.</p>
+
+<pre>
+<span class="comment"># setup environment for local install:</span>
+export WLD=$HOME/install
+export LD_LIBRARY_PATH=$WLD/lib
+export PKG_CONFIG_PATH=$WLD/lib/pkgconfig/:$WLD/share/pkgconfig/
+export PATH=$WLD/bin:$PATH
+
+export ACLOCAL_PATH=$WLD/share/aclocal
+export ACLOCAL="aclocal -I $ACLOCAL_PATH"
+mkdir -p $ACLOCAL_PATH
+
+<span class="comment"># dependencies for libwayland:</span>
+sudo apt-get install doxygen <span class="comment"># or use --disable-documentation</span>
+
+<span class="comment"># libwayland-*:</span>
+git clone git://anongit.freedesktop.org/wayland/wayland
+cd wayland
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+<span class="comment"># dependencies for Mesa:
+# "sudo apt-get build-dep mesa" will install these, but will also
+# install unwanted items, such as wayland itself, and xcb prototypes
+# that are too old.</span>
+sudo apt-get install autoconf automake bison debhelper dpkg-dev flex \
+  libdrm-dev libexpat1-dev libudev-dev libx11-dev libx11-xcb-dev \
+  libxdamage-dev libxext-dev libxfixes-dev libxxf86vm-dev \
+  linux-libc-dev pkg-config python-libxml2 quilt x11proto-dri2-dev \
+  x11proto-gl-dev xutils-dev
+
+<span class="comment"># Mesa required llvm-3.1, but newer versions are available.
+# "apt-cache search 'llvm-[0-9.]*-dev'" will list them</span>
+sudo apt-get install llvm-3.1-dev
+sudo ln -sf llvm-config-3.1 /usr/bin/llvm-config
+
+sudo apt-get install libpciaccess-dev <span class="comment"># needed by drm</span>
+git clone git://anongit.freedesktop.org/git/mesa/drm
+cd drm
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+<span class="comment"># needed by libxcb:</span>
+git clone git://anongit.freedesktop.org/xcb/proto
+cd proto
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+<span class="comment"># needed by libxcb:</span>
+git clone git://anongit.freedesktop.org/xorg/util/macros
+cd macros
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xcb/libxcb
+cd libxcb
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xorg/proto/presentproto
+cd presentproto
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xorg/proto/dri3proto
+cd dri3proto
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xorg/lib/libxshmfence
+cd libxshmfence
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+<span class="comment"># Mesa:</span>
+git clone git://anongit.freedesktop.org/mesa/mesa
+cd mesa
+./autogen.sh --prefix=$WLD --enable-gles2 --disable-gallium-egl \
+ --with-egl-platforms=x11,wayland,drm --enable-gbm --enable-shared-glapi \
+ --with-gallium-drivers=r300,r600,swrast,nouveau \
+ --disable-llvm-shared-libs <span class="comment"># this may be a bug in the llvm package</span>
+make &amp;&amp; make install
+cd ..
+
+<span class="comment"># The version of Cairo included with Ubuntu 12.04 has bugs that cause
+# rendering errors in some Wayland clients (in particular the
+# Xserver). Though not required, it may be a good idea to compile the
+# newest version from source:</span>
+git clone git://anongit.freedesktop.org/pixman
+cd pixman
+./autogen.sh --prefix=$WLD
+make -j 9 &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/cairo
+cd cairo
+./autogen.sh --prefix=$WLD --enable-xcb
+make -j 9 &amp;&amp; make install
+cd ..
+
+<span class="comment"># libinput dependencies:</span>
+sudo apt-get install libmtdev-dev libpam0g-dev
+
+git clone git://github.com/xkbcommon/libxkbcommon
+cd libxkbcommon
+./autogen.sh --prefix=$WLD --with-xkb-config-root=/usr/share/X11/xkb
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/libevdev
+cd libevdev
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+<span class="comment"># libinput:</span>
+git clone git://anongit.freedesktop.org/wayland/libinput
+cd libinput
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+<span class="comment"># Weston dependencies:</span>
+git clone git://git.sv.gnu.org/libunwind
+cd libunwind
+autoreconf -i <span class="comment"># note that autogen is not used</span>
+./configure --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+<span class="comment"># Weston and demo applications:</span>
+git clone git://anongit.freedesktop.org/wayland/weston
+cd weston
+./autogen.sh --prefix=$WLD --enable-libinput-backend --disable-setuid-install
+make -j 9 &amp;&amp; make install
+cd ..
+
+<span class="comment"># XServer dependencies:</span>
+sudo apt-get install libxfont-dev
+
+git clone https://github.com/anholt/libepoxy.git
+cd libepoxy
+<span class="comment"># The CPPFLAGS fixed a failure to find the local EGL header files
+# This is not necessary if xproto is installed first</span>
+CPPFLAGS=-I$WLD/include ./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xorg/proto/glproto
+cd glproto
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xorg/proto/xproto
+cd xproto
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xorg/proto/xcmiscproto
+cd xcmiscproto
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xorg/lib/libxtrans
+cd libxtrans
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xorg/proto/bigreqsproto
+cd bigreqsproto
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xorg/proto/xextproto
+cd xextproto
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xorg/proto/fontsproto
+cd fontsproto
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xorg/proto/videoproto
+cd videoproto
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xorg/proto/recordproto
+cd recordproto
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xorg/proto/resourceproto
+cd resourceproto
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xorg/proto/xf86driproto
+cd xf86driproto
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+git clone git://anongit.freedesktop.org/xorg/lib/libxkbfile
+cd libxkbfile
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+<span class="comment"># XWayland:</span>
+git clone git://anongit.freedesktop.org/xorg/xserver
+cd xserver
+./autogen.sh --prefix=$WLD --disable-docs --disable-devel-docs \
+  --enable-xwayland --disable-xorg --disable-xvfb --disable-xnest \
+  --disable-xquartz --disable-xwin
+make &amp;&amp; make install
+cd ..
+
+<span class="comment"># Links needed so XWayland works:</span>
+mkdir -p $WLD/share/X11/xkb/rules
+ln -s /usr/share/X11/xkb/rules/evdev $WLD/share/X11/xkb/rules/
+ln -s /usr/bin/xkbcomp $WLD/bin/
+
+<span class="comment"># Weston configuration:</span>
+mkdir -p ~/.config
+cp weston/weston.ini ~/.config
+nano ~/.config/weston.ini <span class="comment"># edit to set background and turn on xwayland.so module</span>
+
+<span class="comment"># Needed by wayland for socket:</span>
+if test -z "${XDG_RUNTIME_DIR}"; then
+    export XDG_RUNTIME_DIR=/tmp/${UID}-runtime-dir
+    if ! test -d "${XDG_RUNTIME_DIR}"; then
+        mkdir "${XDG_RUNTIME_DIR}"
+        chmod 0700 "${XDG_RUNTIME_DIR}"
+    fi
+fi
+
+<span class="comment"># Run it in an X11 window:</span>
+weston
+</pre>
+
+<p>Easy Peasy!</p>
+
+</body>
+</html> 

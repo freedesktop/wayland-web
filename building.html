@@ -17,6 +17,22 @@ project is still very much a prototype.  When the instructions suggest to clone 
 of course just add a remote and fetch instead, if you have a clone of
 that repo around already.</p>
 
+<h2>System-specific Directions</h2>
+
+<p>This page has the generic instructions on building Wayland and Weston
+from git. There are also some guides specific to certain distribution
+or hardware:</p>
+
+<ul>
+
+<li><a href="ubuntu12.04.html">Building Weston and XWayland on
+Ubuntu 12.04</a>. May be useful for any Debian-derived system.</li>
+
+<li>For building Weston for <a href="http://www.raspberrypi.org/">Raspberry
+Pi</a>, see <a href="raspberrypi.html">Raspberry Pi build guide</a>.</li>
+
+</ul>
+
 <h2>Hardware / Drivers</h2>
 
 <p>X output requires DRI2.  DRM output (without X) requires Kernel Mode
@@ -37,9 +53,6 @@ version 2.6.37 for nv40 or lower cards, 2.6.38 for nv50 cards. Some new
 cards require
 <a href="http://nouveau.freedesktop.org/wiki/InstallDRM#Firmware">loading
 external firmware</a>.</p>
-
-<p>For building Weston for <a href="http://www.raspberrypi.org/">Raspberry
-Pi</a>, see <a href="raspberrypi.html">Raspberry Pi build guide</a>.</p>
 
 <h2 id="environment">Setting up the environment</h2>
 <h3>Installing in a custom location</h3>
