@@ -8,8 +8,9 @@
 </head>
 
 <body>
-<h1><a href="index.html"><img src="wayland.png" alt="Wayland logo"></a>
-Building Weston</h1>
+<h1><a href="index.html"><img src="wayland.png" alt="Wayland logo"></a></h1>
+
+<h2>Building Weston</h2>
 
 <p>The instructions below assume some familiarity with
 <a href="http://git-scm.com/">git</a>,
@@ -134,9 +135,11 @@ $ make &amp;&amp; make install
 $ cd ..
 </pre>
 
-<p>We disable <a href="http://www.freedesktop.org/wiki/Software/gallium/">Gallium</a> for Intel 915 and 965, which just means that libEGL
-won't try to load the Gallium drivers directly.  The Gallium drivers will
-be built as DRI drivers, which the EGL loader will load just fine.</p>
+<p>We disable building the egl_gallium loader (<code>--disable-gallium-egl</code>)
+so that on Intel 915 and 965 hardware we avoid harmless error messages at
+runtime. The real
+<a href="http://www.freedesktop.org/wiki/Software/gallium/">Gallium</a>
+drivers will be built as DRI drivers, which egl_dri2 loader will load just fine.</p>
 
 <ul>
 <li><a href="mesa-configure.html">Example mesa configure output.</a></li>
@@ -167,7 +170,7 @@ this often.</p>
 <h2>libunwind</h2>
 
 <p>Weston requires <a href="http://www.nongnu.org/libunwind/">libunwind</a> v1.1 if you don't configure it with
-<code>--disable-libunwind</code>. linunwind only helps with weston
+<code>--disable-libunwind</code>. Libunwind only helps with weston
 crash reports and is safe to skip, if not intending to report bugs.</p>
 
 <pre>
@@ -224,7 +227,7 @@ if you only plan to run weston under X.</li>
 
 <h2>Running Weston</h2>
 
-<p>Weston creates its unix socket file (for example, wayland-0)
+<p>Weston creates its unix socket file (for example, <code>wayland-0</code>)
 in the directory specified by the required environment variable
 <a href="http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html"><code>$XDG_RUNTIME_DIR</code></a>. Clients use the same variable to find that
 socket. This is provided using systemd by some distributions (Fedora,
@@ -287,10 +290,11 @@ $ weston
 </pre>
 
 <p>Otherwise (outside of X) it will run on the KMS/DRM framebuffer and
-take input from evdev devices. Use weston-launch, which needs
-root permissions. It also requires that you enable
+take input from evdev devices. Use weston-launch, which as a setuid-root
+program does privileged operations on Weston's behalf.
+It also requires that you either enable
 systemd session support for weston-launch (by using systemd and having
-the systemd-login devel headers at configure time) or add yourself to the
+the systemd-login devel headers at configure time), or add yourself to the
 "weston-launch" group:</p>
 
 <pre>
