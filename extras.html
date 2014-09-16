@@ -82,6 +82,29 @@ glmark2
 
 <h2>Debugging tools</h2>
 
+<h3>Compositor features</h3>
+
+<p>Running <tt>weston-info</tt> will list all global interfaces advertized
+by the compositor. It will also tell additional information about the
+interfaces it knows about and have something to report, like monitor make
+and model, wl_seat capabilities, and wl_shm pixel formats. Weston-info
+comes with Weston, and works on any compositor.</p>
+
+<h3>OpenGL features</h3>
+
+<p>OpenGL (all flavours) features under Wayland can be queried with
+<tt><a href="http://www.waffle-gl.org/man/wflinfo.1.html">wflinfo</a></tt>
+provided by <a href="http://www.waffle-gl.org">Waffle</a>.
+Just use <tt>-p wayland</tt> argument.
+</p>
+
+<h3>Protocol dumpers</h3>
+
+<p>When using <tt>export WAYLAND_DEBUG=1</tt> (or <tt>WAYLAND_DEBUG=client</tt>
+or <tt>WAYLAND_DEBUG=server</tt>)
+<a href="http://lists.freedesktop.org/archives/wayland-devel/2014-April/014121.html">is not enough</a>,
+the following tools may help.</p>
+
 <ul>
 
 <li><a href="https://github.com/01org/wayland-tracker">wayland-tracker</a><br>
