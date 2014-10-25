@@ -73,6 +73,49 @@ $ make check
 $ make check BACKEND=x11-backend.so
 </pre>
 
+<h3>Running Individual Tests</h3>
+<p>
+The <code>check</code> target essentially executes all tests registered
+in the <code>TESTS</code> variable in Makefile.am.  Files with
+a <code>.test</code> extension are run directly, e.g.:</p>
+
+<pre>
+$ ./vertex-clip.test
+test "float_difference_same":exit status 0, pass.
+...
+16 tests, 16 pass, 0 skip, 0 fail
+</pre>
+
+<p>Tests suffixed with <code>.la</code> and <code>.weston</code> are run
+using the <code>tests/weston-tests-env</code> shell script, which you can
+use to run individual tests, thusly:</p>
+<pre>
+$ abs_builddir=$PWD tests/weston-tests-env  button.weston
+</pre>
+
+<h3>Test Results</h3>
+<p>
+The <code>*.test</code> tests output their results to stdout.  The other
+tests write into a logs/ subdirectory and generate one log for the
+server and another for the test itself.
+</p>
+<p>
+Example output:
+</p>
+<pre>
+test-client: got global pointer 100 100
+test-client: got keyboard keymap
+test-client: got surface enter output 0x202d600
+test-client: got keyboard modifiers 0 0 0 0
+test-client: got pointer enter 0 0, surface 0x202d500
+test-client: got pointer motion 50 50
+test-client: got global pointer 150 150
+test-client: got pointer button 272 1
+test-client: got pointer button 272 0
+test "simple_button_test":exit status 0, pass.
+1 tests, 1 pass, 0 skip, 0 fail
+</pre>
+
 <h3>Writing Tests</h3>
 
 <p><b>Compositor Tests</b></p>
