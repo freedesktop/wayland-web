@@ -12,7 +12,7 @@
 Building Weston on Ubuntu 12.04</h1>
 
 <p>The following sequence of commands successfully built Weston and
-XWayland on an Ubuntu 12.04 LTS system, on May 23rd, 2014. This system had
+XWayland on an Ubuntu 12.04 LTS system, on October 29 2014. This system had
 previously been used to compile Xlib programs, and thus already had
 some dependencies (such as git, the compiler, and X11 header files)
 installed.</p>
@@ -38,7 +38,7 @@ export ACLOCAL="aclocal -I $ACLOCAL_PATH"
 mkdir -p $ACLOCAL_PATH
 
 <span class="comment"># dependencies for libwayland:</span>
-sudo apt-get install doxygen <span class="comment"># or use --disable-documentation</span>
+sudo apt-get install doxygen xmlto <span class="comment"># or use --disable-documentation</span>
 
 <span class="comment"># libwayland-*:</span>
 git clone git://anongit.freedesktop.org/wayland/wayland
@@ -166,7 +166,7 @@ cd ..
 <span class="comment"># Weston and demo applications:</span>
 git clone git://anongit.freedesktop.org/wayland/weston
 cd weston
-./autogen.sh --prefix=$WLD --enable-libinput-backend --disable-setuid-install
+./autogen.sh --prefix=$WLD --disable-setuid-install
 make -j 9 &amp;&amp; make install
 cd ..
 
