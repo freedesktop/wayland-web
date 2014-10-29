@@ -12,7 +12,7 @@
 Building Weston on Linux Mint 17</h1>
 
 <p>The following sequence of commands successfully built Weston and
-XWayland on a Linux Mint 17 Cinnamon system, on July 5th, 2014. These
+XWayland on a Linux Mint 17 Cinnamon system, on October 28 2014. These
 commands will probably work on any system based on Ubuntu 14.04.</p>
 
 <p>This is considerably easier than earlier systems as the distributed
@@ -33,10 +33,11 @@ mkdir -p $ACLOCAL_PATH
 <span class="comment"># libwayland:</span>
 
 apt install libffi-dev libexpat-dev
+apt install doxygen xmlto <span class="comment"># or use --disable-documentation</span>
 
 git clone git://anongit.freedesktop.org/wayland/wayland
 cd wayland
-./autogen.sh --prefix=$WLD --disable-documentation
+./autogen.sh --prefix=$WLD
 make -j 9 && make install
 cd ..
 
@@ -58,7 +59,7 @@ apt install libegl1-mesa-dev libgles2-mesa-dev libxcursor-dev libcairo2-dev \
 
 git clone git://anongit.freedesktop.org/wayland/weston
 cd weston
-./autogen.sh --prefix=$WLD --enable-libinput-backend --disable-setuid-install
+./autogen.sh --prefix=$WLD --disable-setuid-install
 make -j 9 && make install
 cd ..
 
