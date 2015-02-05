@@ -40,6 +40,14 @@ mkdir -p $ACLOCAL_PATH
 <span class="comment"># dependencies for libwayland:</span>
 sudo apt-get install doxygen xmlto <span class="comment"># or use --disable-documentation</span>
 
+<span class="comment"># expat with pkg-config needed for libwayland:</span>
+wget http://downloads.sourceforge.net/project/expat/expat/2.1.0/expat-2.1.0.tar.gz
+tar xzf expat-2.1.0.tar.gz
+cd expat-2.1.0
+./configure --prefix=$WLD
+make && make install
+cd ..
+
 <span class="comment"># libwayland-*:</span>
 git clone git://anongit.freedesktop.org/wayland/wayland
 cd wayland
@@ -52,7 +60,7 @@ cd ..
 # install unwanted items, such as wayland itself, and xcb prototypes
 # that are too old.</span>
 sudo apt-get install autoconf automake bison debhelper dpkg-dev flex \
-  libexpat1-dev libudev-dev libx11-dev libx11-xcb-dev \
+  libudev-dev libx11-dev libx11-xcb-dev \
   libxdamage-dev libxext-dev libxfixes-dev libxxf86vm-dev \
   linux-libc-dev pkg-config python-libxml2 quilt x11proto-dri2-dev \
   x11proto-gl-dev xutils-dev
