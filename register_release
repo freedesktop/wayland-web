@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# TODO: Validate input
+
+RELEASE_NUMBER=$1
+RELEASE_NAME=$2
+RELEASE_SERIES="[SERIES]"
+RELEASE_DATE="[DATE]"
+RELEASE_DESC=""
+WAYLAND_ANNOUNCE_LINK="http://lists.freedesktop.org/archives/wayland-devel/[link here]"
+WESTON_ANNOUNCE_LINK="http://lists.freedesktop.org/archives/wayland-devel/[link here]"
+
+if [ "${RELEASE_NAME}" = "RC1" ]; then
+	RELEASE_DESC="This is the first release candidate for ${RELEASE_SERIES}."
+elif [ "${RELEASE_NAME}" = "RC2" ]; then
+	RELEASE_DESC="This is the second release candidate for ${RELEASE_SERIES}."
+fi
+
+cat <<EOF
+<h3>${RELEASE_NUMBER} Release</h3>
+
+<p>${RELEASE_NAME} for Wayland and Weston was released on ${RELEASE_DATE}.
+${RELEASE_DESC}</p>
+
+<ul>
+<li><a href="releases/wayland-${RELEASE_NUMBER}.tar.xz">wayland-${RELEASE_NUMBER}.tar.xz</a> -
+  - <a href="${WAYLAND_ANNOUNCE_LINK}">Wayland ${RELEASE_NUMBER} Release Announcement</a></li>
+<li><a href="releases/weston-${RELEASE_NUMBER}.tar.xz">weston-${RELEASE_NUMBER}.tar.xz</a>
+  - <a href="${WESTON_ANNOUNCE_LINK}">Weston ${RELEASE_NUMBER} Release Announcement</a></li>
+</ul>
+EOF
