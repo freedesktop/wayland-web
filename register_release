@@ -7,8 +7,10 @@ RELEASE_NAME=$2
 RELEASE_SERIES="[SERIES]"
 RELEASE_DATE="[DATE]"
 RELEASE_DESC=""
-WAYLAND_ANNOUNCE_LINK="http://lists.freedesktop.org/archives/wayland-devel/[link here]"
-WESTON_ANNOUNCE_LINK="http://lists.freedesktop.org/archives/wayland-devel/[link here]"
+
+announcements=$(wl_get_announcements)
+wayland_announce_link=$(echo "$announcements" | grep "wayland $RELEASE_NUMBER" | cut -d' ' -f3)
+weston_announce_link=$(echo "$announcements" | grep "weston $RELEASE_NUMBER" | cut -d' ' -f3)
 
 echo "<h3>${RELEASE_NUMBER} Release</h3>"
 
@@ -31,8 +33,8 @@ fi
 cat <<EOF
 <ul>
 <li><a href="releases/wayland-${RELEASE_NUMBER}.tar.xz">wayland-${RELEASE_NUMBER}.tar.xz</a> -
-  - <a href="${WAYLAND_ANNOUNCE_LINK}">Wayland ${RELEASE_NUMBER} Release Announcement</a></li>
+  - <a href="${wayland_announce_link}">Wayland ${RELEASE_NUMBER} Release Announcement</a></li>
 <li><a href="releases/weston-${RELEASE_NUMBER}.tar.xz">weston-${RELEASE_NUMBER}.tar.xz</a>
-  - <a href="${WESTON_ANNOUNCE_LINK}">Weston ${RELEASE_NUMBER} Release Announcement</a></li>
+  - <a href="${weston_announce_link}">Weston ${RELEASE_NUMBER} Release Announcement</a></li>
 </ul>
 EOF
