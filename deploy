@@ -1,1 +1,4 @@
-rsync -avz * wayland.freedesktop.org:/srv/wayland.freedesktop.org/www/
+rsync -avz * \
+	  --exclude scripts \
+	  --exclude deploy \
+	  --wayland.freedesktop.org:/srv/wayland.freedesktop.org/www/
