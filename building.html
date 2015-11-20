@@ -125,6 +125,18 @@ with <code>--disable-documentation</code>.</li>
 
 </ul>
 
+<h2>Wayland protocols</h2>
+
+<p>This contains a set of protocols that add functionality not available in the Wayland core protocol.</p>
+
+<pre>
+$ git clone <a href="http://cgit.freedesktop.org/wayland/wayland-protocols">git://anongit.freedesktop.org/wayland/wayland-protocols</a>
+$ cd wayland-protocols
+$ ./autogen.sh --prefix=$WLD
+$ make install
+$ cd ..
+</pre>
+
 <h2>Mesa</h2>
 
 <p>Wayland uses the <a href="http://www.mesa3d.org/egl.html">Mesa EGL</a> stack, and all extensions required to run
