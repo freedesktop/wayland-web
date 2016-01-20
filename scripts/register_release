@@ -4,7 +4,6 @@
 
 RELEASE_NUMBER=$1
 RELEASE_SERIES="[SERIES]"
-RELEASE_DATE="[DATE]"
 RELEASE_DESC=""
 
 announcements=$(wl_get_announcements)
@@ -30,7 +29,13 @@ else
     exit 1
 fi
 
-echo "<h3>${RELEASE_DATE}</h3>"
+# Lookup release date
+weston_announce_text=$(wget -q -O- "${weston_announce_link}")
+announce_time=$(echo "${weston_announce_text}" | grep "<I>" | head -n1 | sed -e 's/ *<I>\(.*\)<\/I>/\1/')
+release_date=$(date -d "$announce_time" +"%B %d, %Y")
+
+echo "<h3>${release_date}</h3>"
+echo
 
 echo "<p>"
 if [ "${release_name}" = "alpha" ]; then
@@ -49,6 +54,7 @@ else
 	echo "<p>${release_name} for Wayland and Weston was released on ${RELEASE_DATE}."
 fi
 echo "</p>"
+echo
 
 cat <<EOF
 <ul>
@@ -58,3 +64,4 @@ cat <<EOF
   - <a href="${weston_announce_link}">Weston ${RELEASE_NUMBER} Release Announcement</a></li>
 </ul>
 EOF
+echo
