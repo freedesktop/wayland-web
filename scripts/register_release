@@ -12,11 +12,12 @@ announcements=$(wl_get_announcements)
 wayland_announce_link=$(echo "$announcements" | grep "wayland $RELEASE_NUMBER" | cut -d' ' -f3)
 weston_announce_link=$(echo "$announcements" | grep "weston $RELEASE_NUMBER" | cut -d' ' -f3)
 
-echo "<h3>${RELEASE_NUMBER} Release</h3>"
+echo "<h3>${RELEASE_DATE}</h3>"
 
+echo "<p>"
 if [ "${RELEASE_NAME}" = "alpha" ]; then
-	echo "This is the alpha for Wayland and Weston ${RELEASE_SERIES}."
-	echo "It was released on ${RELEASE_DATE}."
+	echo "The ${RELEASE_NAME} for Wayland and Weston ${RELEASE_SERIES},"
+	echo "version ${RELEASE_NUMBER}, was released."
 elif [ "${RELEASE_NAME}" = "beta" ]; then
 	echo "This is the beta for Wayland and Weston ${RELEASE_SERIES}."
 	echo "It was released on ${RELEASE_DATE}."
@@ -29,6 +30,7 @@ elif [ "${RELEASE_NAME}" = "RC2" ]; then
 else
 	echo "<p>${RELEASE_NAME} for Wayland and Weston was released on ${RELEASE_DATE}."
 fi
+echo "</p>"
 
 cat <<EOF
 <ul>
