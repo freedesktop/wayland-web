@@ -3,7 +3,6 @@
 # TODO: Validate input
 
 RELEASE_NUMBER=$1
-RELEASE_NAME=$2
 RELEASE_SERIES="[SERIES]"
 RELEASE_DATE="[DATE]"
 RELEASE_DESC=""
@@ -12,23 +11,42 @@ announcements=$(wl_get_announcements)
 wayland_announce_link=$(echo "$announcements" | grep "wayland $RELEASE_NUMBER" | cut -d' ' -f3)
 weston_announce_link=$(echo "$announcements" | grep "weston $RELEASE_NUMBER" | cut -d' ' -f3)
 
+if [ "${RELEASE_NUMBER##*.}" = "91" ]; then
+    release_name=alpha
+elif [ "${RELEASE_NUMBER##*.}" = "92" ]; then
+    release_name=beta
+elif [ "${RELEASE_NUMBER##*.}" = "93" ]; then
+    release_name=rc
+elif [ "${RELEASE_NUMBER##*.}" = "0" ]; then
+    release_name=official
+elif [ "${RELEASE_NUMBER##*.}" = "1" ]; then
+    release_name=point
+elif [ "${RELEASE_NUMBER##*.}" = "2" ]; then
+    release_name=point
+elif [ "${RELEASE_NUMBER##*.}" = "3" ]; then
+    release_name=point
+else
+    echo "Error: Can't figure out release name from version number.  FIXME."
+    exit 1
+fi
+
 echo "<h3>${RELEASE_DATE}</h3>"
 
 echo "<p>"
-if [ "${RELEASE_NAME}" = "alpha" ]; then
-	echo "The ${RELEASE_NAME} for Wayland and Weston ${RELEASE_SERIES},"
+if [ "${release_name}" = "alpha" ]; then
+	echo "The ${release_name} for Wayland and Weston ${RELEASE_SERIES},"
 	echo "version ${RELEASE_NUMBER}, was released."
-elif [ "${RELEASE_NAME}" = "beta" ]; then
+elif [ "${release_name}" = "beta" ]; then
 	echo "This is the beta for Wayland and Weston ${RELEASE_SERIES}."
 	echo "It was released on ${RELEASE_DATE}."
-elif [ "${RELEASE_NAME}" = "RC1" ]; then
+elif [ "${release_name}" = "RC1" ]; then
 	echo "This is the first release candidate for ${RELEASE_SERIES}."
-	echo "<p>${RELEASE_NAME} for Wayland and Weston was released on ${RELEASE_DATE}."
-elif [ "${RELEASE_NAME}" = "RC2" ]; then
+	echo "<p>${release_name} for Wayland and Weston was released on ${RELEASE_DATE}."
+elif [ "${release_name}" = "RC2" ]; then
 	echo "This is the second release candidate for ${RELEASE_SERIES}."
-	echo "<p>${RELEASE_NAME} for Wayland and Weston was released on ${RELEASE_DATE}."
+	echo "<p>${release_name} for Wayland and Weston was released on ${RELEASE_DATE}."
 else
-	echo "<p>${RELEASE_NAME} for Wayland and Weston was released on ${RELEASE_DATE}."
+	echo "<p>${release_name} for Wayland and Weston was released on ${RELEASE_DATE}."
 fi
 echo "</p>"
 
