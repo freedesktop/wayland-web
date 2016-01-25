@@ -12,7 +12,25 @@
 
 <h2>Building Weston</h2>
 
-<p>The instructions below assume some familiarity with
+<p>
+Most major Linux distributions now include releases of Wayland and
+Weston in their package management systems.  There are also automatic
+build systems that package even more recent Wayland/Weston packages for
+particular distros, such as the
+<a href="https://launchpad.net/~wayland.admin/+archive/ubuntu/daily-builds">Wayland Daily Builds PPA for Ubuntu</a>.
+</p>
+
+<p>
+If you want an even current build, you can use 
+our <a href="https://github.com/bryceharrington/wayland-build-tools/">wayland-build-tools</a>
+scripts to check out and build all the git trees for your local system.
+</p>
+
+<p>
+If those options don't suit your needs, you can also manually build the
+stack yourself.  The directions below are provided as a guide, but will
+need adapted for the Linux system you're using.  The instructions below
+assume some familiarity with
 <a href="http://git-scm.com/">git</a>,
 <a href="http://www.freedesktop.org/wiki/Software/pkg-config/">pkg-config</a>,
 <a href="http://www.gnu.org/software/autoconf/">autoconf</a>, and
