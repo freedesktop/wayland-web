@@ -16,10 +16,7 @@
 <a href="http://git-scm.com/">git</a>,
 <a href="http://www.freedesktop.org/wiki/Software/pkg-config/">pkg-config</a>,
 <a href="http://www.gnu.org/software/autoconf/">autoconf</a>, and
-building and running experimental software.  Also, be prepared for the fact that this
-project is still very much a prototype.  When the instructions suggest to clone a git repo, you can
-of course just add a remote and fetch instead, if you have a clone of
-that repo around already.</p>
+building and running experimental software.</p>
 
 <p>Some help for figuring out how to fix dependency problems:
 <a href="http://who-t.blogspot.com.au/2014/05/configure-fails-with-no-package-foo.html">Configure
@@ -139,10 +136,11 @@ $ cd ..
 
 <h2>Mesa</h2>
 
-<p>Wayland uses the <a href="http://www.mesa3d.org/egl.html">Mesa EGL</a> stack, and all extensions required to run
-EGL on KMS are now upstream.  Wayland should work with any mesa
-release after 9.0, but in some cases extra functionality or
-optimization will only be available in more recent releases.</p>
+<p>Wayland uses the <a href="http://www.mesa3d.org/egl.html">Mesa
+EGL</a> stack, and all extensions required to run EGL on KMS are now
+upstream.  Wayland should work with any mesa release after 9.0, but in
+some cases extra functionality or optimization will only be available in
+more recent releases.</p>
 
 <pre>
 $ git clone <a href="http://cgit.freedesktop.org/mesa/mesa">git://anongit.freedesktop.org/mesa/mesa</a>
@@ -182,15 +180,17 @@ want to install any dependencies it needs now. This is so Mesa
 uses the same header files as xwayland.
 </ul>
 
-<p>Note on Mesa build failures:  If you're not building in your Mesa git
-repo for the first time, the first thing to try is always "<code>git&nbsp;clean&nbsp;-xfd</code>", and possibly deleting your $WLD directory, as Mesa requires
-this often.</p>
+<p>Note on Mesa build failures: If you're not building in your Mesa git
+repo for the first time, the first thing to try is always
+"<code>git&nbsp;clean&nbsp;-xfd</code>", and possibly deleting your $WLD
+directory, as Mesa requires this often.</p>
 
 <h2>libunwind</h2>
 
-<p>Weston requires <a href="http://www.nongnu.org/libunwind/">libunwind</a> v1.1 if you don't configure it with
-<code>--disable-libunwind</code>. Libunwind only helps with weston
-crash reports and is safe to skip, if not intending to report bugs.</p>
+<p>Weston requires <a href="http://www.nongnu.org/libunwind/">libunwind</a>
+v1.1 if you don't configure it with <code>--disable-libunwind</code>.
+Libunwind only helps with weston crash reports and is safe to skip, if not
+intending to report bugs.</p>
 
 <pre>
 $ git clone <a href="http://git.savannah.gnu.org/gitweb/?p=libunwind.git">git://git.sv.gnu.org/libunwind</a>
@@ -216,8 +216,9 @@ $ cd ..
 </pre>
 
 <ul>
-<li>You probably need the development package for <a href="http://www.freedesktop.org/wiki/Software/libevdev/">libevdev</a>, this is in
-<a href="http://cgit.freedesktop.org/libevdev"><code>git://anongit.freedesktop.org/libevdev</code></a></li>
+<li>You probably need the development package for
+  <a href="http://www.freedesktop.org/wiki/Software/libevdev/">libevdev</a>,
+  this is in <a href="http://cgit.freedesktop.org/libevdev"><code>git://anongit.freedesktop.org/libevdev</code></a></li>
 
 <li><a href="http://xkbcommon.org/">libxkbcommon</a> source is
 in <a href="http://github.com/xkbcommon/libxkbcommon"><code>git://github.com/xkbcommon/libxkbcommon</code></a>.</li>
@@ -225,9 +226,9 @@ in <a href="http://github.com/xkbcommon/libxkbcommon"><code>git://github.com/xkb
 
 <h2>Weston and demo applications</h2>
 
-<p>Weston is the reference implementation of a Wayland compositor.
-It's available in the weston repo and comes with a few demo
-applications.
+<p>Weston is the reference implementation of a Wayland compositor.  It's
+available in the weston repo and comes with a few demo applications.
+</p>
 
 <pre>
 $ git clone <a href="http://cgit.freedesktop.org/wayland/weston">git://anongit.freedesktop.org/wayland/weston</a>
@@ -310,11 +311,10 @@ $ weston
 
 <p>Otherwise (outside of X) it will run on the KMS/DRM framebuffer and
 take input from evdev devices. Use weston-launch, which as a setuid-root
-program does privileged operations on Weston's behalf.
-It also requires that you either enable
-systemd session support for weston-launch (by using systemd and having
-the systemd-login devel headers at configure time), or add yourself to the
-"weston-launch" group:</p>
+program does privileged operations on Weston's behalf.  It also requires
+that you either enable systemd session support for weston-launch (by
+using systemd and having the systemd-login devel headers at configure
+time), or add yourself to the "weston-launch" group:</p>
 
 <pre>
 $ sudo groupadd weston-launch
@@ -325,13 +325,12 @@ $ sudo chmod +s $WLD/bin/weston-launch
 $ weston-launch
 </pre>
 
-<p>To run clients, the second button in the top bar will run weston-terminal,
-from which you can run clients. It is also possible to run clients from
-a different VT when running on hardware, or from an xterm if running
-under X. There are a few demo clients available in the weston build
-directory, but they are all
-pretty simple and mostly for testing specific features in the wayland
-protocol: </p>
+<p>To run clients, the second button in the top bar will run
+weston-terminal, from which you can run clients. It is also possible to
+run clients from a different VT when running on hardware, or from an
+xterm if running under X. There are a few demo clients available in the
+weston build directory, but they are all pretty simple and mostly for
+testing specific features in the wayland protocol: </p>
 
 <ul>
   <li>'weston-terminal' is a simple terminal emulator, not very compliant at all,
