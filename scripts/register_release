@@ -15,7 +15,9 @@ if [ "${RELEASE_NUMBER##*.}" = "91" ]; then
 elif [ "${RELEASE_NUMBER##*.}" = "92" ]; then
     release_name=beta
 elif [ "${RELEASE_NUMBER##*.}" = "93" ]; then
-    release_name=rc
+    release_name=RC1
+elif [ "${RELEASE_NUMBER##*.}" = "94" ]; then
+    release_name=RC2
 elif [ "${RELEASE_NUMBER##*.}" = "0" ]; then
     release_name=official
 elif [ "${RELEASE_NUMBER##*.}" = "1" ]; then
@@ -42,13 +44,11 @@ if [ "${release_name}" = "alpha" ] || [ "${release_name}" = "beta" ]; then
 	echo "The ${release_name} for Wayland and Weston ${RELEASE_SERIES},"
 	echo "version ${RELEASE_NUMBER}, was released."
 elif [ "${release_name}" = "RC1" ]; then
-	echo "This is the first release candidate for ${RELEASE_SERIES}."
-	echo "<p>${release_name} for Wayland and Weston was released on ${RELEASE_DATE}."
+	echo "Version ${RELEASE_NUMBER} (RC1) for Wayland and Weston was released.  This is the first release candidate for ${RELEASE_SERIES}."
 elif [ "${release_name}" = "RC2" ]; then
-	echo "This is the second release candidate for ${RELEASE_SERIES}."
-	echo "<p>${release_name} for Wayland and Weston was released on ${RELEASE_DATE}."
+	echo "Version ${RELEASE_NUMBER} (RC2) for Wayland and Weston was released.  This is the second release candidate for ${RELEASE_SERIES}."
 else
-	echo "<p>${release_name} for Wayland and Weston was released on ${RELEASE_DATE}."
+	echo "${release_name} for Wayland and Weston was released on ${RELEASE_DATE}."
 fi
 echo "</p>"
 echo
