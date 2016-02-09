@@ -31,6 +31,12 @@ else
     exit 1
 fi
 
+# Calculate what the release series is
+prev_series=${RELEASE_NUMBER%.*}
+next_major=${prev_series%.*}
+next_point=$(( ${prev_series#*.} + 1 ))
+RELEASE_SERIES="${next_major}.${next_point}"
+
 # Lookup release date
 weston_announce_text=$(wget -q -O- "${weston_announce_link}")
 announce_time=$(echo "${weston_announce_text}" | grep "<I>" | head -n1 | sed -e 's/ *<I>\(.*\)<\/I>/\1/')
