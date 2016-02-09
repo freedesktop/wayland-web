@@ -6,7 +6,7 @@ RELEASE_NUMBER=$1
 RELEASE_SERIES="[SERIES]"
 RELEASE_DESC=""
 
-announcements=$(wl_get_announcements)
+announcements=$(scripts/wl_get_announcements)
 wayland_announce_link=$(echo "$announcements" | grep "wayland $RELEASE_NUMBER" | cut -d' ' -f3)
 weston_announce_link=$(echo "$announcements" | grep "weston $RELEASE_NUMBER" | cut -d' ' -f3)
 
@@ -38,12 +38,9 @@ echo "<h3>${release_date}</h3>"
 echo
 
 echo "<p>"
-if [ "${release_name}" = "alpha" ]; then
+if [ "${release_name}" = "alpha" ] || [ "${release_name}" = "beta" ]; then
 	echo "The ${release_name} for Wayland and Weston ${RELEASE_SERIES},"
 	echo "version ${RELEASE_NUMBER}, was released."
-elif [ "${release_name}" = "beta" ]; then
-	echo "This is the beta for Wayland and Weston ${RELEASE_SERIES}."
-	echo "It was released on ${RELEASE_DATE}."
 elif [ "${release_name}" = "RC1" ]; then
 	echo "This is the first release candidate for ${RELEASE_SERIES}."
 	echo "<p>${release_name} for Wayland and Weston was released on ${RELEASE_DATE}."
