@@ -61,7 +61,7 @@ echo
 
 cat <<EOF
 <ul>
-<li><a href="releases/wayland-${RELEASE_NUMBER}.tar.xz">wayland-${RELEASE_NUMBER}.tar.xz</a> -
+<li><a href="releases/wayland-${RELEASE_NUMBER}.tar.xz">wayland-${RELEASE_NUMBER}.tar.xz</a>
   - <a href="${wayland_announce_link}">Wayland ${RELEASE_NUMBER} Release Announcement</a></li>
 <li><a href="releases/weston-${RELEASE_NUMBER}.tar.xz">weston-${RELEASE_NUMBER}.tar.xz</a>
   - <a href="${weston_announce_link}">Weston ${RELEASE_NUMBER} Release Announcement</a></li>
