@@ -1,14 +1,6 @@
 #!/bin/bash
 
-# TODO: Validate input
-
 RELEASE_NUMBER=$1
-RELEASE_SERIES="[SERIES]"
-RELEASE_DESC=""
-
-announcements=$(scripts/wl_get_announcements)
-wayland_announce_link=$(echo "$announcements" | grep "wayland $RELEASE_NUMBER" | cut -d' ' -f3)
-weston_announce_link=$(echo "$announcements" | grep "weston $RELEASE_NUMBER" | cut -d' ' -f3)
 
 if [ "${RELEASE_NUMBER##*.}" = "91" ]; then
     release_name=alpha
@@ -27,15 +19,19 @@ elif [ "${RELEASE_NUMBER##*.}" = "2" ]; then
 elif [ "${RELEASE_NUMBER##*.}" = "3" ]; then
     release_name=point
 else
-    echo "Error: Can't figure out release name from version number.  FIXME."
+    echo "Error: Can't figure out release name from version number." >&2
     exit 1
 fi
+
+announcements=$(scripts/wl_get_announcements)
+wayland_announce_link=$(echo "$announcements" | grep "wayland $RELEASE_NUMBER" | cut -d' ' -f3)
+weston_announce_link=$(echo "$announcements" | grep "weston $RELEASE_NUMBER" | cut -d' ' -f3)
 
 # Calculate what the release series is
 prev_series=${RELEASE_NUMBER%.*}
 next_major=${prev_series%.*}
 next_point=$(( ${prev_series#*.} + 1 ))
-RELEASE_SERIES="${next_major}.${next_point}"
+release_series="${next_major}.${next_point}"
 
 # Lookup release date
 weston_announce_text=$(wget -q -O- "${weston_announce_link}")
@@ -47,12 +43,12 @@ echo
 
 echo "<p>"
 if [ "${release_name}" = "alpha" ] || [ "${release_name}" = "beta" ]; then
-	echo "The ${release_name} for Wayland and Weston ${RELEASE_SERIES},"
+	echo "The ${release_name} for Wayland and Weston ${release_series},"
 	echo "version ${RELEASE_NUMBER}, was released."
 elif [ "${release_name}" = "RC1" ]; then
-	echo "Version ${RELEASE_NUMBER} (RC1) for Wayland and Weston was released.  This is the first release candidate for ${RELEASE_SERIES}."
+	echo "Version ${RELEASE_NUMBER} (RC1) for Wayland and Weston was released.  This is the first release candidate for ${release_series}."
 elif [ "${release_name}" = "RC2" ]; then
-	echo "Version ${RELEASE_NUMBER} (RC2) for Wayland and Weston was released.  This is the second release candidate for ${RELEASE_SERIES}."
+	echo "Version ${RELEASE_NUMBER} (RC2) for Wayland and Weston was released.  This is the second release candidate for ${release_series}."
 else
 	echo "${release_name} for Wayland and Weston was released on ${RELEASE_DATE}."
 fi
