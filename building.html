@@ -163,18 +163,12 @@ more recent releases.</p>
 <pre>
 $ git clone <a href="http://cgit.freedesktop.org/mesa/mesa">git://anongit.freedesktop.org/mesa/mesa</a>
 $ cd mesa
-$ ./autogen.sh --prefix=$WLD --enable-gles2 --disable-gallium-egl \
+$ ./autogen.sh --prefix=$WLD --enable-gles2 \
   --with-egl-platforms=x11,wayland,drm --enable-gbm --enable-shared-glapi \
   --with-gallium-drivers=r300,r600,swrast,nouveau
 $ make &amp;&amp; make install
 $ cd ..
 </pre>
-
-<p>We disable building the egl_gallium loader (<code>--disable-gallium-egl</code>)
-so that on Intel 915 and 965 hardware we avoid harmless error messages at
-runtime. The real
-<a href="http://www.freedesktop.org/wiki/Software/gallium/">Gallium</a>
-drivers will be built as DRI drivers, which egl_dri2 loader will load just fine.</p>
 
 <ul>
 <li><a href="mesa-configure.html">Example mesa configure output.</a></li>
