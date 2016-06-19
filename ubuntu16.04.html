@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<link href="wayland.css" rel="stylesheet" type="text/css">
+<title>Building Weston on Ubuntu 16.04</title>
+</head>
+
+<body>
+<h1><a href="index.html"><img src="wayland.png" alt="Wayland logo"></a>
+Building Weston on Ubuntu 16.04</h1>
+
+<p>The following sequence of commands successfully built Weston and
+XWayland on a pristine Ubuntu 16.04 system, on June 19, 2016. These
+commands will probably work on any system based on Ubuntu 16.04.</p>
+
+<pre>
+<span class="comment"># setup environment for local install:</span>
+export WLD=$HOME/install
+export LD_LIBRARY_PATH=$WLD/lib
+export PKG_CONFIG_PATH=$WLD/lib/pkgconfig/:$WLD/share/pkgconfig/
+export PATH=$WLD/bin:$PATH
+export ACLOCAL_PATH=$WLD/share/aclocal
+export ACLOCAL="aclocal -I $ACLOCAL_PATH"
+mkdir -p $ACLOCAL_PATH
+export MAKEFLAGS="j5" <span class="comment"># run 5 threads, or use your own flags</span>
+
+
+<span class="comment"># libwayland:</span>
+
+<span class="comment"># The program 'git' is currently not installed. You can install it by typing:</span>
+sudo apt install git
+
+<span class="comment"># ./autogen.sh: 7: ./autogen.sh: autoreconf: not found</span>
+sudo apt install autoconf
+
+<span class="comment"># Makefile.am:176: error: Libtool library used but 'LIBTOOL' is undefined</span>
+sudo apt install libtool
+
+<span class="comment"># No package 'libffi' found</span>
+sudo apt install libffi-dev
+
+<span class="comment"># configure: error: Can't find expat.h. Please install expat.</span>
+sudo apt install libexpat1-dev
+
+<span class="comment"># configure: error: Package requirements (libxml-2.0) were not met:</span>
+<span class="comment"># .pc file is libxml-2.0.pc</span>
+sudo apt install libxml2-dev
+
+<span class="comment"># * These three are not necessary with the --disable-documentation flag:</span>
+<span class="comment"># configure: error: Documentation build requested but doxygen not found. Install doxygen or disable the documentation using --disable-documentation</span>
+<span class="comment"># configure: error: Documentation build requested but xmlto not found. Install xmlto or disable the documentation using --disable-documentation</span>
+<span class="comment"># configure: error: Documentation build requested but graphviz's dot not found. Install graphviz or disable the documentation using --disable-documentation</span>
+sudo apt install doxygen xmlto graphviz
+<span class="comment"># * xmlto pulls 814 MB of packages.</span>
+
+git clone git://anongit.freedesktop.org/wayland/wayland
+cd wayland
+./autogen.sh --prefix=$WLD <span class="comment"># --disable-documentation</span>
+make &amp;&amp; make install
+cd ..
+
+
+<span class="comment"># wayland-protocols:</span>
+
+git clone git://anongit.freedesktop.org/wayland/wayland-protocols
+cd wayland-protocols
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+
+<span class="comment"># libinput:</span>
+
+<span class="comment"># configure: error: Package requirements (mtdev &gt;= 1.1.0) were not met:</span>
+sudo apt install libmtdev-dev
+
+<span class="comment"># configure: error: Package requirements (libudev) were not met:</span>
+sudo apt install libudev-dev
+
+<span class="comment"># configure: error: Package requirements (libevdev &gt;= 0.4) were not met:</span>
+sudo apt install libevdev-dev
+
+<span class="comment"># configure: error: Package requirements (libwacom &gt;= 0.12) were not met:</span>
+sudo apt install libwacom-dev
+
+git clone git://anongit.freedesktop.org/wayland/libinput
+cd libinput
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
+
+<span class="comment"># weston:</span>
+
+<span class="comment"># configure: error: Package requirements (egl glesv2) were not met:</span>
+sudo apt install libgles2-mesa-dev
+
+<span class="comment"># configure: error: Package requirements (xcb xcb-xfixes xcb-composite xcursor cairo-xcb) were not met:</span>
+sudo apt install libxcb-composite0-dev libxcursor-dev libcairo2-dev
+
+<span class="comment"># configure: error: Package requirements (libudev &gt;= 136 libdrm &gt;= 2.4.30 gbm mtdev &gt;= 1.1.0) were not met:</span>
+sudo apt install libgbm-dev
+
+<span class="comment"># configure: error: weston-launch requires pam</span>
+sudo apt install libpam0g-dev
+
+git clone git://anongit.freedesktop.org/wayland/weston
+cd weston
+./autogen.sh --prefix=$WLD --disable-setuid-install --with-xserver-path=$WLD/bin/Xwayland
+make &amp;&amp; make install
+cd ..
+
+
+<span class="comment"># X Server:</span>
+
+sudo apt install xutils-dev <span class="comment"># xserver: configure.ac:38: error: must install xorg-macros 1.14 or later before running autoconf/autogen</span>
+sudo apt install libgl1-mesa-dev <span class="comment"># xserver: configure: error: Package requirements (glproto &gt;= 1.4.17 gl &gt;= 9.2.0) were not met:</span>
+
+<span class="comment"># checking for SHA1 implementation... configure: error: No suitable SHA1 implementation found</span>
+<span class="comment"># checking for SHA1Init in -lmd... no</span>
+sudo apt install libmd-dev <span class="comment"># no .pc file?</span>
+
+<span class="comment"># configure: error: Package requirements (fixesproto &gt;= 5.0 damageproto &gt;= 1.1 xcmiscproto &gt;= 1.2.0 xtrans &gt;= 1.3.5 bigreqsproto &gt;= 1.1.0 xproto &gt;= 7.0.28 randrproto &gt;= 1.5.0 renderproto &gt;= 0.11 xextproto &gt;= 7.2.99.901 inputproto &gt;= 2.3 kbproto &gt;= 1.0.3 fontsproto &gt;= 2.1.3 pixman-1 &gt;= 0.27.2 videoproto compositeproto &gt;= 0.4 recordproto &gt;= 1.13.99.1 scrnsaverproto &gt;= 1.1 resourceproto &gt;= 1.2.0 xf86driproto &gt;= 2.1.0 glproto &gt;= 1.4.17 dri &gt;= 7.8.0 presentproto &gt;= 1.0 xineramaproto xkbfile  pixman-1 &gt;= 0.27.2 xfont &gt;= 1.4.2 xau xshmfence &gt;= 1.1 xdmcp) were not met:</span>
+sudo apt install x11proto-xcmisc-dev x11proto-bigreqs-dev x11proto-randr-dev x11proto-fonts-dev x11proto-video-dev x11proto-composite-dev x11proto-record-dev x11proto-scrnsaver-dev x11proto-resource-dev x11proto-xf86dri-dev x11proto-present-dev x11proto-xinerama-dev libxkbfile-dev libxfont-dev
+
+<span class="comment"># configure: error: Xwayland build explicitly requested, but required modules not found.</span>
+<span class="comment"># checking for XWAYLANDMODULES... no</span>
+<span class="comment"># XWAYLANDMODULES="wayland-client &gt;= 1.3.0 libdrm epoxy"</span>
+sudo apt install libepoxy-dev <span class="comment"># this error message sucks</span>
+
+git clone git://anongit.freedesktop.org/xorg/xserver
+cd xserver
+./autogen.sh --prefix=$WLD --disable-docs --disable-devel-docs \
+  --enable-xwayland --disable-xorg --disable-xvfb --disable-xnest \
+  --disable-xquartz --disable-xwin
+make &amp;&amp; make install
+cd ..
+
+<span class="comment"># Links needed so XWayland works:</span>
+mkdir -p $WLD/share/X11/xkb/rules
+ln -s /usr/share/X11/xkb/rules/evdev $WLD/share/X11/xkb/rules/
+ln -s /usr/bin/xkbcomp $WLD/bin/
+
+<span class="comment"># Weston configuration:</span>
+mkdir -p ~/.config
+cp weston/weston.ini ~/.config
+nano ~/.config/weston.ini <span class="comment"># edit to set background and turn on xwayland.so module</span>
+
+<span class="comment"># Run it in an X11 window:</span>
+weston
+
+</pre>
+
+</body>
+</html>
