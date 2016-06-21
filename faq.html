@@ -52,45 +52,30 @@
   behalf of the clients, it expects the clients to use whatever means
   they prefer to render into a shareable buffer.  When the client is
   done, it informs the Wayland server of the new contents.  The
-  current test clients use either cairo software rendering, cairo on
-  OpenGL or hardware accelerated OpenGL directly.  As long as you have
-  a userspace driver library that will let you render into a sharable
-  buffer, you're good to go.
+  current test clients use either Cairo software rendering, Cairo on
+  OpenGL or hardware-accelerated OpenGL directly.  Additionally, media
+  frameworks can share their buffers directly with the server.  As
+  long as you have a userspace driver library that will let you render
+  into a shareable buffer, you're good to go.
 </p>
 
 <h3>Is wayland replacing the X server?</h3>
 
 <p>
-  It could replace X as the native Linux graphics server, but I'm sure
-  X will always be there on the side.  I imagine that Wayland and X
-  will coexist in two ways on a Linux desktop: Wayland is a graphics
-  multiplexer for a number of X servers.  Linux today typically only
-  uses one X server for GDM and the user session, but we'll probably
-  see that move to a dedicated GDM X server, an X server for user
-  sessions (spawning more on the fly as more users log in) and maybe a
-  dedicated screensaver/unlock X server.  Right now we rely on VT
-  switching to move between X servers, and it's horrible.  We have no
-  control over what the transitions look like and the VT ioctls are
-  pretty bad.  Wayland provides a solution here, in that it can host
-  several X servers as they push their root window to Wayland as
-  surfaces.  The compositor in this case will be a dedicated session
-  switcher that will cross-fade between X servers or spin them on a
-  cube.
+  Mostly, yes. User sessions are able to run under Wayland today, via
+  a number of compositors: Weston itself as well as Enlightenment,
+  GNOME Shell, KDE, and a number of others under development.  With
+  most toolkits having Wayland ports, as well as frameworks such as
+  GStreamer and SDL, it's perfectly possible to run a purely native
+  Wayland session as your desktop.
 </p>
 
 <p>
-  Further down the road we run a user session natively under
-  Wayland with clients written for Wayland.  There will still (always)
-  be X applications to run, but we now run these under a root-less X
-  server that is itself a client of the Wayland server.  This will
-  inject the X windows into the Wayland session as native looking
-  clients.  The session Wayland server can run as a nested Wayland
-  server under the system Wayland server described above, maybe even
-  side by side with X sessions.  There's a number of intermediate
-  steps, such as running the GNOME screen saver as a native wayland
-  client, for example, or running a composited X desktop, where the
-  compositor is a Wayland client, pushing the composited desktop to
-  Wayland.
+  That being said, there are some clients which rely on X11, and
+  always will be.  To that end, XWayland provides a plugin for Wayland
+  compositors, running a real X server.  This gives legacy clients a
+  real and compliant X11 platform to run on, displayed side by side
+  with native Wayland clients in your Wayland session.
 </p>
 
 <h3>Why not extend the X server?</h3>
@@ -101,15 +86,11 @@
   exchange and update models that Wayland is built on into X.
   However, we have an option here of pushing X out of the hotpath
   between clients and the hardware and making it a compatibility
-  option.  I'm not deluding myself that any general purpose desktop
-  Linux distribution will stop shipping X as we know it or as a
-  Wayland client anytime soon.  Nor should they, there will still be X
-  applications to run and people expect that from a Linux desktop.
-  What's different now is that a lot of infrastructure has moved from
-  the X server into the kernel (memory management, command scheduling,
-  mode setting) or libraries (cairo, pixman, freetype, fontconfig,
-  pango, etc) and there is very little left that has to happen in a
-  central server process.
+  option.  What's different now is that a lot of infrastructure has
+  moved from the X server into the kernel (memory management, command
+  scheduling, mode setting) or libraries (cairo, pixman, freetype,
+  fontconfig, pango, etc) and there is very little left that has to
+  happen in a central server process.
 </p>
 
 <h3>What is wrong with X?</h3>
@@ -129,25 +110,18 @@
   useful extensions.  But we can't ever get rid of the core rendering
   API and much other complexity that is rarely used in a modern
   desktop.  With Wayland we can move the X server and all its legacy
-  technology to an optional code path.  Getting to a point where the X
-  server is a compatibility option instead of the core rendering
-  system will take a while, but we'll never get there if don't plan
-  for it.
+  technology to an optional code path.
 </p>
 
 <h3>What about the overhead of running X on wayland?</h3>
 
 <p>
-  If you're running a fullscreen X server, which pushes its root
-  window buffer to Wayland there is little overhead.  If the X server
-  root window is transformed (i.e. scaled down or spinning on the side
-  of a cube) the Wayland compositor will have to do an extra copy to
-  get the pixels on screen.  But once the animation finishes and the X
-  server buffer fills the entire screen, the Wayland compositor can
-  change the video scanout to source from the X server buffer and
-  retreat into the background.  The X server uses the standard X.org
-  DDX drivers, renders directly to its pixmaps and its root window,
-  and the path from X to hardware is exactly as a native X.org server.
+  Most modern desktops already use an external compositing manager:
+  when the X server decides it needs to update content, it informs
+  this external process (usually your window manager), and allows it to
+  control the rendering entirely.  Using XWayland is just the same as
+  this, but more efficient because the compositing manager doesn't have
+  to go back through the X server to display the content it rendered.
 </p>
 
 <h3>Is Wayland network transparent / does it support remote rendering?</h3>
@@ -210,21 +184,13 @@
   manager and compositor into one process.  You can think of Wayland
   as a toolkit for creating clients and compositors. It is not a
   specific single compositor or window manager.  If you want a
-  different window manager, you can write a new one.
+  different window manager, you can write a new one.  A 'libweston'
+  effort is underway in order to allow new environments to reuse
+  Weston's codebase and mechanics, whilst providing their own look
+  and feel.
 </p>
 
-<p>
-  This may sound like a lot of work, but one of the key points about
-  Wayland is that the boilerplate code to a Wayland compositor is
-  comparable or less than the X boilerplate involved in becoming an X
-  window manager and compositor.  Bringing up EGL and GLES2 on the
-  Linux KMS framebuffer and reading input from evdev can be done in
-  less than a thousand lines of code.  The Wayland server side library
-  provides the protocol implementation and makes it easy to put the
-  pieces together.
-</p>
-
-<h3>Why does Wayland use EGL and GLES2?</h3>
+<h3>Why does Wayland use EGL?</h3>
 
 <p>
   EGL is the only GL binding API that lets us avoid dependencies on
@@ -238,8 +204,13 @@
   A more subtle point is that libGL.so includes the GLX symbols, so
   linking to that library will pull in all the X dependencies.  This
   means that we can't link to full GL without pulling in the client
-  side of X, so we're using GLES2 for now.  Longer term, we'll need a
-  way to use full GL under Wayland.
+  side of X, so Weston uses OpenGL ES to render.  This also enables
+  Weston to run on GPUs which don't support the full OpenGL API.
+</p>
+
+<p>
+  As detailed above, clients are however free to use whichever
+  rendering API they like.
 </p>
 
 </body>
