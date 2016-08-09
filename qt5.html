@@ -12,20 +12,20 @@
 <h1><a href="/"><img src="wayland.png" alt="Wayland logo"></a></h1>
 <h1>Qt 5 on Wayland</h1>
 <p>Wayland support in the Qt 5 toolkit is happening in the Qt Platform Abstraction (QPA)
-<a href="https://qt.gitorious.org/qt/qtwayland">Wayland plugin</a>.
+<a href="https://code.qt.io/cgit/qt/qtwayland.git/">Wayland plugin</a>.
 The minimum requirement for building and using QtWayland is Wayland (and
 Weston) 1.0.0.</p>
 
 <p>If you also want to build the qtwebkit
 browser, you may be better off following the <a
-href="http://qt-project.org/wiki/Building_Qt_5_from_Git">directions for
+href="https://wiki.qt.io/Building_Qt_5_from_Git">directions for
 building Qt 5 from git</a>, which builds a lot more.  The init-repository
 script does <i>not</i> appropriately return an error when it fails
 (unfortunately frequently), so you need to run it manually and make sure
 it doesn't print an error.</p>
 
 <p>The third option is the <a
-href="http://qt-project.org/wiki/Qt-5-Alpha-building-instructions">Qt 5
+href="https://wiki.qt.io/Qt-5-Alpha-building-instructions">Qt 5
 Alpha building instructions</a>, which is smaller and more reliable than
 the git instructions while still including qtwebkit, but which requires
 an LD_PRELOAD for Wayland clients:<br>
@@ -40,7 +40,7 @@ an LD_PRELOAD for Wayland clients:<br>
 
 <pre>
 $ mkdir qt; cd qt
-$ git clone git://gitorious.org/qt/qtbase.git
+$ git clone git://code.qt.io/qt/qtbase.git
 </pre>
 
 <p>You might want to set some env variables for compilation as well:</p>
@@ -62,8 +62,8 @@ $ sudo make install
 
 <p>Here you need to also clone and build qtjsbackend and qtdeclarative:</p>
 <pre>
-git://gitorious.org/qt/qtjsbackend.git
-git://gitorious.org/qt/qtdeclarative.git</pre>
+git://code.qt.io/{graveyard}/qtjsbackend.git
+git://code.qt.io/qt/qtdeclarative.git</pre>
 
 <p>To build them run these commands:</p>
 <pre>
@@ -77,7 +77,7 @@ the QtWayland platform:</p>
 
 <pre>
 $ cd ../
-$ git clone git://gitorious.org/qt/qtwayland.git
+$ git clone git://code.qt.io/qt/qtwayland.git
 $ cd qtwayland/
 $ qmake
 $ make
