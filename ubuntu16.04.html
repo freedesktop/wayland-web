@@ -130,6 +130,13 @@ sudo apt install x11proto-xcmisc-dev x11proto-bigreqs-dev x11proto-randr-dev x11
 <span class="comment"># XWAYLANDMODULES="wayland-client &gt;= 1.3.0 libdrm epoxy"</span>
 sudo apt install libepoxy-dev <span class="comment"># this error message sucks</span>
 
+<span class="comment"># No package 'xfont2' found</span>
+git clone git://anongit.freedesktop.org/xorg/lib/libXfont
+cd xserver
+./autogen.sh --prefix=$WLD
+make &amp;&amp; make install
+cd ..
+
 git clone git://anongit.freedesktop.org/xorg/xserver
 cd xserver
 ./autogen.sh --prefix=$WLD --disable-docs --disable-devel-docs \
