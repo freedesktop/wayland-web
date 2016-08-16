@@ -18,6 +18,9 @@ commands will probably work on any system based on Ubuntu 16.04.</p>
 <p>"make check" runs included tests, and is not required, but is a good
 habit.</p>
 
+<p>For errors like "No package 'libffi' found" you can try searching with
+"apt-file search /libffi.pc".  'pc' stands for pkg-config.</p>
+
 <pre>
 <span class="comment"># setup environment for local install:</span>
 export WLD=$HOME/install
@@ -48,13 +51,15 @@ sudo apt install libffi-dev
 sudo apt install libexpat1-dev
 
 <span class="comment"># configure: error: Package requirements (libxml-2.0) were not met:</span>
-<span class="comment"># .pc file is libxml-2.0.pc</span>
 sudo apt install libxml2-dev
 
-<span class="comment"># * These three are not necessary with the --disable-documentation flag:</span>
-<span class="comment"># configure: error: Documentation build requested but doxygen not found. Install doxygen or disable the documentation using --disable-documentation</span>
-<span class="comment"># configure: error: Documentation build requested but xmlto not found. Install xmlto or disable the documentation using --disable-documentation</span>
-<span class="comment"># configure: error: Documentation build requested but graphviz's dot not found. Install graphviz or disable the documentation using --disable-documentation</span>
+<span class="comment"># * These three are not necessary with the --disable-documentation flag:
+# configure: error: Documentation build requested but doxygen not found.
+#   Install doxygen or disable the documentation using --disable-documentation
+# configure: error: Documentation build requested but xmlto not found.
+#   Install xmlto or disable the documentation using --disable-documentation
+# configure: error: Documentation build requested but graphviz's dot not found.
+#   Install graphviz or disable the documentation using --disable-documentation</span>
 sudo apt install doxygen xmlto graphviz
 <span class="comment"># * xmlto pulls 814 MB of packages.</span>
 
@@ -79,16 +84,10 @@ cd ..
 <span class="comment"># libinput:</span>
 
 <span class="comment"># configure: error: Package requirements (mtdev &gt;= 1.1.0) were not met:</span>
-sudo apt install libmtdev-dev
-
 <span class="comment"># configure: error: Package requirements (libudev) were not met:</span>
-sudo apt install libudev-dev
-
 <span class="comment"># configure: error: Package requirements (libevdev &gt;= 0.4) were not met:</span>
-sudo apt install libevdev-dev
-
 <span class="comment"># configure: error: Package requirements (libwacom &gt;= 0.12) were not met:</span>
-sudo apt install libwacom-dev
+sudo apt install libmtdev-dev libudev-dev libevdev-dev libwacom-dev
 
 git clone git://anongit.freedesktop.org/wayland/libinput
 cd libinput
@@ -100,20 +99,25 @@ cd ..
 
 <span class="comment"># X Server:</span>
 
-sudo apt install xutils-dev <span class="comment"># xserver: configure.ac:38: error: must install xorg-macros 1.14 or later before running autoconf/autogen</span>
-sudo apt install libgl1-mesa-dev <span class="comment"># xserver: configure: error: Package requirements (glproto &gt;= 1.4.17 gl &gt;= 9.2.0) were not met:</span>
+<span class="comment"># xserver: configure.ac:38: error: must install xorg-macros 1.14 or later before running autoconf/autogen
+# xserver: configure: error: Package requirements (glproto &gt;= 1.4.17 gl &gt;= 9.2.0) were not met:</span>
+sudo apt install xutils-dev libgl1-mesa-dev
 
 <span class="comment"># checking for SHA1 implementation... configure: error: No suitable SHA1 implementation found</span>
 <span class="comment"># checking for SHA1Init in -lmd... no</span>
 sudo apt install libmd-dev <span class="comment"># no .pc file?</span>
 
 <span class="comment"># configure: error: Package requirements (fixesproto &gt;= 5.0 damageproto &gt;= 1.1 xcmiscproto &gt;= 1.2.0 xtrans &gt;= 1.3.5 bigreqsproto &gt;= 1.1.0 xproto &gt;= 7.0.28 randrproto &gt;= 1.5.0 renderproto &gt;= 0.11 xextproto &gt;= 7.2.99.901 inputproto &gt;= 2.3 kbproto &gt;= 1.0.3 fontsproto &gt;= 2.1.3 pixman-1 &gt;= 0.27.2 videoproto compositeproto &gt;= 0.4 recordproto &gt;= 1.13.99.1 scrnsaverproto &gt;= 1.1 resourceproto &gt;= 1.2.0 xf86driproto &gt;= 2.1.0 glproto &gt;= 1.4.17 dri &gt;= 7.8.0 presentproto &gt;= 1.0 xineramaproto xkbfile  pixman-1 &gt;= 0.27.2 xfont &gt;= 1.4.2 xau xshmfence &gt;= 1.1 xdmcp) were not met:</span>
-sudo apt install x11proto-xcmisc-dev x11proto-bigreqs-dev x11proto-randr-dev x11proto-fonts-dev x11proto-video-dev x11proto-composite-dev x11proto-record-dev x11proto-scrnsaver-dev x11proto-resource-dev x11proto-xf86dri-dev x11proto-present-dev x11proto-xinerama-dev libxkbfile-dev libxfont-dev
+sudo apt install x11proto-xcmisc-dev x11proto-bigreqs-dev x11proto-randr-dev \
+  x11proto-fonts-dev x11proto-video-dev x11proto-composite-dev \
+  x11proto-record-dev x11proto-scrnsaver-dev x11proto-resource-dev \
+  x11proto-xf86dri-dev x11proto-present-dev x11proto-xinerama-dev \
+  libxkbfile-dev libxfont-dev
 
 <span class="comment"># configure: error: Xwayland build explicitly requested, but required modules not found.</span>
 <span class="comment"># checking for XWAYLANDMODULES... no</span>
 <span class="comment"># XWAYLANDMODULES="wayland-client &gt;= 1.3.0 libdrm epoxy"</span>
-sudo apt install libepoxy-dev <span class="comment"># this error message sucks</span>
+sudo apt install libepoxy-dev <span class="comment"># this error message is uninformative</span>
 
 <span class="comment"># No package 'xfont2' found</span>
 git clone git://anongit.freedesktop.org/xorg/lib/libXfont
@@ -136,16 +140,11 @@ cd ..
 <span class="comment"># weston:</span>
 
 <span class="comment"># configure: error: Package requirements (egl glesv2) were not met:</span>
-sudo apt install libgles2-mesa-dev
-
 <span class="comment"># configure: error: Package requirements (xcb xcb-xfixes xcb-composite xcursor cairo-xcb) were not met:</span>
-sudo apt install libxcb-composite0-dev libxcursor-dev libcairo2-dev
-
 <span class="comment"># configure: error: Package requirements (libudev &gt;= 136 libdrm &gt;= 2.4.30 gbm mtdev &gt;= 1.1.0) were not met:</span>
-sudo apt install libgbm-dev
-
 <span class="comment"># configure: error: weston-launch requires pam</span>
-sudo apt install libpam0g-dev
+sudo apt install libgles2-mesa-dev libxcb-composite0-dev libxcursor-dev \
+  libcairo2-dev libgbm-dev libpam0g-dev
 
 git clone git://anongit.freedesktop.org/wayland/weston
 cd weston
