@@ -92,27 +92,6 @@ make &amp;&amp; make install
 cd ..
 
 
-<span class="comment"># weston:</span>
-
-<span class="comment"># configure: error: Package requirements (egl glesv2) were not met:</span>
-sudo apt install libgles2-mesa-dev
-
-<span class="comment"># configure: error: Package requirements (xcb xcb-xfixes xcb-composite xcursor cairo-xcb) were not met:</span>
-sudo apt install libxcb-composite0-dev libxcursor-dev libcairo2-dev
-
-<span class="comment"># configure: error: Package requirements (libudev &gt;= 136 libdrm &gt;= 2.4.30 gbm mtdev &gt;= 1.1.0) were not met:</span>
-sudo apt install libgbm-dev
-
-<span class="comment"># configure: error: weston-launch requires pam</span>
-sudo apt install libpam0g-dev
-
-git clone git://anongit.freedesktop.org/wayland/weston
-cd weston
-./autogen.sh --prefix=$WLD --disable-setuid-install --with-xserver-path=$WLD/bin/Xwayland
-make &amp;&amp; make install
-cd ..
-
-
 <span class="comment"># X Server:</span>
 
 sudo apt install xutils-dev <span class="comment"># xserver: configure.ac:38: error: must install xorg-macros 1.14 or later before running autoconf/autogen</span>
@@ -144,6 +123,28 @@ cd xserver
   --disable-xquartz --disable-xwin
 make &amp;&amp; make install
 cd ..
+
+
+<span class="comment"># weston:</span>
+
+<span class="comment"># configure: error: Package requirements (egl glesv2) were not met:</span>
+sudo apt install libgles2-mesa-dev
+
+<span class="comment"># configure: error: Package requirements (xcb xcb-xfixes xcb-composite xcursor cairo-xcb) were not met:</span>
+sudo apt install libxcb-composite0-dev libxcursor-dev libcairo2-dev
+
+<span class="comment"># configure: error: Package requirements (libudev &gt;= 136 libdrm &gt;= 2.4.30 gbm mtdev &gt;= 1.1.0) were not met:</span>
+sudo apt install libgbm-dev
+
+<span class="comment"># configure: error: weston-launch requires pam</span>
+sudo apt install libpam0g-dev
+
+git clone git://anongit.freedesktop.org/wayland/weston
+cd weston
+./autogen.sh --prefix=$WLD --disable-setuid-install --with-xserver-path=$WLD/bin/Xwayland
+make &amp;&amp; make install
+cd ..
+
 
 <span class="comment"># Links needed so XWayland works:</span>
 mkdir -p $WLD/share/X11/xkb/rules
