@@ -15,6 +15,9 @@ Building Weston on Ubuntu 16.04</h1>
 XWayland on a pristine Ubuntu 16.04 system, on June 19, 2016. These
 commands will probably work on any system based on Ubuntu 16.04.</p>
 
+<p>"make check" runs included tests, and is not required, but is a good
+habit.</p>
+
 <pre>
 <span class="comment"># setup environment for local install:</span>
 export WLD=$HOME/install
@@ -58,6 +61,7 @@ sudo apt install doxygen xmlto graphviz
 git clone git://anongit.freedesktop.org/wayland/wayland
 cd wayland
 ./autogen.sh --prefix=$WLD <span class="comment"># --disable-documentation</span>
+make check
 make &amp;&amp; make install
 cd ..
 
@@ -67,6 +71,7 @@ cd ..
 git clone git://anongit.freedesktop.org/wayland/wayland-protocols
 cd wayland-protocols
 ./autogen.sh --prefix=$WLD
+make check
 make &amp;&amp; make install
 cd ..
 
@@ -88,6 +93,7 @@ sudo apt install libwacom-dev
 git clone git://anongit.freedesktop.org/wayland/libinput
 cd libinput
 ./autogen.sh --prefix=$WLD
+make check
 make &amp;&amp; make install
 cd ..
 
@@ -113,6 +119,7 @@ sudo apt install libepoxy-dev <span class="comment"># this error message sucks</
 git clone git://anongit.freedesktop.org/xorg/lib/libXfont
 cd xserver
 ./autogen.sh --prefix=$WLD
+make check
 make &amp;&amp; make install
 cd ..
 
@@ -121,6 +128,7 @@ cd xserver
 ./autogen.sh --prefix=$WLD --disable-docs --disable-devel-docs \
   --enable-xwayland --disable-xorg --disable-xvfb --disable-xnest \
   --disable-xquartz --disable-xwin
+make check
 make &amp;&amp; make install
 cd ..
 
@@ -142,6 +150,7 @@ sudo apt install libpam0g-dev
 git clone git://anongit.freedesktop.org/wayland/weston
 cd weston
 ./autogen.sh --prefix=$WLD --disable-setuid-install --with-xserver-path=$WLD/bin/Xwayland
+make check
 make &amp;&amp; make install
 cd ..
 
