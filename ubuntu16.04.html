@@ -155,7 +155,7 @@ ln -s /usr/bin/xkbcomp $WLD/bin/
 git clone git://anongit.freedesktop.org/wayland/weston
 cd weston
 ./autogen.sh --prefix=$WLD --disable-setuid-install --with-xserver-path=$WLD/bin/Xwayland
-make check # runs Xwayland
+make check <span class="comment"># runs Xwayland</span>
 make &amp;&amp; make install
 cd ..
 
@@ -163,7 +163,7 @@ cd ..
 <span class="comment"># Weston configuration:</span>
 mkdir -p ~/.config
 cp weston/weston.ini ~/.config
-nano ~/.config/weston.ini <span class="comment"># edit to set background and turn on xwayland.so module</span>
+editor ~/.config/weston.ini <span class="comment"># edit to set background and turn on xwayland.so module</span>
 
 <span class="comment"># Run it in an X11 window:</span>
 weston
