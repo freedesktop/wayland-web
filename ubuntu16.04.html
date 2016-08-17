@@ -12,7 +12,7 @@
 Building Weston on Ubuntu 16.04</h1>
 
 <p>The following sequence of commands successfully built Weston and
-XWayland on a pristine Ubuntu 16.04 system, on June 19, 2016. These
+XWayland on a pristine Ubuntu 16.04 system, on August 16, 2016. These
 commands will probably work on any system based on Ubuntu 16.04.</p>
 
 <p>"make check" runs included tests, and is not required, but is a good
@@ -113,7 +113,7 @@ sudo apt install x11proto-xcmisc-dev x11proto-bigreqs-dev x11proto-randr-dev \
   x11proto-fonts-dev x11proto-video-dev x11proto-composite-dev \
   x11proto-record-dev x11proto-scrnsaver-dev x11proto-resource-dev \
   x11proto-xf86dri-dev x11proto-present-dev x11proto-xinerama-dev \
-  libxkbfile-dev libxfont-dev
+  libxkbfile-dev libxfont-dev libpixman-1-dev x11proto-render-dev
 
 <span class="comment"># configure: error: Xwayland build explicitly requested, but required modules not found.</span>
 <span class="comment"># checking for XWAYLANDMODULES... no</span>
@@ -122,7 +122,7 @@ sudo apt install libepoxy-dev <span class="comment"># this error message is unin
 
 <span class="comment"># No package 'xfont2' found</span>
 git clone git://anongit.freedesktop.org/xorg/lib/libXfont
-cd xserver
+cd libXfont
 ./autogen.sh --prefix=$WLD
 make check
 make &amp;&amp; make install
@@ -147,18 +147,18 @@ cd ..
 sudo apt install libgles2-mesa-dev libxcb-composite0-dev libxcursor-dev \
   libcairo2-dev libgbm-dev libpam0g-dev
 
-git clone git://anongit.freedesktop.org/wayland/weston
-cd weston
-./autogen.sh --prefix=$WLD --disable-setuid-install --with-xserver-path=$WLD/bin/Xwayland
-make check
-make &amp;&amp; make install
-cd ..
-
-
 <span class="comment"># Links needed so XWayland works:</span>
 mkdir -p $WLD/share/X11/xkb/rules
 ln -s /usr/share/X11/xkb/rules/evdev $WLD/share/X11/xkb/rules/
 ln -s /usr/bin/xkbcomp $WLD/bin/
+
+git clone git://anongit.freedesktop.org/wayland/weston
+cd weston
+./autogen.sh --prefix=$WLD --disable-setuid-install --with-xserver-path=$WLD/bin/Xwayland
+make check # runs Xwayland
+make &amp;&amp; make install
+cd ..
+
 
 <span class="comment"># Weston configuration:</span>
 mkdir -p ~/.config
