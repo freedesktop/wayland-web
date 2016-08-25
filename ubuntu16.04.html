@@ -11,10 +11,20 @@
 <h1><a href="index.html"><img src="wayland.png" alt="Wayland logo"></a>
 Building Weston on Ubuntu 16.04</h1>
 
-<p>The following sequence of commands successfully built Weston and
-XWayland on a pristine Ubuntu 16.04 system, on August 16, 2016. These
-commands will probably work on any system based on Ubuntu 16.04.  1,938 MB used
-with documentation dependencies, probably 538 MB used without them.</p>
+<p>The following sequence of commands successfully built Weston and XWayland on
+a pristine Ubuntu 16.04 system, on August 16, 2016. These commands will
+probably work on any system based on Ubuntu 16.04.  ~2 GB used with
+documentation dependencies, ~500 MB used without them.</p>
+
+<!--
+A note to people updating this page:  If this needs an update, and you don't
+feel like going through verification on a pristine install, I encourage you to
+make the needed changes, and just remove the bit above about testing.
+-->
+
+<p>All the "apt install" commands can probably be replaced by just running
+"sudo apt build-dep wayland weston wayland-protocols libinput
+xserver-xorg".</p>
 
 <p>"make check" runs included tests, and is not required, but is a good
 habit.</p>
