@@ -213,10 +213,10 @@ point where the change it affects appears on screen.</p>
   stack and its buffer sharing mechanism to the generic Wayland API.
   The EGL stack is expected to provide an implementation of the
   Wayland EGL platform.  The full API is in
-  the <a href="http://cgit.freedesktop.org/wayland/wayland/tree/src/wayland-egl.h">wayland-egl.h</a>
+  the <a href="https://cgit.freedesktop.org/wayland/wayland/tree/src/wayland-egl.h">wayland-egl.h</a>
   header.  The open source implementation in the mesa EGL stack is
-  in <a href="http://cgit.freedesktop.org/mesa/mesa/tree/src/egl/wayland/wayland-egl/wayland-egl.c">wayland-egl.c</a>
-  and <a href="http://cgit.freedesktop.org/mesa/mesa/tree/src/egl/drivers/dri2/platform_wayland.c">platform_wayland.c</a>.
+  in <a href="https://cgit.freedesktop.org/mesa/mesa/tree/src/egl/wayland/wayland-egl/wayland-egl.c">wayland-egl.c</a>
+  and <a href="https://cgit.freedesktop.org/mesa/mesa/tree/src/egl/drivers/dri2/platform_wayland.c">platform_wayland.c</a>.
 </p>
 
 <p>
@@ -226,7 +226,7 @@ point where the change it affects appears on screen.</p>
   share buffers.  The point of the wayland-egl.h API is to abstract
   that away and just let the client create an EGLSurface for a Wayland
   surface and start rendering.  The open source stack uses
-  the <a href="http://cgit.freedesktop.org/mesa/mesa/tree/src/egl/wayland/wayland-drm/wayland-drm.xml">drm</a>
+  the <a href="https://cgit.freedesktop.org/mesa/mesa/tree/src/egl/wayland/wayland-drm/wayland-drm.xml">drm</a>
   Wayland extension, which lets the client discover the drm device to
   use and authenticate and then share drm (GEM) buffers with the
   compositor.
@@ -241,7 +241,7 @@ point where the change it affects appears on screen.</p>
   hardware overlays if available.  Enabling modesetting, EGL/GLES2 and
   overlays is something that should be part of standard hardware
   bringup.  The extra requirement for Wayland enabling is
-  the <a href="http://cgit.freedesktop.org/mesa/mesa/tree/docs/specs/WL_bind_wayland_display.spec">EGL_WL_bind_wayland_display</a>
+  the <a href="https://cgit.freedesktop.org/mesa/mesa/tree/docs/specs/WL_bind_wayland_display.spec">EGL_WL_bind_wayland_display</a>
   extension that lets the compositor create an EGLImage from a generic
   Wayland shared buffer.  It's similar to
   the <a href="http://www.khronos.org/registry/egl/extensions/KHR/EGL_KHR_image_pixmap.txt">EGL_KHR_image_pixmap</a>

@@ -127,7 +127,7 @@ sudo make install
 <p>This is required in order to be able to build Mesa with the Wayland EGL platform.</p>
 
 <pre>
-$ git clone <a href="http://cgit.freedesktop.org/wayland/wayland">git://anongit.freedesktop.org/wayland/wayland</a>
+$ git clone <a href="https://cgit.freedesktop.org/wayland/wayland">git://anongit.freedesktop.org/wayland/wayland</a>
 $ cd wayland
 $ ./autogen.sh --prefix=$WLD
 $ make &amp;&amp; make install
@@ -147,7 +147,7 @@ with <code>--disable-documentation</code>.</li>
 <p>This contains a set of protocols that add functionality not available in the Wayland core protocol.</p>
 
 <pre>
-$ git clone <a href="http://cgit.freedesktop.org/wayland/wayland-protocols">git://anongit.freedesktop.org/wayland/wayland-protocols</a>
+$ git clone <a href="https://cgit.freedesktop.org/wayland/wayland-protocols">git://anongit.freedesktop.org/wayland/wayland-protocols</a>
 $ cd wayland-protocols
 $ ./autogen.sh --prefix=$WLD
 $ make install
@@ -163,7 +163,7 @@ some cases extra functionality or optimization will only be available in
 more recent releases.</p>
 
 <pre>
-$ git clone <a href="http://cgit.freedesktop.org/mesa/mesa">git://anongit.freedesktop.org/mesa/mesa</a>
+$ git clone <a href="https://cgit.freedesktop.org/mesa/mesa">git://anongit.freedesktop.org/mesa/mesa</a>
 $ cd mesa
 $ ./autogen.sh --prefix=$WLD --enable-gles2 \
   --with-egl-platforms=x11,wayland,drm --enable-gbm --enable-shared-glapi \
@@ -176,15 +176,15 @@ $ cd ..
 <li><a href="mesa-configure.html">Example mesa configure output.</a></li>
 
 <li>You will probably need a development package for <a href="https://01.org/linuxgraphics/community/libdrm">libdrm</a>. This is
-available in <a href="http://cgit.freedesktop.org/mesa/drm"><code>git://anongit.freedesktop.org/mesa/drm</code></a></li>
+available in <a href="https://cgit.freedesktop.org/mesa/drm"><code>git://anongit.freedesktop.org/mesa/drm</code></a></li>
 
 <li><a href="http://xcb.freedesktop.org/">xcb</a>-* dependencies can be fixed by compiling and installing
-<a href="http://cgit.freedesktop.org/xcb/proto"><code>git://anongit.freedesktop.org/xcb/proto</code></a> and
-<a href="http://cgit.freedesktop.org/xcb/libxcb"><code>git://anongit.freedesktop.org/xcb/libxcb</code></a>.
+<a href="https://cgit.freedesktop.org/xcb/proto"><code>git://anongit.freedesktop.org/xcb/proto</code></a> and
+<a href="https://cgit.freedesktop.org/xcb/libxcb"><code>git://anongit.freedesktop.org/xcb/libxcb</code></a>.
 </li>
 
 <li>*proto dependencies can be built from
-<a href="http://cgit.freedesktop.org/xorg/proto"><code>git://anongit.freedesktop.org/xorg/proto/*proto</code></a>.
+<a href="https://cgit.freedesktop.org/xorg/proto"><code>git://anongit.freedesktop.org/xorg/proto/*proto</code></a>.
 </li>
 
 <li><code>--disable-dri3</code> may remove some dependencies.</li>
@@ -222,7 +222,7 @@ translates evdev events into Wayland events. It has been split from
 Weston as the code is reusable by any Wayland compositor on Linux.</p>
 
 <pre>
-$ git clone <a href="http://cgit.freedesktop.org/wayland/libinput">git://anongit.freedesktop.org/wayland/libinput</a>
+$ git clone <a href="https://cgit.freedesktop.org/wayland/libinput">git://anongit.freedesktop.org/wayland/libinput</a>
 $ cd libinput
 $ ./autogen.sh --prefix=$WLD
 $ make &amp;&amp; make install
@@ -232,7 +232,7 @@ $ cd ..
 <ul>
 <li>You probably need the development package for
   <a href="http://www.freedesktop.org/wiki/Software/libevdev/">libevdev</a>,
-  this is in <a href="http://cgit.freedesktop.org/libevdev"><code>git://anongit.freedesktop.org/libevdev</code></a></li>
+  this is in <a href="https://cgit.freedesktop.org/libevdev"><code>git://anongit.freedesktop.org/libevdev</code></a></li>
 
 <li><a href="https://sourceforge.net/projects/linuxwacom/">libwacom</a> source is in <code>git://git.code.sf.net/p/linuxwacom/libwacom</code></li>
 
@@ -247,7 +247,7 @@ available in the weston repo and comes with a few demo applications.
 </p>
 
 <pre>
-$ git clone <a href="http://cgit.freedesktop.org/wayland/weston">git://anongit.freedesktop.org/wayland/weston</a>
+$ git clone <a href="https://cgit.freedesktop.org/wayland/weston">git://anongit.freedesktop.org/wayland/weston</a>
 $ cd weston
 $ ./autogen.sh --prefix=$WLD
 $ make
