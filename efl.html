@@ -32,7 +32,6 @@
 
       <pre>
       $ git clone git://git.enlightenment.org/core/efl.git
-      $ git clone git://git.enlightenment.org/core/elementary.git
       </pre>
 
       <h2>Compiling EFL</h2>
@@ -51,13 +50,6 @@
       $ make install
       </pre>
 
-      <h3>elementary</h3>
-      <pre>
-      $ ./autogen.sh --prefix=$WLD
-      $ make
-      $ make install
-      </pre>
-
       <p><strong>With all these components it is important to read the output
         given by configure to ensure the requested options were enabled. You
         may need to look in config.log to identify missing
@@ -71,13 +63,15 @@
       or use EGL.</p>
 
       <p>For applications that use Elementary set the environment variable
-      <code>ELM_ENGINE</code> to <code>wayland_egl</code> or
-      <code>wayland_shm</code> as above.</p>
+      <code>ELM_DISPLAY</code> to <code>wl</code>. You may also set the
+      environment variable <code>ELM_ACCEL</code> to <code>none</code>
+      to use software rendering, or to <code>gl</code> to use hardware
+      accelerated rendering.</p>
 
       <h2>Getting help and reporting issues</h2>
 
       <p>Issues in the Wayland port of EFL can be reported in the
       Enlightenment <a href="https://phab.enlightenment.org/maniphest/">bug
-        tracker</a>.<br />There is also the #wayland-efl IRC channel on irc.freenode.net</p>
+        tracker</a>.<br />There is also the #edevelop IRC channel on irc.freenode.net</p>
     </body>
 </html>
